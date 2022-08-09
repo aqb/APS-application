@@ -21,9 +21,9 @@ export const App = () => (
   <ChakraProvider theme={theme}>
     <BrowserRouter>
       <Routes>
-        <Route path="/TelaCriarPedido" element={<TelaCriarPedido />}></Route>
-        <Route path="/TelaCadastro" element={<TelaCadastro />}></Route>
-        <Route path="/" element={<TelaLogin />}></Route>
+        <Route path="/finalizarpedido" element={<TelaCriarPedido />}></Route>
+        <Route path="/cadastro" element={<TelaCadastro />}></Route>
+        <Route path="/login" element={<TelaLogin />}></Route>
       </Routes>
     </BrowserRouter>
   </ChakraProvider>
