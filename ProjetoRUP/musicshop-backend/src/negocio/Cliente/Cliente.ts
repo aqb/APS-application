@@ -1,4 +1,4 @@
-import Carrinho from "../Produtos/Carrinho";
+import Carrinho from "../Produtos/Carrinho/Carrinho";
 
 class Cliente {
   private id;

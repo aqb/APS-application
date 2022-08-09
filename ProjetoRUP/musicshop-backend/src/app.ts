@@ -4,9 +4,11 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Errback, NextFunction, Request, Response } from "express";
 import morgan from "morgan";
+import { injectable } from "tsyringe";
 
 import routes from "./routes";
 
+@injectable()
 class App {
   private server;
 
@@ -36,14 +38,8 @@ class App {
     });
 
     this.server.use(
-      (err: Errback, req: Request, res: Response, next: NextFunction) => {
-        res.status(500).json({ message: "Internal Error" });
-      }
-    );
-
-    this.server.use(
       (err: Error, req: Request, res: Response, next: NextFunction) => {
-        res.status(500).json({ message: "Internal Error" });
+        res.status(500).json({ message: err.message });
       }
     );
   }
@@ -53,4 +49,4 @@ class App {
   }
 }
 
-export default createServer(new App().getServer());
+export default App;

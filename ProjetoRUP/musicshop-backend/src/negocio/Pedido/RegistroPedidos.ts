@@ -1,15 +1,21 @@
-import IRepositorioPedidos from "../../dados/IRepositorioPedidos";
-import Pedido from "./Pedido";
+import { inject, injectable } from "tsyringe";
 
+import IRepositorioPedidos from "../../dados/Pedido/IRepositorioPedidos";
+import Cliente from "../Cliente/Cliente";
+import Carrinho from "../Produtos/Carrinho/Carrinho";
+
+@injectable()
 class RegistroPedidos {
   private repositorioPedidos;
 
-  constructor(repositorioPedidos: IRepositorioPedidos) {
+  constructor(
+    @inject("RepositorioPedidos") repositorioPedidos: IRepositorioPedidos
+  ) {
     this.repositorioPedidos = repositorioPedidos;
   }
 
-  public adicionar(pedido: Pedido) {
-    this.repositorioPedidos.adicionar(pedido);
+  public adicionar(cliente: Cliente, carrinho: Carrinho) {
+    this.repositorioPedidos.adicionar(cliente, carrinho);
   }
 }
 

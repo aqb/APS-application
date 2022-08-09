@@ -1,4 +1,4 @@
-import Carrinho from "../../Produtos/Carrinho";
+import Carrinho from "../../Produtos/Carrinho/Carrinho";
 import InfoPagamento from "../InfoPagamento";
 
 class InfoPagamentoCartaoVISA {

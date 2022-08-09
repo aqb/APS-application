@@ -1,4 +1,4 @@
-import Produto from "./Produto";
+import Produto from "../Produto";
 
 class ItemEstoque {
   private produto;
@@ -15,6 +15,10 @@ class ItemEstoque {
 
   public getProduto(): Produto {
     return this.produto;
+  }
+
+  public getNome(): string {
+    return this.getProduto().getNome();
   }
 
   public setProduto(produto: Produto) {

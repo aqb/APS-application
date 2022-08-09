@@ -1,6 +1,9 @@
+import { injectable } from "tsyringe";
+
 import Cliente from "./Cliente";
 import RegistroClientes from "./RegistroClientes";
 
+@injectable()
 class ControladorLogin {
   private registroClientes: RegistroClientes;
 
@@ -8,11 +11,13 @@ class ControladorLogin {
     this.registroClientes = registroClientes;
   }
 
-  public efetuarLogin(cliente: Cliente): boolean {
-    return this.registroClientes.validarCredenciais(
-      cliente.getEmail(),
-      cliente.getSenha()
-    );
+  public efetuarLogin(email: string, senha: string): boolean {
+    return this.registroClientes.validarCredenciais(email, senha);
+  }
+
+  // TODO: Adicionar o parametro de usuario.
+  public registrarSessao() {
+    return null;
   }
 }
 
