@@ -16,8 +16,8 @@ const produtosPresenter = container.resolve(TelaProdutosPresenter);
 const routes = Router();
 
 routes.post("/cadastro", (req, res) => cadastroPresenter.cadastro(req, res));
-routes.get("/login", (req, res) => loginPresenter.login(req, res));
-routes.get("/pedido", (req, res) => pedidoPresenter.criarPedido(req, res));
+routes.post("/login", (req, res) => loginPresenter.login(req, res));
+routes.post("/pedido", (req, res) => pedidoPresenter.criarPedido(req, res));
 routes.get("/produto", (req, res) =>
   produtoPresenter.adicionarCarrinho(req, res)
 );

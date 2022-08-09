@@ -16,7 +16,7 @@ class TelaProdutoPresenter {
     const item = req.body.item;
     const quantidade = req.body.quantidade;
     this.fachada.adicionarAoCarrinho(cliente, item, quantidade);
-    res.status(203);
+    res.status(201).send();
   }
 }
 

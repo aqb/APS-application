@@ -18,7 +18,7 @@ class TelaCadastroPresenter {
 
     this.fachada.efetuarCadastro(email, senha, cpf);
 
-    res.status(203).send();
+    res.status(201).send();
   }
 }
 
