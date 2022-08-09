@@ -1,6 +1,7 @@
 import { singleton } from "tsyringe";
 
 import Cliente from "../../../negocio/Cliente/Cliente";
+import Carrinho from "../../../negocio/Produtos/Carrinho/Carrinho";
 import IRepositorioClientes from "../IRepositorioClientes";
 
 @singleton()
@@ -8,7 +9,15 @@ class RepositorioClientesInMemory implements IRepositorioClientes {
   private clientes: Cliente[];
 
   constructor() {
-    this.clientes = [];
+    const testeCarrinho = new Carrinho("0", []);
+    const testeCliente = new Cliente(
+      "0",
+      "eric.clapton@gmail.com",
+      "1234",
+      "789",
+      testeCarrinho
+    );
+    this.clientes = [testeCliente];
   }
 
   adicionar(email: string, senha: string, cpf: string): Cliente {
@@ -16,7 +25,11 @@ class RepositorioClientesInMemory implements IRepositorioClientes {
   }
 
   validarCredenciais(email: string, senha: string): boolean {
-    throw new Error("Method not implemented.");
+    return (
+      this.clientes.find(
+        cliente => cliente.getEmail() === email && cliente.getSenha() === senha
+      ) !== undefined
+    );
   }
 }
 

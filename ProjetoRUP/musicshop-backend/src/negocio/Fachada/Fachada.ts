@@ -34,8 +34,8 @@ class Facade {
     this.controladorCadastro.cadastrarUsuario(email, senha, cpf);
   }
 
-  public efetuarLogin(email: string, senha: string) {
-    this.controladorLogin.efetuarLogin(email, senha);
+  public efetuarLogin(email: string, senha: string): boolean {
+    return this.controladorLogin.efetuarLogin(email, senha);
   }
 
   // TODO: Adicionar o parametro de usuario
