@@ -1,32 +1,47 @@
 import { injectable } from "tsyringe";
 
 import Cliente from "../../Cliente/Cliente";
-import ItemEstoque from "../Estoque/ItemEstoque";
+import RegistroEstoque from "../Estoque/RegistroEstoque";
 import Carrinho from "./Carrinho";
 import RegistroCarrinhos from "./RegistroCarrinhos";
 
 @injectable()
 class ControladorCarrinho {
   private registroCarrinhos: RegistroCarrinhos;
+  private registroEstoque: RegistroEstoque;
 
-  constructor(registroCarrinhos: RegistroCarrinhos) {
+  constructor(
+    registroCarrinhos: RegistroCarrinhos,
+    registroEstoque: RegistroEstoque
+  ) {
     this.registroCarrinhos = registroCarrinhos;
+    this.registroEstoque = registroEstoque;
   }
 
-  public pegarCarrinho(cliente: Cliente): Carrinho {
-    return this.registroCarrinhos.pegarCarrinhoDe(cliente);
+  public pegarCarrinhoDe(clienteId: string): Carrinho {
+    return this.registroCarrinhos.pegarCarrinhoDe(clienteId);
   }
 
   public atualizarCarrinho(
-    cliente: Cliente,
-    item: ItemEstoque,
-    quantidade: number
+    clienteId: string,
+    produtoId: string,
+    quantidadeDesejada: number
   ) {
-    // Atualiza o carrinho do cliente caso o produto desejado esteja disponivel em estoque.
-    if (item.getQuantidade() >= quantidade) {
-      const carrinho = this.pegarCarrinho(cliente);
-      const produto = item.getProduto();
-      this.registroCarrinhos.atualizarCarrinho(carrinho, produto, quantidade);
+    const itemEstoque = this.registroEstoque.pegarItemEstoquePeloId(produtoId);
+    const carrinho = this.pegarCarrinhoDe(clienteId);
+    const quantidadeCarrinho = carrinho.getQuantidade(produtoId);
+    if (
+      itemEstoque &&
+      itemEstoque.getQuantidade() >= quantidadeCarrinho + quantidadeDesejada
+    ) {
+      carrinho.adicionarProduto(itemEstoque.getProduto(), quantidadeDesejada);
+      this.registroCarrinhos.atualizarCarrinho(carrinho);
+    } else {
+      throw new Error(
+        `${itemEstoque
+          .getProduto()
+          .getNome()} nao tem ${quantidadeDesejada} unidades em estoque.`
+      );
     }
   }
 }

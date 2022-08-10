@@ -12,10 +12,11 @@ class TelaLoginPresenter {
   }
 
   public login(req: Request, res: Response) {
-    this.fachada.efetuarLogin(req.body.email, req.body.senha);
-    // Lack the user parameter
-    this.fachada.registrarSessao();
-    res.status(203);
+    if (this.fachada.efetuarLogin(req.body.email, req.body.senha)) {
+      res.status(200).send();
+    } else {
+      throw new Error("Result not found");
+    }
   }
 }
 

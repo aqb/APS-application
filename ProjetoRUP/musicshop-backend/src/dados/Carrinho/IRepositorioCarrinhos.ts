@@ -4,12 +4,8 @@ import Produto from "../../negocio/Produtos/Produto";
 
 interface IRepositorioCarrinhos {
   adicionar(carrinho: Carrinho): void;
-  pegarCarrinhoDe(cliente: Cliente): Carrinho;
-  atualizarCarrinho(
-    carrinho: Carrinho,
-    produto: Produto,
-    quantidade: number
-  ): void;
+  pegarCarrinhoDe(clienteId: string): Carrinho;
+  atualizarCarrinho(carrinho: Carrinho): void;
 }
 
 export default IRepositorioCarrinhos;

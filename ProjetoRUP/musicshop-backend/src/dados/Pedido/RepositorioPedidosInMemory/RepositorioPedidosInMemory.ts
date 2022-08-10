@@ -1,20 +1,22 @@
 import { singleton } from "tsyringe";
 
 import Cliente from "../../../negocio/Cliente/Cliente";
+import Pedido from "../../../negocio/Pedido/Pedido";
+import PedidoStatus from "../../../negocio/Pedido/PedidoStatus";
 import Carrinho from "../../../negocio/Produtos/Carrinho/Carrinho";
-import ItemEstoque from "../../../negocio/Produtos/Estoque/ItemEstoque";
 import IRepositorioPedidos from "../IRepositorioPedidos";
 
 @singleton()
 class RepositorioPedidosInMemory implements IRepositorioPedidos {
-  private itens: ItemEstoque[];
+  private pedidos: Pedido[];
 
   constructor() {
-    this.itens = [];
+    this.pedidos = [];
   }
 
   adicionar(cliente: Cliente, carrinho: Carrinho): void {
-    throw new Error("Method not implemented.");
+    const pedido = new Pedido(cliente, carrinho, PedidoStatus.PENDENTE);
+    this.pedidos.push(pedido);
   }
 }
 

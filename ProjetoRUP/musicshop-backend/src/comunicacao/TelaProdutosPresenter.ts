@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { injectable } from "tsyringe";
 
 import Fachada from "../negocio/Fachada/Fachada";
-import ItemEstoque from "../negocio/Produtos/Estoque/ItemEstoque";
 
 @injectable()
 class TelaProdutosPresenter {
@@ -12,12 +11,15 @@ class TelaProdutosPresenter {
     this.fachada = fachada;
   }
 
-  // TODO: Como retornar os itens?
-  // public pesquisarProdutos(req: Request, res: Response): ItemEstoque[] {
-  //   const nomeFiltro = req.body.nome;
-  //   const itens = this.fachada.pesquisarProdutos(nomeFiltro);
-  //   res.json(itens);
-  // }
+  public pesquisarProdutos(req: Request, res: Response) {
+    const nomeFiltro = req.body.nome;
+    const itens = this.fachada.pesquisarProdutos(nomeFiltro);
+    if (itens) {
+      res.json(itens).send();
+    } else {
+      throw new Error("Não foi possível encontrar o produto " + nomeFiltro);
+    }
+  }
 }
 
 export default TelaProdutosPresenter;

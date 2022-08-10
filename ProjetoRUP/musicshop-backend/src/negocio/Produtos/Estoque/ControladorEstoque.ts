@@ -14,6 +14,10 @@ class ControladorEstoque {
   public pesquisarProdutos(nome: string): ItemEstoque[] {
     return this.registroEstoque.getItensComNome(nome);
   }
+
+  public pegarItemEstoquePeloId(id: string): ItemEstoque {
+    return this.registroEstoque.pegarItemEstoquePeloId(id);
+  }
 }
 
 export default ControladorEstoque;

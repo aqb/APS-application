@@ -1,7 +1,7 @@
 enum PedidoStatus {
-  pendente,
-  finalizado,
-  cancelado
+  PENDENTE,
+  FINALIZADO,
+  CANCELADO
 }
 
 export default PedidoStatus;

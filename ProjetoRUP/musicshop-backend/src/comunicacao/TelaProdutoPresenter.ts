@@ -12,11 +12,21 @@ class TelaProdutoPresenter {
   }
 
   public adicionarCarrinho(req: Request, res: Response) {
-    const cliente = req.body.cliente;
-    const item = req.body.item;
-    const quantidade = req.body.quantidade;
-    this.fachada.adicionarAoCarrinho(cliente, item, quantidade);
-    res.status(203);
+    const clienteId = req.body.clienteId;
+    const produtoId = req.params.id;
+    const quantidadeDesejada = req.body.quantidade;
+    this.fachada.adicionarAoCarrinho(clienteId, produtoId, quantidadeDesejada);
+    res.status(201).send();
+  }
+
+  public pegarProduto(req: Request, res: Response) {
+    const produtoId = req.params.id;
+    const item = this.fachada.pegarItemEstoque(produtoId);
+    if (item) {
+      res.json(item).send();
+    } else {
+      throw new Error("Não foi possível encontrar o produto " + produtoId);
+    }
   }
 }
 
