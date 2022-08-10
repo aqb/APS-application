@@ -1,9 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import IRepositorioCarrinhos from "../../../dados/Carrinho/IRepositorioCarrinhos";
-import IRepositorioEstoque from "../../../dados/Estoque/IRepositorioEstoque";
 import Cliente from "../../Cliente/Cliente";
-import Produto from "../Produto";
 import Carrinho from "./Carrinho";
 
 @injectable()
@@ -17,20 +15,15 @@ class RegistroCarrinhos {
   }
 
   public adicionar(cliente: Cliente) {
-    const carrinho = new Carrinho(cliente.getId(), []);
-    this.repositorioCarrinhos.adicionar(carrinho);
+    this.repositorioCarrinhos.adicionar(cliente.getCarrinho());
   }
 
-  public pegarCarrinhoDe(cliente: Cliente): Carrinho {
-    return this.repositorioCarrinhos.pegarCarrinhoDe(cliente);
+  public pegarCarrinhoDe(clienteId: string): Carrinho {
+    return this.repositorioCarrinhos.pegarCarrinhoDe(clienteId);
   }
 
-  public atualizarCarrinho(
-    carrinho: Carrinho,
-    produto: Produto,
-    quantidade: number
-  ) {
-    this.repositorioCarrinhos.atualizarCarrinho(carrinho, produto, quantidade);
+  public atualizarCarrinho(carrinho: Carrinho) {
+    this.repositorioCarrinhos.atualizarCarrinho(carrinho);
   }
 }
 

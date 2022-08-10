@@ -13,7 +13,7 @@ class TelaPedidoPresenter {
 
   public criarPedido(req: Request, res: Response) {
     this.fachada.criarPedido(req.body.cliente);
-    res.status(203);
+    res.status(201).send();
   }
 }
 

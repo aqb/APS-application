@@ -13,12 +13,12 @@ class TelaCadastroPresenter {
 
   public cadastro(req: Request, res: Response) {
     const email = req.body.email;
-    const senha = req.body.email;
+    const senha = req.body.senha;
     const cpf = req.body.cpf;
 
     this.fachada.efetuarCadastro(email, senha, cpf);
 
-    res.status(203).send();
+    res.status(201).send();
   }
 }
 
