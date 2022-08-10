@@ -77,6 +77,14 @@ export default function TelaLogin() {
               >
                 Entrar
               </Button>
+              <Stack pt={6}>
+                <Text align={"center"}>
+                  Não possui uma conta?{" "}
+                  <Link href="/cadastro" color={"blue.400"}>
+                    Cadastrar
+                  </Link>
+                </Text>
+              </Stack>
             </Stack>
           </Stack>
         </Box>

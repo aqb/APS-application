@@ -41,20 +41,10 @@ export default function TelaCadastro() {
           p={8}
         >
           <Stack spacing={4}>
-            <HStack>
-              <Box>
-                <FormControl id="firstName" isRequired>
-                  <FormLabel>Nome</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl id="lastName">
-                  <FormLabel>Sobrenome</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-            </HStack>
+            <FormControl id="cpf" w="full">
+              <FormLabel>CPF</FormLabel>
+              <Input type="text" />
+            </FormControl>
             <FormControl id="email" isRequired>
               <FormLabel>Email</FormLabel>
               <Input type="email" />
@@ -91,7 +81,10 @@ export default function TelaCadastro() {
             </Stack>
             <Stack pt={6}>
               <Text align={"center"}>
-                Já possui uma conta? <Link color={"blue.400"}>Login</Link>
+                Já possui uma conta?{" "}
+                <Link href="/login" color={"blue.400"}>
+                  Login
+                </Link>
               </Text>
             </Stack>
           </Stack>

@@ -12,10 +12,11 @@ import {
 } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { ColorModeSwitcher } from "./ColorModeSwitcher";
-import TelaCadastro from "./telas/telaCadastro";
-import TelaCriarPedido from "./telas/telaCriarPedido";
-import TelaLogin from "./telas/telaLogin";
+import TelaCadastro from "./telas/TelaCadastro";
+import TelaCriarPedido from "./telas/TelaCriarPedido";
+import TelaLogin from "./telas/TelaLogin";
+import TelaProduto from "./telas/TelaProduto";
+import TelaProdutos from "./telas/TelaProdutos";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -24,6 +25,8 @@ export const App = () => (
         <Route path="/finalizarpedido" element={<TelaCriarPedido />}></Route>
         <Route path="/cadastro" element={<TelaCadastro />}></Route>
         <Route path="/login" element={<TelaLogin />}></Route>
+        <Route path="/produtos" element={<TelaProdutos />}></Route>
+        <Route path="/produto" element={<TelaProduto />}></Route>
       </Routes>
     </BrowserRouter>
   </ChakraProvider>
