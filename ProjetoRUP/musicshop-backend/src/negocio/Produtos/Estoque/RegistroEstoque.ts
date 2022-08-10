@@ -19,7 +19,11 @@ class RegistroEstoque {
   }
 
   public getItensComNome(nome: string): ItemEstoque[] {
-    return this.repositorioEstoque.getItensComNome(nome);
+    return this.repositorioEstoque.pegarItensComNome(nome);
+  }
+
+  public pegarItemEstoquePeloId(id: string): ItemEstoque {
+    return this.repositorioEstoque.pegarItemEstoquePeloId(id);
   }
 }
 

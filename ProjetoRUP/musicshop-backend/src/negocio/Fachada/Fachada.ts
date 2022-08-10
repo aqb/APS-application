@@ -62,12 +62,20 @@ class Facade {
     return this.controladorEstoque.pesquisarProdutos(nome);
   }
 
+  public pegarItemEstoque(id: string): ItemEstoque {
+    return this.controladorEstoque.pegarItemEstoquePeloId(id);
+  }
+
   public adicionarAoCarrinho(
-    cliente: Cliente,
-    item: ItemEstoque,
-    quantidade: number
+    clienteId: string,
+    produtoId: string,
+    quantidadeDesejada: number
   ) {
-    this.controladorCarrinho.atualizarCarrinho(cliente, item, quantidade);
+    this.controladorCarrinho.atualizarCarrinho(
+      clienteId,
+      produtoId,
+      quantidadeDesejada
+    );
   }
 
   public criarPedido(cliente: Cliente) {

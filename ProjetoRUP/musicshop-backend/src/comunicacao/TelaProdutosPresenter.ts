@@ -14,7 +14,11 @@ class TelaProdutosPresenter {
   public pesquisarProdutos(req: Request, res: Response) {
     const nomeFiltro = req.body.nome;
     const itens = this.fachada.pesquisarProdutos(nomeFiltro);
-    res.json(itens).send();
+    if (itens) {
+      res.json(itens).send();
+    } else {
+      throw new Error("Não foi possível encontrar o produto " + nomeFiltro);
+    }
   }
 }
 

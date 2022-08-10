@@ -17,12 +17,15 @@ const routes = Router();
 
 routes.post("/cadastro", (req, res) => cadastroPresenter.cadastro(req, res));
 routes.post("/login", (req, res) => loginPresenter.login(req, res));
-routes.post("/pedido", (req, res) => pedidoPresenter.criarPedido(req, res));
-routes.get("/produto", (req, res) =>
+routes.get("/produtos", (req, res) =>
+  produtosPresenter.pesquisarProdutos(req, res)
+);
+routes.get("/produto/:id", (req, res) =>
+  produtoPresenter.pegarProduto(req, res)
+);
+routes.post("/produto/:id/adicionar", (req, res) =>
   produtoPresenter.adicionarCarrinho(req, res)
 );
-
-// TODO: Criar func de buscar produtos e atualizar a lista com eles.
-// routes.get("/produtos", (req, res) => produtosPresenter.(req, res));
+routes.post("/pedido", (req, res) => pedidoPresenter.criarPedido(req, res));
 
 export default routes;
