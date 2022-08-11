@@ -4,7 +4,7 @@ import Produto from "../../negocio/Produtos/Produto";
 interface IRepositorioEstoque {
   adicionar(produto: Produto): void;
 
-  pegarItensComNome(nome: string): ItemEstoque[];
+  pegarItensEstoque(nomeFiltro?: string): ItemEstoque[];
 
   pegarItemEstoque(produto: Produto): ItemEstoque;
 
