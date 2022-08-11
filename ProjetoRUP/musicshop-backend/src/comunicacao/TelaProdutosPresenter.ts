@@ -11,9 +11,9 @@ class TelaProdutosPresenter {
     this.fachada = fachada;
   }
 
-  public pesquisarProdutos(req: Request, res: Response) {
-    const nomeFiltro = req.body.nome;
-    const itens = this.fachada.pesquisarProdutos(nomeFiltro);
+  public pegarEstoque(req: Request, res: Response) {
+    const nomeFiltro = req.query.nome?.toString();
+    const itens = this.fachada.pegarItensEstoque(nomeFiltro);
     if (itens) {
       res.json(itens).send();
     } else {

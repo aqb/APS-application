@@ -36,8 +36,17 @@ class RepositorioEstoqueInMemory implements IRepositorioEstoque {
     this.itens.push(item);
   }
 
-  pegarItensComNome(nome: string): ItemEstoque[] {
-    return this.itens.filter(item => item.getNome() === nome);
+  pegarItensEstoque(nomeFiltro?: string): ItemEstoque[] {
+    return this.itens.filter(item => {
+      if (nomeFiltro) {
+        return item
+          .getProduto()
+          .getNome()
+          .toLowerCase()
+          .includes(nomeFiltro.toLowerCase());
+      }
+      return true;
+    });
   }
 
   pegarItemEstoque(produto: Produto): ItemEstoque {

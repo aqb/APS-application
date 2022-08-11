@@ -1,6 +1,5 @@
 import { singleton } from "tsyringe";
 
-import Cliente from "../../../negocio/Cliente/Cliente";
 import Carrinho from "../../../negocio/Produtos/Carrinho/Carrinho";
 import ItemCarrinho from "../../../negocio/Produtos/Carrinho/ItemCarrinho";
 import Produto from "../../../negocio/Produtos/Produto";

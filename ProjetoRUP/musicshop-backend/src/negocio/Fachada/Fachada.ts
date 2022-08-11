@@ -58,8 +58,8 @@ class Facade {
     this.controladorLogin.registrarSessao();
   }
 
-  public pesquisarProdutos(nome: string): ItemEstoque[] {
-    return this.controladorEstoque.pesquisarProdutos(nome);
+  public pegarItensEstoque(nomeFiltro?: string): ItemEstoque[] {
+    return this.controladorEstoque.pegarItensEstoque(nomeFiltro);
   }
 
   public pegarItemEstoque(id: string): ItemEstoque {

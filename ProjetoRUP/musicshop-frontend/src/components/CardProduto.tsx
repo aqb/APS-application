@@ -23,7 +23,15 @@ export default function CardProduto({
             <Text fontSize="xl">{produto.nome}</Text>
             <Text fontSize="md">R${produto.valor}</Text>
           </Flex>
-          <Button colorScheme="teal" size="md">
+          <Button
+            loadingText="Submitting"
+            size="md"
+            bg={"blue.400"}
+            color={"white"}
+            _hover={{
+              bg: "blue.500"
+            }}
+          >
             Ver detalhes
           </Button>
         </Grid>

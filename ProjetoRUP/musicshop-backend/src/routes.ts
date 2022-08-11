@@ -17,13 +17,11 @@ const routes = Router();
 
 routes.post("/cadastro", (req, res) => cadastroPresenter.cadastro(req, res));
 routes.post("/login", (req, res) => loginPresenter.login(req, res));
-routes.get("/produtos", (req, res) =>
-  produtosPresenter.pesquisarProdutos(req, res)
-);
+routes.get("/estoque", (req, res) => produtosPresenter.pegarEstoque(req, res));
 routes.get("/produto/:id", (req, res) =>
   produtoPresenter.pegarProduto(req, res)
 );
-routes.post("/produto/:id/adicionar", (req, res) =>
+routes.post("/adicionar", (req, res) =>
   produtoPresenter.adicionarCarrinho(req, res)
 );
 routes.post("/pedido", (req, res) => pedidoPresenter.criarPedido(req, res));
