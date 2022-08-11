@@ -58,65 +58,81 @@ const produtos = [
 
 export default function TelaCriarPedido() {
   return (
-    <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
-    >
-      <Box
+    <Flex minH={"100vh"} align={"center"} justify={"center"} bg="gray.50">
+      <Flex
+        direction="column"
+        w="4xl"
         rounded={"lg"}
-        bg={useColorModeValue("white", "gray.700")}
+        bg="white"
         boxShadow={"lg"}
         p={8}
       >
-        <SimpleGrid columns={2}>
-          <Flex direction="column" alignItems="center">
-            <Flex>
-              <Text fontSize="2xl" fontWeight="bold">
-                Carrinho
-              </Text>
-            </Flex>
-            <Flex
-              maxHeight="lg"
-              overflow="auto"
-              direction="column"
-              justifyContent="start"
-              borderWidth="1px"
-            >
-              {produtos.map((produto, index) => (
-                <Flex
-                  key={index}
-                  rounded={"lg"}
-                  bg={useColorModeValue("white", "gray.700")}
-                  m="4"
-                  py="4"
-                  px="8"
-                  alignItems="center"
-                  direction="column"
-                >
-                  <Text fontSize="2xl">{produto.nome}</Text>
-                  <Text>{produto.descricao}</Text>
-                  <Divider />
-                  <Text>Valor: R$ {produto.valor}</Text>
+        <Flex pb="8">
+          <Text fontSize="3xl" fontWeight="bold">
+            Carrinho
+          </Text>
+        </Flex>
+        <Flex direction="column" alignItems="center">
+          <Flex
+            maxHeight="lg"
+            overflow="auto"
+            direction="column"
+            justifyContent="start"
+            borderWidth="1px"
+            w="100%"
+            borderRadius={"lg"}
+          >
+            {produtos.map((produto, index) => (
+              <Flex key={index} direction="column">
+                <Flex bg="white" py="4" px="8" alignItems="center" w="100%">
+                  <Flex w="100%" alignItems={"center"}>
+                    <Flex direction="column">
+                      <Text fontSize="2xl">{produto.nome}</Text>
+                      <Text>{produto.descricao}</Text>
+                    </Flex>
+                    <Spacer />
+                    <Text>
+                      {produto.valor.toLocaleString("pt-br", {
+                        style: "currency",
+                        currency: "BRL"
+                      })}
+                    </Text>
+                  </Flex>
                 </Flex>
-              ))}
-            </Flex>
-            <Text fontSize="xl" fontWeight="bold">
-              Valor total: R${" "}
-              {produtos
-                .map(item => item.valor)
-                .reduce((prev, curr) => prev + curr, 0)}
-            </Text>
+                <Divider />
+              </Flex>
+            ))}
           </Flex>
+        </Flex>
+        <Flex pt="4" pr="4" justifyContent={"end"}>
+          <Text fontSize="xl" fontWeight="bold">
+            {"Valor total:"}
+          </Text>
+          <Text fontSize="xl">
+            {produtos
+              .map(item => item.valor)
+              .reduce((prev, curr) => prev + curr, 0)
+              .toLocaleString("pt-br", {
+                style: "currency",
+                currency: "BRL"
+              })}
+          </Text>
+        </Flex>
+        <Flex w="100%" alignItems="center" justifyContent="center">
           <Flex
             alignItems="center"
             justifyContent="center"
             direction="column"
             p="6"
+            w="md"
           >
             <Text fontSize="xl">Escolha o método de pagamento</Text>
-            <Box w="100%" pt="10">
+            <Flex
+              w="100%"
+              pt="10"
+              alignItems={"center"}
+              justifyContent="center"
+            >
               <Tabs>
                 <TabList>
                   <Tab>Mercado Pago</Tab>
@@ -141,10 +157,10 @@ export default function TelaCriarPedido() {
                   </TabPanel>
                 </TabPanels>
               </Tabs>
-            </Box>
+            </Flex>
           </Flex>
-        </SimpleGrid>
-      </Box>
+        </Flex>
+      </Flex>
     </Flex>
   );
 }
