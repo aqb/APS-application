@@ -13,7 +13,7 @@ class TelaProdutoPresenter {
 
   public adicionarCarrinho(req: Request, res: Response) {
     const clienteId = req.body.clienteId;
-    const produtoId = req.params.id;
+    const produtoId = req.body.id;
     const quantidadeDesejada = req.body.quantidade;
     this.fachada.adicionarAoCarrinho(clienteId, produtoId, quantidadeDesejada);
     res.status(201).send();

@@ -18,8 +18,8 @@ class RegistroEstoque {
     this.repositorioEstoque.adicionar(produto);
   }
 
-  public getItensComNome(nome: string): ItemEstoque[] {
-    return this.repositorioEstoque.pegarItensComNome(nome);
+  public pegarItensEstoque(nomeFiltro?: string): ItemEstoque[] {
+    return this.repositorioEstoque.pegarItensEstoque(nomeFiltro);
   }
 
   public pegarItemEstoquePeloId(id: string): ItemEstoque {

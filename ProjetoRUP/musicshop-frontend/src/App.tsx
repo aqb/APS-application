@@ -14,9 +14,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import TelaCadastro from "./telas/TelaCadastro";
 import TelaCriarPedido from "./telas/TelaCriarPedido";
+import TelaEstoque from "./telas/TelaEstoque";
 import TelaLogin from "./telas/TelaLogin";
 import TelaProduto from "./telas/TelaProduto";
-import TelaProdutos from "./telas/TelaProdutos";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -25,8 +25,8 @@ export const App = () => (
         <Route path="/finalizarpedido" element={<TelaCriarPedido />}></Route>
         <Route path="/cadastro" element={<TelaCadastro />}></Route>
         <Route path="/login" element={<TelaLogin />}></Route>
-        <Route path="/produtos" element={<TelaProdutos />}></Route>
-        <Route path="/produto" element={<TelaProduto />}></Route>
+        <Route path="/estoque" element={<TelaEstoque />}></Route>
+        <Route path="/produto/:produtoId" element={<TelaProduto />}></Route>
       </Routes>
     </BrowserRouter>
   </ChakraProvider>
