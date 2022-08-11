@@ -27,7 +27,15 @@ export default function TelaLogin() {
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+      <Stack
+        spacing={8}
+        mx={"auto"}
+        maxW={"lg"}
+        py={12}
+        px={6}
+        align={"center"}
+        justify={"center"}
+      >
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Entre na sua conta</Heading>
         </Stack>
@@ -36,14 +44,15 @@ export default function TelaLogin() {
           bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}
           p={8}
+          w="lg"
         >
           <Stack spacing={4}>
             <FormControl id="email">
-              <FormLabel>Email</FormLabel>
+              <FormLabel fontSize="20">Email</FormLabel>
               <Input type="email" />
             </FormControl>
             <FormControl id="password" isRequired>
-              <FormLabel>Senha</FormLabel>
+              <FormLabel fontSize="20">Senha</FormLabel>
               <InputGroup>
                 <Input type={showPassword ? "text" : "password"} />
                 <InputRightElement h={"full"}>
@@ -74,6 +83,8 @@ export default function TelaLogin() {
                 _hover={{
                   bg: "blue.500"
                 }}
+                h="14"
+                fontSize="20"
               >
                 Entrar
               </Button>

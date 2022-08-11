@@ -39,18 +39,19 @@ export default function TelaCadastro() {
           bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}
           p={8}
+          w="lg"
         >
           <Stack spacing={4}>
             <FormControl id="cpf" w="full">
-              <FormLabel>CPF</FormLabel>
+              <FormLabel fontSize="20">CPF</FormLabel>
               <Input type="text" />
             </FormControl>
             <FormControl id="email" isRequired>
-              <FormLabel>Email</FormLabel>
+              <FormLabel fontSize="20">Email</FormLabel>
               <Input type="email" />
             </FormControl>
             <FormControl id="password" isRequired>
-              <FormLabel>Senha</FormLabel>
+              <FormLabel fontSize="20">Senha</FormLabel>
               <InputGroup>
                 <Input type={showPassword ? "text" : "password"} />
                 <InputRightElement h={"full"}>
@@ -75,6 +76,7 @@ export default function TelaCadastro() {
                 _hover={{
                   bg: "blue.500"
                 }}
+                h="14"
               >
                 Cadastrar
               </Button>
