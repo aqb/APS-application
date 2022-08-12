@@ -14,11 +14,14 @@ import {
   Text,
   useColorModeValue,
   InputGroup,
-  InputRightElement
+  InputRightElement,
+  IconButton
 } from "@chakra-ui/react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaHome } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 export default function TelaLogin() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Flex
@@ -27,6 +30,16 @@ export default function TelaLogin() {
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
+      <IconButton
+        aria-label="Login database"
+        icon={<FaHome />}
+        bg="transparent"
+        fontSize={24}
+        onClick={() => navigate("../home")}
+        position="absolute"
+        top="4"
+        right="4"
+      />
       <Stack
         spacing={8}
         mx={"auto"}

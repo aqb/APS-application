@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   Box,
   Input,
+  IconButton,
   Stack,
   Heading,
   Container,
@@ -13,6 +14,8 @@ import {
   Spinner
 } from "@chakra-ui/react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { BsPersonCircle } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 import CardProduto from "../../components/CardProduto";
 import { ItemEstoque } from "../../modelos/Estoque";
@@ -21,6 +24,7 @@ import { getEstoque } from "../../services/estoque";
 const TelaHome: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [estoque, setEstoque] = useState<ItemEstoque[] | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getEstoque().then(itens => {
@@ -28,6 +32,7 @@ const TelaHome: React.FC = () => {
       setLoading(false);
     });
   }, []);
+
   return (
     <>
       {loading ? (
@@ -36,6 +41,15 @@ const TelaHome: React.FC = () => {
         </Flex>
       ) : (
         <Box p={4}>
+          <Flex justifyContent="flex-end">
+            <IconButton
+              aria-label="Login database"
+              icon={<BsPersonCircle />}
+              bg="transparent"
+              fontSize={24}
+              onClick={() => navigate("../login")}
+            />
+          </Flex>
           <Stack spacing={4} as={Container} maxW={"3xl"} textAlign={"center"}>
             <Heading fontSize={"3xl"}>MusicShop</Heading>
             <InputGroup>

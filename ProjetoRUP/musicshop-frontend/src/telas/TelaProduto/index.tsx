@@ -2,22 +2,24 @@ import { useEffect, useState } from "react";
 
 import {
   Box,
-  Container,
-  Stack,
-  Text,
-  Image,
   Flex,
-  VStack,
+  List,
+  Text,
+  Stack,
+  Image,
   Button,
+  VStack,
+  Spinner,
   Heading,
+  ListItem,
+  Container,
+  IconButton,
   SimpleGrid,
   StackDivider,
-  useColorModeValue,
-  List,
-  ListItem,
-  Spinner
+  useColorModeValue
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Produto } from "../../modelos/Produto";
 import { getProduto } from "../../services/produto";
@@ -25,6 +27,7 @@ import { getProduto } from "../../services/produto";
 const TelaProduto: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [produto, setProduto] = useState<Produto | null>(null);
+  const navigate = useNavigate();
   const { produtoId } = useParams();
   useEffect(() => {
     getProduto(produtoId || "").then(({ produto }) => {
@@ -32,6 +35,8 @@ const TelaProduto: React.FC = () => {
       setLoading(false);
     });
   }, []);
+  const imgGenerica =
+    "https://i0.wp.com/www.sabra.org.br/site/wp-content/uploads/2020/04/instrumentos-musicais-voce-sabe-quais-sao-os-mais-tocados-no-mundo-20191202180617.jpg.jpg?fit=800%2C600&ssl=1";
 
   return (
     <>
@@ -47,13 +52,21 @@ const TelaProduto: React.FC = () => {
           justify={"center"}
           bg="gray.50"
         >
+          <IconButton
+            aria-label="Login database"
+            icon={<FaHome />}
+            bg="transparent"
+            fontSize={24}
+            onClick={() => navigate("../home")}
+            position="absolute"
+            top="4"
+            right="4"
+          />
           <Container bg="gray.50" maxW="3xl" p={8}>
             <Image
               rounded={"md"}
               alt={"product image"}
-              src={
-                "https://a-static.mlcdn.com.br/1500x1500/violao-eletrico-aco-profissional-strinberg-sa200c-sunbusrt/playaudio/12439/233d97ff56d58a9e0f78d2f0667ede1d.jpg"
-              }
+              src={imgGenerica}
               fit={"cover"}
               align={"center"}
               w={"100%"}

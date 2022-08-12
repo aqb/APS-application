@@ -12,17 +12,30 @@ import {
   Stack,
   Button,
   Heading,
+  IconButton,
   Text,
   useColorModeValue,
   Link
 } from "@chakra-ui/react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaHome } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function TelaCadastro() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Flex minH={"100vh"} align={"center"} justify={"center"} bg="gray.50">
+      <IconButton
+        aria-label="Login database"
+        icon={<FaHome />}
+        bg="transparent"
+        fontSize={24}
+        onClick={() => navigate("../home")}
+        position="absolute"
+        top="4"
+        right="4"
+      />
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>

@@ -6,6 +6,7 @@ import {
   useColorModeValue,
   SimpleGrid,
   Button,
+  IconButton,
   Text,
   Divider,
   Tab,
@@ -15,7 +16,8 @@ import {
   TabPanel,
   Spacer
 } from "@chakra-ui/react";
-import { FaEye, FaEyeSlash, FaShoppingCart } from "react-icons/fa";
+import { FaHome, FaShoppingCart } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const produtos = [
   {
@@ -57,8 +59,19 @@ const produtos = [
 ];
 
 export default function TelaCriarPedido() {
+  const navigate = useNavigate();
   return (
     <Flex minH={"100vh"} align={"center"} justify={"center"} bg="gray.50">
+      <IconButton
+        aria-label="Login database"
+        icon={<FaHome />}
+        bg="transparent"
+        fontSize={24}
+        onClick={() => navigate("../home")}
+        position="absolute"
+        top="4"
+        right="4"
+      />
       <Flex
         direction="column"
         w="4xl"
