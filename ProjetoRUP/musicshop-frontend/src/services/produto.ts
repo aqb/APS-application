@@ -6,6 +6,7 @@ type GetProdutoResponse = {
 };
 
 export const getProduto = async (id: string): Promise<GetProdutoResponse> => {
-  const response = await getRequest(`/produto/${id}`);
+  const token = localStorage.getItem("token");
+  const response = await getRequest(`/produto/${id}`, token?.toString());
   return response;
 };

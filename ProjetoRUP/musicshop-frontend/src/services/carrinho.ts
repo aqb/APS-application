@@ -11,13 +11,16 @@ export const getCarrinho = async (id: string): Promise<GetCarrinhoResponse> => {
 };
 
 export const adicionarAoCarrinho = async (
-  clienteId: string,
   produtoId: string,
   quantidadeDesejada: number
 ): Promise<void> => {
-  await postRequest(`/adicionar`, {
-    clienteId,
-    produtoId,
-    quantidadeDesejada
-  });
+  const token = localStorage.getItem("token");
+  await postRequest(
+    `/adicionar`,
+    {
+      produtoId,
+      quantidadeDesejada
+    },
+    token?.toString()
+  );
 };

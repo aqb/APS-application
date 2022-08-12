@@ -62,12 +62,15 @@ class RepositorioClientesInMemory implements IRepositorioClientes {
     return novoCliente;
   }
 
-  validarCredenciais(email: string, senha: string): boolean {
-    return (
-      this.clientes.find(
-        cliente => cliente.getEmail() === email && cliente.getSenha() === senha
-      ) !== undefined
+  efetuarLogin(email: string, senha: string): Cliente {
+    const cliente = this.clientes.find(
+      cliente => cliente.getEmail() === email && cliente.getSenha() === senha
     );
+
+    if (cliente) {
+      return cliente;
+    }
+    throw new Error("Credenciais inválidas.");
   }
 }
 

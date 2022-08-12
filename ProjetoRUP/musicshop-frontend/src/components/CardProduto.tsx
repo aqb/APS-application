@@ -1,18 +1,13 @@
 import { Box, Button, Text, Image, Flex, Grid } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
+import { Produto } from "../modelos/Produto";
+
 interface CardProdutoProps {
-  nome: string;
-  valor: number;
-  id: string;
-  descricao: string;
+  produto: Produto;
 }
 
-export default function CardProduto({
-  produto
-}: {
-  produto: CardProdutoProps;
-}) {
+const CardProduto: React.FC<CardProdutoProps> = ({ produto }) => {
   const navigate = useNavigate();
   const imgGenerica =
     "https://i0.wp.com/www.sabra.org.br/site/wp-content/uploads/2020/04/instrumentos-musicais-voce-sabe-quais-sao-os-mais-tocados-no-mundo-20191202180617.jpg.jpg?fit=800%2C600&ssl=1";
@@ -23,7 +18,12 @@ export default function CardProduto({
         <Grid>
           <Flex justifyContent="space-between" alignItems="center" mb={4}>
             <Text fontSize="xl">{produto.nome}</Text>
-            <Text fontSize="md">R${produto.valor}</Text>
+            <Text fontSize="md">
+              {produto.valor.toLocaleString("pt-br", {
+                style: "currency",
+                currency: "BRL"
+              })}
+            </Text>
           </Flex>
           <Button
             loadingText="Submitting"
@@ -41,4 +41,6 @@ export default function CardProduto({
       </Box>
     </Box>
   );
-}
+};
+
+export default CardProduto;

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {
   Box,
   Input,
-  IconButton,
   Stack,
   Heading,
   Container,
@@ -11,10 +10,11 @@ import {
   InputGroup,
   InputLeftElement,
   Flex,
-  Spinner
+  Spinner,
+  IconButton
 } from "@chakra-ui/react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { BsPersonCircle } from "react-icons/bs";
+import { RiLogoutBoxLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
 import CardProduto from "../../components/CardProduto";
@@ -33,6 +33,11 @@ const TelaHome: React.FC = () => {
     });
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <>
       {loading ? (
@@ -43,11 +48,14 @@ const TelaHome: React.FC = () => {
         <Box p={4}>
           <Flex justifyContent="flex-end">
             <IconButton
-              aria-label="Login database"
-              icon={<BsPersonCircle />}
+              aria-label="logout"
+              icon={<RiLogoutBoxLine />}
+              onClick={() => logout()}
               bg="transparent"
               fontSize={24}
-              onClick={() => navigate("../login")}
+              position="absolute"
+              top="4"
+              right="4"
             />
           </Flex>
           <Stack spacing={4} as={Container} maxW={"3xl"} textAlign={"center"}>

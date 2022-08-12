@@ -49,13 +49,12 @@ class Facade {
     this.controladorCadastro.cadastrarUsuario(email, senha, cpf);
   }
 
-  public efetuarLogin(email: string, senha: string): boolean {
+  public efetuarLogin(email: string, senha: string): Cliente {
     return this.controladorLogin.efetuarLogin(email, senha);
   }
 
-  // TODO: Adicionar o parametro de usuario
-  public registrarSessao() {
-    this.controladorLogin.registrarSessao();
+  public registrarSessao(cliente: Cliente): string {
+    return this.controladorLogin.registrarSessao(cliente);
   }
 
   public pegarItensEstoque(nomeFiltro?: string): ItemEstoque[] {

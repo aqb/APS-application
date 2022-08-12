@@ -14,36 +14,41 @@ import {
   Text,
   useColorModeValue,
   InputGroup,
-  InputRightElement,
-  IconButton
+  InputRightElement
 } from "@chakra-ui/react";
-import { FaEye, FaEyeSlash, FaHome } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-export default function TelaLogin() {
+
+import { login } from "../../services/login";
+
+const TelaLogin: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const efetuarLogin = () => {
+    // TODO: Tratar erros (apresentar um toast?)
+    if (email !== "" && senha !== "") {
+      login(email, senha).then(({ token }) => {
+        localStorage.setItem("token", token);
+        navigate("/home");
+      });
+    }
+  };
+
   return (
     <Flex
+      maxW="screen"
       minH={"100vh"}
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <IconButton
-        aria-label="Login database"
-        icon={<FaHome />}
-        bg="transparent"
-        fontSize={24}
-        onClick={() => navigate("../home")}
-        position="absolute"
-        top="4"
-        right="4"
-      />
       <Stack
         spacing={8}
         mx={"auto"}
-        maxW={"lg"}
+        maxW={"full"}
         py={12}
         px={6}
         align={"center"}
@@ -62,12 +67,20 @@ export default function TelaLogin() {
           <Stack spacing={4}>
             <FormControl id="email">
               <FormLabel fontSize="20">Email</FormLabel>
-              <Input type="email" />
+              <Input
+                type="email"
+                value={email}
+                onChange={event => setEmail(event.target.value)}
+              />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel fontSize="20">Senha</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? "text" : "password"} />
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  value={senha}
+                  onChange={event => setSenha(event.target.value)}
+                />
                 <InputRightElement h={"full"}>
                   <Button
                     size="sm"
@@ -98,6 +111,7 @@ export default function TelaLogin() {
                 }}
                 h="14"
                 fontSize="20"
+                onClick={() => efetuarLogin()}
               >
                 Entrar
               </Button>
@@ -115,4 +129,6 @@ export default function TelaLogin() {
       </Stack>
     </Flex>
   );
-}
+};
+
+export default TelaLogin;

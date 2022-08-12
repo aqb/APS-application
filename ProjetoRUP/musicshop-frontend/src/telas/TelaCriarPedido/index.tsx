@@ -17,6 +17,7 @@ import {
   Spacer
 } from "@chakra-ui/react";
 import { FaHome, FaShoppingCart } from "react-icons/fa";
+import { RiLogoutBoxLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
 const produtos = [
@@ -58,8 +59,16 @@ const produtos = [
   }
 ];
 
-export default function TelaCriarPedido() {
+const TelaCriarPedido: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+  const [carrinho, setCarrinho] = useState();
   const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <Flex minH={"100vh"} align={"center"} justify={"center"} bg="gray.50">
       <IconButton
@@ -70,8 +79,20 @@ export default function TelaCriarPedido() {
         onClick={() => navigate("../home")}
         position="absolute"
         top="4"
+        left="4"
+      />
+
+      <IconButton
+        aria-label="logout"
+        icon={<RiLogoutBoxLine />}
+        onClick={() => logout()}
+        bg="transparent"
+        fontSize={24}
+        position="absolute"
+        top="4"
         right="4"
       />
+
       <Flex
         direction="column"
         w="4xl"
@@ -176,4 +197,6 @@ export default function TelaCriarPedido() {
       </Flex>
     </Flex>
   );
-}
+};
+
+export default TelaCriarPedido;

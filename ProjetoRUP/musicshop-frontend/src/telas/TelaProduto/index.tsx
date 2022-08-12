@@ -16,17 +16,22 @@ import {
   IconButton,
   SimpleGrid,
   StackDivider,
-  useColorModeValue
+  useColorModeValue,
+  Input,
+  HStack
 } from "@chakra-ui/react";
 import { FaHome } from "react-icons/fa";
+import { RiLogoutBoxLine } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Produto } from "../../modelos/Produto";
+import { adicionarAoCarrinho } from "../../services/carrinho";
 import { getProduto } from "../../services/produto";
 
 const TelaProduto: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [produto, setProduto] = useState<Produto | null>(null);
+  const [quantidade, setQuantidade] = useState(1);
   const navigate = useNavigate();
   const { produtoId } = useParams();
   useEffect(() => {
@@ -38,6 +43,25 @@ const TelaProduto: React.FC = () => {
   const imgGenerica =
     "https://i0.wp.com/www.sabra.org.br/site/wp-content/uploads/2020/04/instrumentos-musicais-voce-sabe-quais-sao-os-mais-tocados-no-mundo-20191202180617.jpg.jpg?fit=800%2C600&ssl=1";
 
+  const aumentarQuantidade = () => {
+    setQuantidade(quantidade + 1);
+  };
+
+  const diminuirQuantidade = () => {
+    setQuantidade(Math.max(quantidade - 1, 1));
+  };
+
+  const addToCarrinho = () => {
+    if (produto) {
+      adicionarAoCarrinho(produto.id, quantidade);
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <>
       {loading ? (
@@ -46,12 +70,22 @@ const TelaProduto: React.FC = () => {
         </Flex>
       ) : (
         <Flex
-          minH={"100vh"}
-          w="100vw"
+          minH={"screen"}
+          w="screen"
           align={"center"}
           justify={"center"}
           bg="gray.50"
         >
+          <IconButton
+            aria-label="logout"
+            icon={<RiLogoutBoxLine />}
+            onClick={() => logout()}
+            bg="transparent"
+            fontSize={24}
+            position="absolute"
+            top="4"
+            right="4"
+          />
           <IconButton
             aria-label="Login database"
             icon={<FaHome />}
@@ -60,7 +94,7 @@ const TelaProduto: React.FC = () => {
             onClick={() => navigate("../home")}
             position="absolute"
             top="4"
-            right="4"
+            left="4"
           />
           <Container bg="gray.50" maxW="3xl" p={8}>
             <Image
@@ -134,22 +168,51 @@ const TelaProduto: React.FC = () => {
                   </List>
                 </SimpleGrid>
               </Box>
-              <Button
-                w={"full"}
-                mt={8}
-                size={"lg"}
-                py={"7"}
-                bg={"blue.400"}
-                color={"white"}
-                _hover={{
-                  bg: "blue.500"
-                }}
-                h="14"
-                fontSize="20"
-                textTransform={"uppercase"}
-              >
-                Adicionar ao carrinho
-              </Button>
+              <Flex dir="row" alignItems="center" justify="center">
+                <HStack maxW="full" h="full" paddingRight="4">
+                  <Button
+                    onClick={() => diminuirQuantidade()}
+                    size="lg"
+                    py={"7"}
+                  >
+                    -
+                  </Button>
+                  <Input
+                    type="number"
+                    value={quantidade}
+                    onChange={event =>
+                      setQuantidade(parseInt(event.target.value))
+                    }
+                    min={1}
+                    size="lg"
+                    py={"7"}
+                    textAlign="center"
+                  />
+                  <Button
+                    onClick={() => aumentarQuantidade()}
+                    size="lg"
+                    py={"7"}
+                  >
+                    +
+                  </Button>
+                </HStack>
+                <Button
+                  w={"full"}
+                  size={"lg"}
+                  py={"7"}
+                  bg={"blue.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "blue.500"
+                  }}
+                  h="14"
+                  fontSize="20"
+                  textTransform={"uppercase"}
+                  onClick={() => addToCarrinho()}
+                >
+                  Adicionar ao carrinho
+                </Button>
+              </Flex>
             </Stack>
           </Container>
         </Flex>
