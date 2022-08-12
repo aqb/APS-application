@@ -14,7 +14,8 @@ import {
   Text,
   useColorModeValue,
   InputGroup,
-  InputRightElement
+  InputRightElement,
+  useToast
 } from "@chakra-ui/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -26,14 +27,22 @@ const TelaLogin: React.FC = () => {
   const [senha, setSenha] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const toast = useToast();
 
   const efetuarLogin = () => {
-    // TODO: Tratar erros (apresentar um toast?)
     if (email !== "" && senha !== "") {
-      login(email, senha).then(({ token }) => {
-        localStorage.setItem("token", token);
-        navigate("/home");
-      });
+      login(email, senha)
+        .then(({ token }) => {
+          localStorage.setItem("token", token);
+          navigate("/home");
+        })
+        .catch(error => {
+          toast({
+            title: error.response.data.message,
+            status: "error",
+            duration: 4000
+          });
+        });
     }
   };
 

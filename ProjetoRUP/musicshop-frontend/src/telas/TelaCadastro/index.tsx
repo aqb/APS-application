@@ -13,7 +13,8 @@ import {
   Button,
   Heading,
   Text,
-  Link
+  Link,
+  useToast
 } from "@chakra-ui/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -28,11 +29,26 @@ const TelaCadastro: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const toast = useToast();
+
   const efetuarCadastro = () => {
-    // TODO: Tratar erros (apresentar um toast?)
     if (email !== "" && senha !== "" && cpf !== "") {
-      cadastro(cpf, email, senha);
-      navigate("/login");
+      cadastro(cpf, email, senha)
+        .then(() => {
+          toast({
+            title: "Cadastro realizado com sucesso!",
+            status: "success",
+            duration: 4000
+          });
+          navigate("/login");
+        })
+        .catch(error => {
+          toast({
+            title: error.response.data.message,
+            status: "error",
+            duration: 4000
+          });
+        });
     }
   };
 
