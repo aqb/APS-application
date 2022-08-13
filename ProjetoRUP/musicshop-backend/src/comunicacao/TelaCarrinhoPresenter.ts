@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { injectable } from "tsyringe";
 
 import Fachada from "../negocio/Fachada/Fachada";
+import InfoPagamentoCartao from "../negocio/Pagamento/InfoPagamentoCartao/InfoPagamentoCartao";
 
 @injectable()
 class TelaCarrinhoPresenter {
@@ -26,6 +27,25 @@ class TelaCarrinhoPresenter {
   public criarPedido(req: Request, res: Response) {
     this.fachada.criarPedido(req.body.cliente);
     res.status(201).send();
+  }
+
+  public async pagar(req: Request, res: Response) {
+    const metodoPagamento = req.body.metodoPagamento;
+    if (metodoPagamento === "cartao") {
+      const infoPagamentoJson = req.body.infoPagamentoCartao;
+      const infoPagamentoObj = new InfoPagamentoCartao(
+        infoPagamentoJson.numeroCartao,
+        infoPagamentoJson.cvvCartao,
+        infoPagamentoJson.vencimento,
+        infoPagamentoJson.nomeTitular,
+        infoPagamentoJson.cpfTitular,
+        infoPagamentoJson.bandeira
+      );
+      this.fachada.pagarCartao(infoPagamentoObj);
+      res.status(201).send();
+    } else {
+      throw new Error("Método de pagamento inválido");
+    }
   }
 }
 

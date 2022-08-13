@@ -13,7 +13,11 @@ import {
   TabPanel,
   Spacer,
   Spinner,
-  HStack
+  FormControl,
+  FormLabel,
+  Input,
+  SimpleGrid,
+  useToast
 } from "@chakra-ui/react";
 import {
   RiShoppingCart2Line,
@@ -23,12 +27,66 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { Carrinho } from "../../modelos/Carrinho";
+import { InfoPagamentoCartao } from "../../modelos/InfoPagamentoCartao";
 import { getCarrinho } from "../../services/carrinho";
+import { finalizarPedido } from "../../services/pedido";
 
 const TelaCarrinho: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [carrinho, setCarrinho] = useState<Carrinho | null>(null);
   const navigate = useNavigate();
+
+  const [numeroCartao, setNumeroCartao] = useState("");
+  const [cvvCartao, setCvvCartao] = useState("");
+  const [vencimento, setVencimento] = useState(new Date());
+  const [nomeTitular, setNomeTitular] = useState("");
+  const [cpfTitular, setCpfTitular] = useState("");
+  const toast = useToast();
+  const bandeira = () => {
+    return numeroCartao[0] === "0" ? "beeceptor" : "mastercard";
+  };
+
+  const validaPedido = () => {
+    console.log("valida pedido");
+    if (numeroCartao && cvvCartao && vencimento && nomeTitular && cpfTitular) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const montarPedido = () => {
+    const tmpPedido: InfoPagamentoCartao = {
+      numeroCartao,
+      cvvCartao,
+      vencimento,
+      nomeTitular,
+      cpfTitular,
+      bandeira: bandeira()
+    };
+    return tmpPedido;
+  };
+
+  const realizarPagamentoPedido = () => {
+    if (validaPedido()) {
+      const novoPedido = montarPedido();
+      finalizarPedido(novoPedido, "cartao")
+        .then(() => {
+          toast({
+            title: "Pagamento enviado com sucesso",
+            status: "success",
+            duration: 4000
+          });
+        })
+        .catch(error => {
+          toast({
+            title: error.response.data.message,
+            status: "error",
+            duration: 4000
+          });
+        });
+    }
+  };
 
   useEffect(() => {
     getCarrinho().then(carrinho => {
@@ -151,25 +209,77 @@ const TelaCarrinho: React.FC = () => {
                 >
                   <Tabs>
                     <TabList>
-                      <Tab>Mercado Pago</Tab>
-                      <Tab isDisabled>Cartão</Tab>
+                      <Tab>Cartão</Tab>
+                      <Tab isDisabled>Mercado Pago</Tab>
                     </TabList>
                     <TabPanels>
                       <TabPanel>
-                        <Button
-                          loadingText="Submitting"
-                          size="lg"
-                          bg={"blue.400"}
-                          color={"white"}
-                          _hover={{
-                            bg: "blue.500"
-                          }}
-                        >
-                          Pagar com Mercado Pago
-                          <Flex ml="2">
-                            <RiShoppingCart2Line />
-                          </Flex>
-                        </Button>
+                        <FormControl isRequired>
+                          <FormLabel>Nome impresso no cartão</FormLabel>
+                          <Input
+                            type="String"
+                            value={nomeTitular}
+                            onChange={e => setNomeTitular(e.target.value)}
+                            placeholder="Nome"
+                          />
+                        </FormControl>
+                        <FormControl isRequired>
+                          <FormLabel>Número do cartão</FormLabel>
+                          <Input
+                            type="String"
+                            value={numeroCartao}
+                            onChange={e => setNumeroCartao(e.target.value)}
+                            placeholder="XXXX-XXXX-XXXX-XXXX"
+                          />
+                        </FormControl>
+                        <SimpleGrid columns={2} spacing="2">
+                          <FormControl isRequired>
+                            <FormLabel>CVV</FormLabel>
+                            <Input
+                              type="String"
+                              value={cvvCartao}
+                              onChange={e => setCvvCartao(e.target.value)}
+                              placeholder="CVV"
+                            />
+                          </FormControl>
+                          <FormControl isRequired>
+                            <FormLabel>Data de validade</FormLabel>
+                            <Input
+                              type="date-local"
+                              value={vencimento?.toString()}
+                              onChange={e =>
+                                setVencimento(new Date(e.target.value))
+                              }
+                              placeholder="MM/AA"
+                            />
+                          </FormControl>
+                        </SimpleGrid>
+                        <FormControl isRequired>
+                          <FormLabel>CPF</FormLabel>
+                          <Input
+                            type="String"
+                            value={cpfTitular}
+                            onChange={e => setCpfTitular(e.target.value)}
+                            placeholder="123.456.789-10"
+                          />
+                        </FormControl>
+                        <Flex pt="6" justifyContent="center">
+                          <Button
+                            loadingText="Submitting"
+                            size="lg"
+                            bg={"blue.400"}
+                            color={"white"}
+                            _hover={{
+                              bg: "blue.500"
+                            }}
+                            onClick={() => realizarPagamentoPedido()}
+                          >
+                            Finalizar pedido
+                            <Flex ml="2">
+                              <RiShoppingCart2Line />
+                            </Flex>
+                          </Button>
+                        </Flex>
                       </TabPanel>
                     </TabPanels>
                   </Tabs>

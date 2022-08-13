@@ -8,6 +8,7 @@ import Cliente from "../Cliente/Cliente";
 import ControladorCadastro from "../Cliente/ControladorCadastro";
 import ControladorLogin from "../Cliente/ControladorLogin";
 import IFabricaRepositorios from "../Fabricas/IFabricaRepositorios";
+import InfoPagamentoCartao from "../Pagamento/InfoPagamentoCartao/InfoPagamentoCartao";
 import ControladorPedido from "../Pedido/ControladorPedido";
 import Carrinho from "../Produto/Carrinho/Carrinho";
 import ControladorCarrinho from "../Produto/Carrinho/ControladorCarrinho";
@@ -84,6 +85,10 @@ class Facade {
 
   public criarPedido(cliente: Cliente) {
     this.controladorPedido.criarPedido(cliente);
+  }
+
+  public async pagarCartao(infoPagamentoCartao: InfoPagamentoCartao) {
+    this.controladorPedido.pagarCartao(infoPagamentoCartao);
   }
 }
 

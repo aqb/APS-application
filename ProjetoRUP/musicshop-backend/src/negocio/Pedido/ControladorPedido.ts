@@ -1,7 +1,9 @@
+import { response } from "express";
 import { injectable } from "tsyringe";
 
 import Cliente from "../Cliente/Cliente";
-import InfoPagamento from "../Pagamento/InfoPagamento";
+import AdapterPagamentoBeeceptor from "../Pagamento/AdapterPagamentoBeeceptor/AdapterPagamentoBeeceptor";
+import InfoPagamentoCartao from "../Pagamento/InfoPagamentoCartao/InfoPagamentoCartao";
 import Carrinho from "../Produto/Carrinho/Carrinho";
 import RegistroCarrinhos from "../Produto/Carrinho/RegistroCarrinhos";
 import RegistroPedidos from "./RegistroPedidos";
@@ -28,10 +30,23 @@ class ControladorPedido {
     this.registroPedidos.adicionar(cliente, carrinho);
   }
 
-  // TODO: Caso de uso de pagamento
-  // public pagar(infoPagament: InfoPagamento) {
+  public async pagarCartao(infoPagamentoCartao: InfoPagamentoCartao) {
+    const bandeiraCartao = infoPagamentoCartao.getBandeira();
 
-  // }
+    if (bandeiraCartao === "beeceptor") {
+      const adapterBeecptor = new AdapterPagamentoBeeceptor();
+      adapterBeecptor
+        .pagarCartao(infoPagamentoCartao)
+        .then(() => {
+          return { pagamentoCompleto: true };
+        })
+        .catch(error => {
+          throw new Error(error.response.data.message);
+        });
+    } else {
+      throw new Error("Bandeira do cartão inválida: " + bandeiraCartao);
+    }
+  }
 }
 
 export default ControladorPedido;

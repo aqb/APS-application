@@ -33,5 +33,7 @@ routes.get("/carrinho", verifyToken, (req, res) =>
 routes.post("/pedido", verifyToken, (req, res) =>
   carrinhoPresenter.criarPedido(req, res)
 );
-
+routes.post("/finalizarpedido", verifyToken, (req, res) =>
+  carrinhoPresenter.pagar(req, res)
+);
 export default routes;
