@@ -13,9 +13,14 @@ import {
   Spinner,
   IconButton,
   InputRightElement,
-  Button
+  Button,
+  HStack
 } from "@chakra-ui/react";
-import { RiLogoutBoxLine, RiSearchLine } from "react-icons/ri";
+import {
+  RiLogoutBoxLine,
+  RiSearchLine,
+  RiShoppingCart2Line
+} from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
 import CardProduto from "../../components/CardProduto";
@@ -56,16 +61,22 @@ const TelaHome: React.FC = () => {
       ) : (
         <Box p={4}>
           <Flex justifyContent="flex-end">
-            <IconButton
-              aria-label="logout"
-              icon={<RiLogoutBoxLine />}
-              onClick={() => logout()}
-              bg="transparent"
-              fontSize={24}
-              position="absolute"
-              top="4"
-              right="4"
-            />
+            <HStack position="absolute" top="4" right="4">
+              <IconButton
+                aria-label="logout"
+                icon={<RiShoppingCart2Line />}
+                onClick={() => navigate("/carrinho")}
+                bg="transparent"
+                fontSize={24}
+              />
+              <IconButton
+                aria-label="logout"
+                icon={<RiLogoutBoxLine />}
+                onClick={() => logout()}
+                bg="transparent"
+                fontSize={24}
+              />
+            </HStack>
           </Flex>
           <Stack spacing={4} as={Container} maxW={"3xl"} textAlign={"center"}>
             <Heading fontSize={"3xl"}>MusicShop</Heading>

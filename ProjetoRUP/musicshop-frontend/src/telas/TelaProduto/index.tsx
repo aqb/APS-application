@@ -22,7 +22,7 @@ import {
   useToast
 } from "@chakra-ui/react";
 import { FaCartPlus, FaHome } from "react-icons/fa";
-import { RiLogoutBoxLine } from "react-icons/ri";
+import { RiLogoutBoxLine, RiShoppingCart2Line } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Produto } from "../../modelos/Produto";
@@ -93,16 +93,22 @@ const TelaProduto: React.FC = () => {
           justify={"center"}
           bg="gray.50"
         >
-          <IconButton
-            aria-label="logout"
-            icon={<RiLogoutBoxLine />}
-            onClick={() => logout()}
-            bg="transparent"
-            fontSize={24}
-            position="absolute"
-            top="4"
-            right="4"
-          />
+          <HStack position="absolute" top="4" right="4">
+            <IconButton
+              aria-label="logout"
+              icon={<RiShoppingCart2Line />}
+              onClick={() => navigate("/carrinho")}
+              bg="transparent"
+              fontSize={24}
+            />
+            <IconButton
+              aria-label="logout"
+              icon={<RiLogoutBoxLine />}
+              onClick={() => logout()}
+              bg="transparent"
+              fontSize={24}
+            />
+          </HStack>
           <IconButton
             aria-label="Login database"
             icon={<FaHome />}

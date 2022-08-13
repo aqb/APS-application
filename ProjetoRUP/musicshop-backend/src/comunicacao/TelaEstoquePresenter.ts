@@ -4,7 +4,7 @@ import { injectable } from "tsyringe";
 import Fachada from "../negocio/Fachada/Fachada";
 
 @injectable()
-class TelaProdutosPresenter {
+class TelaEstoquePresenter {
   private fachada;
 
   constructor(fachada: Fachada) {
@@ -22,4 +22,4 @@ class TelaProdutosPresenter {
   }
 }
 
-export default TelaProdutosPresenter;
+export default TelaEstoquePresenter;

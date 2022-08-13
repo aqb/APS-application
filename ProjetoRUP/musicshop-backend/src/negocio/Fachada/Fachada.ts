@@ -9,6 +9,7 @@ import ControladorCadastro from "../Cliente/ControladorCadastro";
 import ControladorLogin from "../Cliente/ControladorLogin";
 import IFabricaRepositorios from "../Fabricas/IFabricaRepositorios";
 import ControladorPedido from "../Pedido/ControladorPedido";
+import Carrinho from "../Produto/Carrinho/Carrinho";
 import ControladorCarrinho from "../Produto/Carrinho/ControladorCarrinho";
 import ControladorEstoque from "../Produto/Estoque/ControladorEstoque";
 import ItemEstoque from "../Produto/Estoque/ItemEstoque";
@@ -63,6 +64,10 @@ class Facade {
 
   public pegarItemEstoque(id: string): ItemEstoque {
     return this.controladorEstoque.pegarItemEstoquePeloId(id);
+  }
+
+  public pegarCarrinho(clienteId: string): Carrinho {
+    return this.controladorCarrinho.pegarCarrinhoDe(clienteId);
   }
 
   public adicionarAoCarrinho(

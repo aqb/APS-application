@@ -1,13 +1,12 @@
 import { Carrinho } from "../modelos/Carrinho";
 import { getRequest, postRequest } from "./base";
 
-export type GetCarrinhoResponse = {
-  carrinho: Carrinho;
-};
+export type GetCarrinhoResponse = Carrinho;
 
-export const getCarrinho = async (id: string): Promise<GetCarrinhoResponse> => {
-  const response = await getRequest(`/carrinho/${id}`);
-  return response.data;
+export const getCarrinho = async (): Promise<GetCarrinhoResponse> => {
+  const token = localStorage.getItem("token");
+  const response = await getRequest(`/carrinho`, token?.toString());
+  return response;
 };
 
 export const adicionarAoCarrinho = async (
