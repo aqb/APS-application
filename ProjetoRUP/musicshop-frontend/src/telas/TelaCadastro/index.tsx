@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Flex,
@@ -12,31 +12,54 @@ import {
   Stack,
   Button,
   Heading,
-  IconButton,
   Text,
-  useColorModeValue,
-  Link
+  Link,
+  useToast
 } from "@chakra-ui/react";
-import { FaEye, FaEyeSlash, FaHome } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Navigate, useNavigate } from "react-router-dom";
 
-export default function TelaCadastro() {
+import { cadastro } from "../../services/cadastro";
+
+const TelaCadastro: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [cpf, setCPF] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const toast = useToast();
+
+  const isLoggedIn = localStorage.getItem("token") !== null;
+  if (isLoggedIn) {
+    return <Navigate to={"/home"} />;
+  }
+
+  const efetuarCadastro = () => {
+    if (email !== "" && senha !== "" && cpf !== "") {
+      cadastro(cpf, email, senha)
+        .then(() => {
+          toast({
+            title: "Cadastro realizado com sucesso!",
+            status: "success",
+            duration: 4000
+          });
+          navigate("/login");
+        })
+        .catch(error => {
+          toast({
+            title: error.response.data.message,
+            status: "error",
+            duration: 4000
+          });
+        });
+    }
+  };
+
   return (
     <Flex minH={"100vh"} align={"center"} justify={"center"} bg="gray.50">
-      <IconButton
-        aria-label="Login database"
-        icon={<FaHome />}
-        bg="transparent"
-        fontSize={24}
-        onClick={() => navigate("../home")}
-        position="absolute"
-        top="4"
-        right="4"
-      />
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+      <Stack spacing={8} mx={"auto"} maxW={"full"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>
             Cadastro
@@ -44,18 +67,30 @@ export default function TelaCadastro() {
         </Stack>
         <Box rounded={"lg"} bg="white" boxShadow={"lg"} p={8} w="lg">
           <Stack spacing={4}>
-            <FormControl id="cpf" w="full">
+            <FormControl id="cpf" w="full" isRequired>
               <FormLabel fontSize="20">CPF</FormLabel>
-              <Input type="text" />
+              <Input
+                type="text"
+                value={cpf}
+                onChange={event => setCPF(event.target.value)}
+              />
             </FormControl>
             <FormControl id="email" isRequired>
               <FormLabel fontSize="20">Email</FormLabel>
-              <Input type="email" />
+              <Input
+                type="email"
+                value={email}
+                onChange={event => setEmail(event.target.value)}
+              />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel fontSize="20">Senha</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? "text" : "password"} />
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  value={senha}
+                  onChange={event => setSenha(event.target.value)}
+                />
                 <InputRightElement h={"full"}>
                   <Button
                     size="sm"
@@ -79,6 +114,7 @@ export default function TelaCadastro() {
                   bg: "blue.500"
                 }}
                 h="14"
+                onClick={() => efetuarCadastro()}
               >
                 Cadastrar
               </Button>
@@ -96,4 +132,6 @@ export default function TelaCadastro() {
       </Stack>
     </Flex>
   );
-}
+};
+
+export default TelaCadastro;

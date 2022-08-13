@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
 
 import RegistroClientes from "../Cliente/RegistroClientes";
-import RegistroCarrinhos from "../Produtos/Carrinho/RegistroCarrinhos";
+import RegistroCarrinhos from "../Produto/Carrinho/RegistroCarrinhos";
 
 @injectable()
 class ControladorCadastro {
@@ -17,10 +17,7 @@ class ControladorCadastro {
   }
 
   public cadastrarUsuario(email: string, senha: string, cpf: string) {
-    // Cadastra e retorna um novo usuario a partir dos campos email, senha e cpf.
     const cliente = this.registroClientes.adicionar(email, senha, cpf);
-
-    // Adiciona um carrinho vazio para o novo cliente adicionado anteriormente.
     this.registroCarrinhos.adicionar(cliente);
   }
 }

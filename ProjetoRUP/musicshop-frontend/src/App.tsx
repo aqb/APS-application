@@ -1,19 +1,8 @@
-import * as React from "react";
-
-import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme
-} from "@chakra-ui/react";
+import { ChakraProvider, theme } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import TelaCadastro from "./telas/TelaCadastro";
-import TelaCriarPedido from "./telas/TelaCriarPedido";
+import TelaCarrinho from "./telas/TelaCarrinho";
 import TelaHome from "./telas/TelaHome";
 import TelaLogin from "./telas/TelaLogin";
 import TelaProduto from "./telas/TelaProduto";
@@ -26,7 +15,7 @@ export const App = () => (
         <Route path="/login" element={<TelaLogin />}></Route>
         <Route path="/home" element={<TelaHome />}></Route>
         <Route path="/produto/:produtoId" element={<TelaProduto />}></Route>
-        <Route path="/finalizarpedido" element={<TelaCriarPedido />}></Route>
+        <Route path="/carrinho" element={<TelaCarrinho />}></Route>
       </Routes>
     </BrowserRouter>
   </ChakraProvider>

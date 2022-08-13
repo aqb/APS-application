@@ -12,8 +12,10 @@ class TelaLoginPresenter {
   }
 
   public login(req: Request, res: Response) {
-    if (this.fachada.efetuarLogin(req.body.email, req.body.senha)) {
-      res.status(200).send();
+    const cliente = this.fachada.efetuarLogin(req.body.email, req.body.senha);
+    if (cliente) {
+      const token = this.fachada.registrarSessao(cliente);
+      res.json({ token });
     } else {
       throw new Error("Result not found");
     }

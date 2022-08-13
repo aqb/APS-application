@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {
   Box,
   Input,
-  IconButton,
   Stack,
   Heading,
   Container,
@@ -11,10 +10,17 @@ import {
   InputGroup,
   InputLeftElement,
   Flex,
-  Spinner
+  Spinner,
+  IconButton,
+  InputRightElement,
+  Button,
+  HStack
 } from "@chakra-ui/react";
-import { AiOutlineSearch } from "react-icons/ai";
-import { BsPersonCircle } from "react-icons/bs";
+import {
+  RiLogoutBoxLine,
+  RiSearchLine,
+  RiShoppingCart2Line
+} from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
 import CardProduto from "../../components/CardProduto";
@@ -24,6 +30,7 @@ import { getEstoque } from "../../services/estoque";
 const TelaHome: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [estoque, setEstoque] = useState<ItemEstoque[] | null>(null);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +39,18 @@ const TelaHome: React.FC = () => {
       setLoading(false);
     });
   }, []);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  const pesquisarProduto = () => {
+    getEstoque(search).then(itens => {
+      setEstoque(itens);
+      setLoading(false);
+    });
+  };
 
   return (
     <>
@@ -42,25 +61,41 @@ const TelaHome: React.FC = () => {
       ) : (
         <Box p={4}>
           <Flex justifyContent="flex-end">
-            <IconButton
-              aria-label="Login database"
-              icon={<BsPersonCircle />}
-              bg="transparent"
-              fontSize={24}
-              onClick={() => navigate("../login")}
-            />
+            <HStack position="absolute" top="4" right="4">
+              <IconButton
+                aria-label="logout"
+                icon={<RiShoppingCart2Line />}
+                onClick={() => navigate("/carrinho")}
+                bg="transparent"
+                fontSize={24}
+              />
+              <IconButton
+                aria-label="logout"
+                icon={<RiLogoutBoxLine />}
+                onClick={() => logout()}
+                bg="transparent"
+                fontSize={24}
+              />
+            </HStack>
           </Flex>
           <Stack spacing={4} as={Container} maxW={"3xl"} textAlign={"center"}>
             <Heading fontSize={"3xl"}>MusicShop</Heading>
             <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-                children={<AiOutlineSearch color="gray.300" />}
-              />
               <Input
-                type="tel"
+                type="text"
                 placeholder="Qual instrumento você está procurando?"
+                value={search}
+                onChange={event => setSearch(event.target.value)}
               />
+              <InputRightElement h={"full"}>
+                <Button
+                  size="sm"
+                  variant={"ghost"}
+                  onClick={() => pesquisarProduto()}
+                >
+                  <RiSearchLine />
+                </Button>
+              </InputRightElement>
             </InputGroup>
           </Stack>
           <Container maxW={"6xl"} mt={10}>

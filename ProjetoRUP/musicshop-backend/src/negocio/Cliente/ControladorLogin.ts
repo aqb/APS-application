@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { injectable } from "tsyringe";
 
 import Cliente from "./Cliente";
@@ -11,13 +12,14 @@ class ControladorLogin {
     this.registroClientes = registroClientes;
   }
 
-  public efetuarLogin(email: string, senha: string): boolean {
-    return this.registroClientes.validarCredenciais(email, senha);
+  public efetuarLogin(email: string, senha: string): Cliente {
+    return this.registroClientes.efetuarLogin(email, senha);
   }
 
-  // TODO: Adicionar o parametro de usuario.
-  public registrarSessao() {
-    return null;
+  public registrarSessao(cliente: Cliente): string {
+    return jwt.sign({ id: cliente.getId() }, "secret", {
+      expiresIn: 60 * 60 * 24 * 30
+    });
   }
 }
 

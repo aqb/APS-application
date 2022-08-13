@@ -1,6 +1,4 @@
-import Cliente from "../../negocio/Cliente/Cliente";
-import Carrinho from "../../negocio/Produtos/Carrinho/Carrinho";
-import Produto from "../../negocio/Produtos/Produto";
+import Carrinho from "../../negocio/Produto/Carrinho/Carrinho";
 
 interface IRepositorioCarrinhos {
   adicionar(carrinho: Carrinho): void;

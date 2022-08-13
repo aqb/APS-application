@@ -1,29 +1,37 @@
 import { Router } from "express";
-import { container, delay } from "tsyringe";
+import { container } from "tsyringe";
 
+import { verifyToken } from "./authMiddleware";
 import TelaCadastroPresenter from "./comunicacao/TelaCadastroPresenter";
+import TelaCarrinhoPresenter from "./comunicacao/TelaCarrinhoPresenter";
+import TelaEstoquePresenter from "./comunicacao/TelaEstoquePresenter";
 import TelaLoginPresenter from "./comunicacao/TelaLoginPresenter";
-import TelaPedidoPresenter from "./comunicacao/TelaPedidoPresenter";
 import TelaProdutoPresenter from "./comunicacao/TelaProdutoPresenter";
-import TelaProdutosPresenter from "./comunicacao/TelaProdutosPresenter";
 
 const cadastroPresenter = container.resolve(TelaCadastroPresenter);
 const loginPresenter = container.resolve(TelaLoginPresenter);
-const pedidoPresenter = container.resolve(TelaPedidoPresenter);
+const carrinhoPresenter = container.resolve(TelaCarrinhoPresenter);
 const produtoPresenter = container.resolve(TelaProdutoPresenter);
-const produtosPresenter = container.resolve(TelaProdutosPresenter);
+const estoquePresenter = container.resolve(TelaEstoquePresenter);
 
 const routes = Router();
 
 routes.post("/cadastro", (req, res) => cadastroPresenter.cadastro(req, res));
 routes.post("/login", (req, res) => loginPresenter.login(req, res));
-routes.get("/estoque", (req, res) => produtosPresenter.pegarEstoque(req, res));
-routes.get("/produto/:id", (req, res) =>
+routes.get("/estoque", verifyToken, (req, res) =>
+  estoquePresenter.pegarEstoque(req, res)
+);
+routes.get("/produto/:id", verifyToken, (req, res) =>
   produtoPresenter.pegarProduto(req, res)
 );
-routes.post("/adicionar", (req, res) =>
+routes.post("/adicionar", verifyToken, (req, res) =>
   produtoPresenter.adicionarCarrinho(req, res)
 );
-routes.post("/pedido", (req, res) => pedidoPresenter.criarPedido(req, res));
+routes.get("/carrinho", verifyToken, (req, res) =>
+  carrinhoPresenter.pegarCarrinho(req, res)
+);
+routes.post("/pedido", verifyToken, (req, res) =>
+  carrinhoPresenter.criarPedido(req, res)
+);
 
 export default routes;

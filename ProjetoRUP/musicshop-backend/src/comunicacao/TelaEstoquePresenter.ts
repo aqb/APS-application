@@ -4,7 +4,7 @@ import { injectable } from "tsyringe";
 import Fachada from "../negocio/Fachada/Fachada";
 
 @injectable()
-class TelaProdutosPresenter {
+class TelaEstoquePresenter {
   private fachada;
 
   constructor(fachada: Fachada) {
@@ -15,11 +15,11 @@ class TelaProdutosPresenter {
     const nomeFiltro = req.query.nome?.toString();
     const itens = this.fachada.pegarItensEstoque(nomeFiltro);
     if (itens) {
-      res.json(itens).send();
+      res.json(itens);
     } else {
       throw new Error("Não foi possível encontrar o produto " + nomeFiltro);
     }
   }
 }
 
-export default TelaProdutosPresenter;
+export default TelaEstoquePresenter;

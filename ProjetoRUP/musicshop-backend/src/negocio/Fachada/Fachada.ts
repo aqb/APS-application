@@ -9,9 +9,10 @@ import ControladorCadastro from "../Cliente/ControladorCadastro";
 import ControladorLogin from "../Cliente/ControladorLogin";
 import IFabricaRepositorios from "../Fabricas/IFabricaRepositorios";
 import ControladorPedido from "../Pedido/ControladorPedido";
-import ControladorCarrinho from "../Produtos/Carrinho/ControladorCarrinho";
-import ControladorEstoque from "../Produtos/Estoque/ControladorEstoque";
-import ItemEstoque from "../Produtos/Estoque/ItemEstoque";
+import Carrinho from "../Produto/Carrinho/Carrinho";
+import ControladorCarrinho from "../Produto/Carrinho/ControladorCarrinho";
+import ControladorEstoque from "../Produto/Estoque/ControladorEstoque";
+import ItemEstoque from "../Produto/Estoque/ItemEstoque";
 
 @injectable()
 @singleton()
@@ -49,13 +50,12 @@ class Facade {
     this.controladorCadastro.cadastrarUsuario(email, senha, cpf);
   }
 
-  public efetuarLogin(email: string, senha: string): boolean {
+  public efetuarLogin(email: string, senha: string): Cliente {
     return this.controladorLogin.efetuarLogin(email, senha);
   }
 
-  // TODO: Adicionar o parametro de usuario
-  public registrarSessao() {
-    this.controladorLogin.registrarSessao();
+  public registrarSessao(cliente: Cliente): string {
+    return this.controladorLogin.registrarSessao(cliente);
   }
 
   public pegarItensEstoque(nomeFiltro?: string): ItemEstoque[] {
@@ -64,6 +64,10 @@ class Facade {
 
   public pegarItemEstoque(id: string): ItemEstoque {
     return this.controladorEstoque.pegarItemEstoquePeloId(id);
+  }
+
+  public pegarCarrinho(clienteId: string): Carrinho {
+    return this.controladorCarrinho.pegarCarrinhoDe(clienteId);
   }
 
   public adicionarAoCarrinho(

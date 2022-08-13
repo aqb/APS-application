@@ -1,23 +1,25 @@
 import { Carrinho } from "../modelos/Carrinho";
-import { getRequest, postRequest } from "./crud";
+import { getRequest, postRequest } from "./base";
 
-export type GetCarrinhoResponse = {
-  carrinho: Carrinho;
-};
+export type GetCarrinhoResponse = Carrinho;
 
-export const getCarrinho = async (id: string): Promise<GetCarrinhoResponse> => {
-  const response = await getRequest(`/carrinho/${id}`);
-  return response.data;
+export const getCarrinho = async (): Promise<GetCarrinhoResponse> => {
+  const token = localStorage.getItem("token");
+  const response = await getRequest(`/carrinho`, token?.toString());
+  return response;
 };
 
 export const adicionarAoCarrinho = async (
-  clienteId: string,
   produtoId: string,
   quantidadeDesejada: number
 ): Promise<void> => {
-  await postRequest(`/adicionar`, {
-    clienteId,
-    produtoId,
-    quantidadeDesejada
-  });
+  const token = localStorage.getItem("token");
+  await postRequest(
+    `/adicionar`,
+    {
+      produtoId,
+      quantidade: quantidadeDesejada
+    },
+    token?.toString()
+  );
 };

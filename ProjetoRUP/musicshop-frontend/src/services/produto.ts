@@ -1,11 +1,12 @@
 import { Produto } from "../modelos/Produto";
-import { getRequest } from "./crud";
+import { getRequest } from "./base";
 
 type GetProdutoResponse = {
   produto: Produto;
 };
 
 export const getProduto = async (id: string): Promise<GetProdutoResponse> => {
-  const response = await getRequest(`/produto/${id}`);
+  const token = localStorage.getItem("token");
+  const response = await getRequest(`/produto/${id}`, token?.toString());
   return response;
 };

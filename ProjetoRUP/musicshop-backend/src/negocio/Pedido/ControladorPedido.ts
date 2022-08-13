@@ -2,8 +2,8 @@ import { injectable } from "tsyringe";
 
 import Cliente from "../Cliente/Cliente";
 import InfoPagamento from "../Pagamento/InfoPagamento";
-import Carrinho from "../Produtos/Carrinho/Carrinho";
-import RegistroCarrinhos from "../Produtos/Carrinho/RegistroCarrinhos";
+import Carrinho from "../Produto/Carrinho/Carrinho";
+import RegistroCarrinhos from "../Produto/Carrinho/RegistroCarrinhos";
 import RegistroPedidos from "./RegistroPedidos";
 
 @injectable()
@@ -20,7 +20,7 @@ class ControladorPedido {
   }
 
   private pegarCarrinho(cliente: Cliente): Carrinho {
-    return this.registroCarrinhos.pegarCarrinhoDe(cliente);
+    return this.registroCarrinhos.pegarCarrinhoDe(cliente.getId());
   }
 
   public criarPedido(cliente: Cliente) {

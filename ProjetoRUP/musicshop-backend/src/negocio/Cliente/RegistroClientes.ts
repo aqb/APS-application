@@ -17,8 +17,8 @@ class RegistroClientes {
     return this.repositorioClientes.adicionar(email, senha, cpf);
   }
 
-  public validarCredenciais(email: string, senha: string): boolean {
-    return this.repositorioClientes.validarCredenciais(email, senha);
+  public efetuarLogin(email: string, senha: string): Cliente {
+    return this.repositorioClientes.efetuarLogin(email, senha);
   }
 }
 export default RegistroClientes;

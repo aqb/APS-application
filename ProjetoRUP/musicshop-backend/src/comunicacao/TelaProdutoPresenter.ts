@@ -13,7 +13,7 @@ class TelaProdutoPresenter {
 
   public adicionarCarrinho(req: Request, res: Response) {
     const clienteId = req.body.clienteId;
-    const produtoId = req.body.id;
+    const produtoId = req.body.produtoId;
     const quantidadeDesejada = req.body.quantidade;
     this.fachada.adicionarAoCarrinho(clienteId, produtoId, quantidadeDesejada);
     res.status(201).send();
@@ -23,7 +23,7 @@ class TelaProdutoPresenter {
     const produtoId = req.params.id;
     const item = this.fachada.pegarItemEstoque(produtoId);
     if (item) {
-      res.json(item).send();
+      res.json(item);
     } else {
       throw new Error("Não foi possível encontrar o produto " + produtoId);
     }
