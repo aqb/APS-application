@@ -9,9 +9,9 @@ import ControladorCadastro from "../Cliente/ControladorCadastro";
 import ControladorLogin from "../Cliente/ControladorLogin";
 import IFabricaRepositorios from "../Fabricas/IFabricaRepositorios";
 import ControladorPedido from "../Pedido/ControladorPedido";
-import ControladorCarrinho from "../Produtos/Carrinho/ControladorCarrinho";
-import ControladorEstoque from "../Produtos/Estoque/ControladorEstoque";
-import ItemEstoque from "../Produtos/Estoque/ItemEstoque";
+import ControladorCarrinho from "../Produto/Carrinho/ControladorCarrinho";
+import ControladorEstoque from "../Produto/Estoque/ControladorEstoque";
+import ItemEstoque from "../Produto/Estoque/ItemEstoque";
 
 @injectable()
 @singleton()

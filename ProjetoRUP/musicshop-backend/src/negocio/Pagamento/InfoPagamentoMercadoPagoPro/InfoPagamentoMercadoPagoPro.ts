@@ -1,4 +1,4 @@
-import Carrinho from "../../Produtos/Carrinho/Carrinho";
+import Carrinho from "../../Produto/Carrinho/Carrinho";
 import InfoPagamento from "../InfoPagamento";
 
 class InfoPagamentoMercadoPagoPro {

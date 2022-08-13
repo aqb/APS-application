@@ -2,7 +2,7 @@ import { singleton } from "tsyringe";
 import { v4 as uuidv4 } from "uuid";
 
 import Cliente from "../../../negocio/Cliente/Cliente";
-import Carrinho from "../../../negocio/Produtos/Carrinho/Carrinho";
+import Carrinho from "../../../negocio/Produto/Carrinho/Carrinho";
 import IRepositorioClientes from "../IRepositorioClientes";
 
 // TODO: Remover dados estaticos!

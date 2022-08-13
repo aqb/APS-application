@@ -1,4 +1,4 @@
-import { postRequest } from "./crud";
+import { postRequest } from "./base";
 
 export const cadastro = async (
   cpf: string,

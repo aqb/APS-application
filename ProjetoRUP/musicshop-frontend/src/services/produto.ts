@@ -1,5 +1,5 @@
 import { Produto } from "../modelos/Produto";
-import { getRequest } from "./crud";
+import { getRequest } from "./base";
 
 type GetProdutoResponse = {
   produto: Produto;

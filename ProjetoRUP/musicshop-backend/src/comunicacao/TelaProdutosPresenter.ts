@@ -15,7 +15,7 @@ class TelaProdutosPresenter {
     const nomeFiltro = req.query.nome?.toString();
     const itens = this.fachada.pegarItensEstoque(nomeFiltro);
     if (itens) {
-      res.json(itens).send();
+      res.json(itens);
     } else {
       throw new Error("Não foi possível encontrar o produto " + nomeFiltro);
     }

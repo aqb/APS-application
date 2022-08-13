@@ -1,4 +1,4 @@
-import { postRequest } from "./crud";
+import { postRequest } from "./base";
 
 type PostLoginResponse = {
   token: string;

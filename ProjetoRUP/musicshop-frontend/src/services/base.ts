@@ -1,8 +1,13 @@
 import api from "../config/api";
 
-export const getRequest = async (endpoint: string, token?: string) => {
+export const getRequest = async (
+  endpoint: string,
+  token?: string,
+  params?: any
+) => {
   const response = await api.get(endpoint, {
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${token}` },
+    params
   });
   return response.data;
 };

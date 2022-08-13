@@ -18,9 +18,10 @@ import {
   StackDivider,
   useColorModeValue,
   Input,
-  HStack
+  HStack,
+  useToast
 } from "@chakra-ui/react";
-import { FaHome } from "react-icons/fa";
+import { FaCartPlus, FaHome } from "react-icons/fa";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -34,6 +35,8 @@ const TelaProduto: React.FC = () => {
   const [quantidade, setQuantidade] = useState(1);
   const navigate = useNavigate();
   const { produtoId } = useParams();
+  const toast = useToast();
+
   useEffect(() => {
     getProduto(produtoId || "").then(({ produto }) => {
       setProduto(produto);
@@ -53,7 +56,21 @@ const TelaProduto: React.FC = () => {
 
   const addToCarrinho = () => {
     if (produto) {
-      adicionarAoCarrinho(produto.id, quantidade);
+      adicionarAoCarrinho(produto.id, quantidade)
+        .then(() => {
+          toast({
+            title: "Produto adicionado ao carrinho",
+            status: "success",
+            duration: 4000
+          });
+        })
+        .catch(error => {
+          toast({
+            title: error.response.data.message,
+            status: "error",
+            duration: 4000
+          });
+        });
     }
   };
 
@@ -209,6 +226,7 @@ const TelaProduto: React.FC = () => {
                   fontSize="20"
                   textTransform={"uppercase"}
                   onClick={() => addToCarrinho()}
+                  leftIcon={<FaCartPlus />}
                 >
                   Adicionar ao carrinho
                 </Button>

@@ -1,5 +1,5 @@
 import { Carrinho } from "../modelos/Carrinho";
-import { getRequest, postRequest } from "./crud";
+import { getRequest, postRequest } from "./base";
 
 export type GetCarrinhoResponse = {
   carrinho: Carrinho;
@@ -19,7 +19,7 @@ export const adicionarAoCarrinho = async (
     `/adicionar`,
     {
       produtoId,
-      quantidadeDesejada
+      quantidade: quantidadeDesejada
     },
     token?.toString()
   );

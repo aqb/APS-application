@@ -1,4 +1,4 @@
-import Produto from "../negocio/Produtos/Produto";
+import Produto from "../negocio/Produto/Produto";
 
 interface IRepositorioEstoque {
   adicionar(produto: Produto): void;

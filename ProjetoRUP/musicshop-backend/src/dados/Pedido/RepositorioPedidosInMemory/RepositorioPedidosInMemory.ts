@@ -3,7 +3,7 @@ import { singleton } from "tsyringe";
 import Cliente from "../../../negocio/Cliente/Cliente";
 import Pedido from "../../../negocio/Pedido/Pedido";
 import PedidoStatus from "../../../negocio/Pedido/PedidoStatus";
-import Carrinho from "../../../negocio/Produtos/Carrinho/Carrinho";
+import Carrinho from "../../../negocio/Produto/Carrinho/Carrinho";
 import IRepositorioPedidos from "../IRepositorioPedidos";
 
 @singleton()

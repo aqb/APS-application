@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
 
 import Cliente from "../Cliente/Cliente";
-import Carrinho from "../Produtos/Carrinho/Carrinho";
+import Carrinho from "../Produto/Carrinho/Carrinho";
 import PedidoStatus from "./PedidoStatus";
 
 @injectable()

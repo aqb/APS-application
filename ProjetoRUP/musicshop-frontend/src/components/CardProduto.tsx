@@ -1,5 +1,5 @@
 import { Box, Button, Text, Image, Flex, Grid } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Produto } from "../modelos/Produto";
 

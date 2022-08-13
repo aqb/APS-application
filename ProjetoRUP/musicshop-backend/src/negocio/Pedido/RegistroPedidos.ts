@@ -2,7 +2,7 @@ import { inject, injectable } from "tsyringe";
 
 import IRepositorioPedidos from "../../dados/Pedido/IRepositorioPedidos";
 import Cliente from "../Cliente/Cliente";
-import Carrinho from "../Produtos/Carrinho/Carrinho";
+import Carrinho from "../Produto/Carrinho/Carrinho";
 
 @injectable()
 class RegistroPedidos {

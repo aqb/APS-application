@@ -1,6 +1,3 @@
-import Carrinho from "../../Produtos/Carrinho/Carrinho";
-import InfoPagamento from "../InfoPagamento";
-
 class InfoPagamentoCartaoVISA {
   private numeroCartao;
   private cvvCartao;

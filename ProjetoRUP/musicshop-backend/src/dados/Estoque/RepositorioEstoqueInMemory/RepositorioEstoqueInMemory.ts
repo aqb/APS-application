@@ -1,8 +1,8 @@
 import { singleton } from "tsyringe";
 
 import Cliente from "../../../negocio/Cliente/Cliente";
-import ItemEstoque from "../../../negocio/Produtos/Estoque/ItemEstoque";
-import Produto from "../../../negocio/Produtos/Produto";
+import ItemEstoque from "../../../negocio/Produto/Estoque/ItemEstoque";
+import Produto from "../../../negocio/Produto/Produto";
 import IRepositorioEstoque from "../IRepositorioEstoque";
 
 // TODO: Remover dados estaticos!

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Flex,
@@ -17,7 +17,7 @@ import {
   useToast
 } from "@chakra-ui/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { cadastro } from "../../services/cadastro";
 
@@ -30,6 +30,11 @@ const TelaCadastro: React.FC = () => {
   const navigate = useNavigate();
 
   const toast = useToast();
+
+  const isLoggedIn = localStorage.getItem("token") !== null;
+  if (isLoggedIn) {
+    return <Navigate to={"/home"} />;
+  }
 
   const efetuarCadastro = () => {
     if (email !== "" && senha !== "" && cpf !== "") {

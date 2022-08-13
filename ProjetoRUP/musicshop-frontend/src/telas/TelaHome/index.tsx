@@ -11,10 +11,11 @@ import {
   InputLeftElement,
   Flex,
   Spinner,
-  IconButton
+  IconButton,
+  InputRightElement,
+  Button
 } from "@chakra-ui/react";
-import { AiOutlineSearch } from "react-icons/ai";
-import { RiLogoutBoxLine } from "react-icons/ri";
+import { RiLogoutBoxLine, RiSearchLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
 import CardProduto from "../../components/CardProduto";
@@ -24,6 +25,7 @@ import { getEstoque } from "../../services/estoque";
 const TelaHome: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [estoque, setEstoque] = useState<ItemEstoque[] | null>(null);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +38,13 @@ const TelaHome: React.FC = () => {
   const logout = () => {
     localStorage.removeItem("token");
     navigate("/login");
+  };
+
+  const pesquisarProduto = () => {
+    getEstoque(search).then(itens => {
+      setEstoque(itens);
+      setLoading(false);
+    });
   };
 
   return (
@@ -61,14 +70,21 @@ const TelaHome: React.FC = () => {
           <Stack spacing={4} as={Container} maxW={"3xl"} textAlign={"center"}>
             <Heading fontSize={"3xl"}>MusicShop</Heading>
             <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-                children={<AiOutlineSearch color="gray.300" />}
-              />
               <Input
-                type="tel"
+                type="text"
                 placeholder="Qual instrumento você está procurando?"
+                value={search}
+                onChange={event => setSearch(event.target.value)}
               />
+              <InputRightElement h={"full"}>
+                <Button
+                  size="sm"
+                  variant={"ghost"}
+                  onClick={() => pesquisarProduto()}
+                >
+                  <RiSearchLine />
+                </Button>
+              </InputRightElement>
             </InputGroup>
           </Stack>
           <Container maxW={"6xl"} mt={10}>
