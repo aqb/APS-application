@@ -98,8 +98,6 @@ class Facade {
     infoPagamentoCartao: InfoPagamentoCartao
   ) {
     await this.controladorPedido.pagarCartao(pedidoId, infoPagamentoCartao);
-    this.controladorPedido.confirmarPagamento(pedidoId);
-    this.controladorPedido.limparCarrinho(clienteId);
   }
 }
 

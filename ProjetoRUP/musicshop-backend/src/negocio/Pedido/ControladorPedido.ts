@@ -23,6 +23,7 @@ class ControladorPedido {
 
   public criarPedido(clienteId: string): Pedido {
     const carrinho = this.registroCarrinhos.pegarCarrinhoDe(clienteId);
+    // TODO: Reservar produtos no estoque.
     return this.registroPedidos.adicionar(clienteId, carrinho);
   }
 
@@ -31,6 +32,7 @@ class ControladorPedido {
   }
 
   public async pagarCartao(
+    clienteId: string,
     pedidoId: string,
     infoPagamentoCartao: InfoPagamentoCartao
   ) {
@@ -45,20 +47,18 @@ class ControladorPedido {
       const adapterBeeceptor = new AdapterPagamentoBeeceptor();
       try {
         await adapterBeeceptor.pagarCartao(infoPagamentoCartao);
+        // TODO: Testar se a confirmação do pagamento e limpeza do carrinho funcionam aqui.
+        this.registroPedidos.confirmarPedido(pedidoId);
+        this.registroCarrinhos.limparCarrinho(clienteId);
       } catch (error: any) {
+        // TODO: Devolver produtos ao estoque e cancelar pedido.
+        // this.registroEstoque.devolverProdutos(carrinho);
+        // this.registroPedidos.cancelarPedido(pedidoId);
         throw new Error(error.response.data.message);
       }
     } else {
       throw new Error("Bandeira do cartão inválida: " + bandeiraCartao);
     }
-  }
-
-  public confirmarPagamento(pedidoId: string) {
-    this.registroPedidos.confirmarPedido(pedidoId);
-  }
-
-  public limparCarrinho(clienteId: string) {
-    this.registroCarrinhos.limparCarrinho(clienteId);
   }
 }
 
