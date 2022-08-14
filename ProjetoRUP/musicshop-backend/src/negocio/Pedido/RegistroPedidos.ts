@@ -1,8 +1,8 @@
 import { inject, injectable } from "tsyringe";
 
 import IRepositorioPedidos from "../../dados/Pedido/IRepositorioPedidos";
-import Cliente from "../Cliente/Cliente";
 import Carrinho from "../Produto/Carrinho/Carrinho";
+import Pedido from "./Pedido";
 
 @injectable()
 class RegistroPedidos {
@@ -14,8 +14,20 @@ class RegistroPedidos {
     this.repositorioPedidos = repositorioPedidos;
   }
 
-  public adicionar(cliente: Cliente, carrinho: Carrinho) {
-    this.repositorioPedidos.adicionar(cliente, carrinho);
+  public adicionar(clienteId: string, carrinho: Carrinho): Pedido {
+    return this.repositorioPedidos.adicionar(clienteId, carrinho);
+  }
+
+  public pegarPedidos(clienteId: string): Pedido[] {
+    return this.repositorioPedidos.pegarPedidos(clienteId);
+  }
+
+  public pegarPedido(pedidoId: string): Pedido {
+    return this.repositorioPedidos.pegarPedido(pedidoId);
+  }
+
+  public confirmarPedido(pedidoId: string): void {
+    this.repositorioPedidos.confirmarPedido(pedidoId);
   }
 }
 

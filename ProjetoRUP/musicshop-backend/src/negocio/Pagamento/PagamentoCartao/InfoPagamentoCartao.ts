@@ -1,22 +1,25 @@
-class InfoPagamentoCartaoVISA {
+class InfoPagamentoCartao {
   private numeroCartao;
   private cvvCartao;
   private vencimento;
   private nomeTitular;
   private cpfTitular;
+  private bandeira;
 
   public constructor(
     numeroCartao: string,
     cvvCartao: string,
     vencimento: Date,
     nomeTitular: string,
-    cpfTitular: string
+    cpfTitular: string,
+    bandeira: string
   ) {
     this.numeroCartao = numeroCartao;
     this.cvvCartao = cvvCartao;
     this.vencimento = vencimento;
     this.nomeTitular = nomeTitular;
     this.cpfTitular = cpfTitular;
+    this.bandeira = bandeira;
   }
 
   public getNumeroCartao(): string {
@@ -58,6 +61,14 @@ class InfoPagamentoCartaoVISA {
   public setCPFTitular(cpf: string) {
     this.cpfTitular = cpf;
   }
+
+  public getBandeira(): string {
+    return this.bandeira;
+  }
+
+  public setBandeira(bandeira: string) {
+    this.bandeira = bandeira;
+  }
 }
 
-export default InfoPagamentoCartaoVISA;
+export default InfoPagamentoCartao;

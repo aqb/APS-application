@@ -50,6 +50,10 @@ class Carrinho {
       0
     );
   }
+
+  public limpar(): void {
+    this.setItens([]);
+  }
 }
 
 export default Carrinho;
