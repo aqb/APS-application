@@ -17,7 +17,9 @@ import {
   FormLabel,
   Input,
   SimpleGrid,
-  useToast
+  Box,
+  useToast,
+  Image
 } from "@chakra-ui/react";
 import {
   RiShoppingCart2Line,
@@ -32,6 +34,9 @@ import { getCarrinho } from "../../services/carrinho";
 import { criarPedido, finalizarPedido } from "../../services/pedido";
 
 const TelaCarrinho: React.FC = () => {
+  const imgGenerica =
+    "https://i0.wp.com/www.sabra.org.br/site/wp-content/uploads/2020/04/instrumentos-musicais-voce-sabe-quais-sao-os-mais-tocados-no-mundo-20191202180617.jpg.jpg?fit=800%2C600&ssl=1";
+
   const [loading, setLoading] = useState(true);
   const [carrinho, setCarrinho] = useState<Carrinho | null>(null);
   const navigate = useNavigate();
@@ -140,158 +145,203 @@ const TelaCarrinho: React.FC = () => {
             top="4"
             right="4"
           />
-
-          <Flex
-            direction="column"
-            w="4xl"
-            rounded={"lg"}
-            bg="white"
-            boxShadow={"lg"}
-            p={8}
-          >
-            <Flex pb="8">
-              <Text fontSize="3xl" fontWeight="bold">
-                Carrinho
-              </Text>
-            </Flex>
-            <Flex direction="column" alignItems="center">
-              <Flex
-                maxHeight="lg"
-                overflow="auto"
-                direction="column"
-                justifyContent="start"
-                borderWidth="1px"
-                w="100%"
-                borderRadius={"lg"}
-              >
-                {carrinho?.itens.map((item, index) => (
-                  <Flex key={index} direction="column">
-                    <Flex bg="white" py="4" px="8" alignItems="center" w="100%">
-                      <Flex w="100%" alignItems={"center"}>
-                        <Flex direction="column">
-                          <Text fontSize="2xl">{item.produto.nome}</Text>
-                          <Text>{item.produto.descricao}</Text>
+          <Flex align="start">
+            <Flex
+              w="2xl"
+              rounded={"lg"}
+              bg="white"
+              boxShadow={"lg"}
+              p={8}
+              mr="6"
+            >
+              <Flex w="100%" direction="column">
+                <Flex pb="8">
+                  <Text fontSize="3xl" fontWeight="bold">
+                    Carrinho
+                  </Text>
+                </Flex>
+                <Divider mb="4" />
+                <Flex direction="column" alignItems="center">
+                  <Flex
+                    maxHeight="lg"
+                    overflow="auto"
+                    direction="column"
+                    justifyContent="start"
+                    w="100%"
+                    borderRadius={"lg"}
+                  >
+                    {carrinho?.itens.map((item, index) => (
+                      <Flex key={index} direction="column">
+                        <Flex
+                          bg="white"
+                          py="4"
+                          pr="6"
+                          alignItems="center"
+                          w="100%"
+                        >
+                          <Flex
+                            maxH="120px"
+                            maxW="120px"
+                            pr="6"
+                            justifyContent="end"
+                            position="relative"
+                          >
+                            <Image
+                              borderRadius="xl"
+                              src={imgGenerica}
+                              alt="instrumento"
+                            />
+                            <Flex
+                              w="30px"
+                              h="30px"
+                              borderRadius="full"
+                              bg="white"
+                              justifyContent="center"
+                              alignItems="center"
+                              mt="-3"
+                              mr="-3"
+                              position="absolute"
+                              borderWidth="1px"
+                            >
+                              <Text>{item.quantidade}</Text>
+                            </Flex>
+                          </Flex>
+                          <Spacer />
+                          <Flex w="100%" alignItems={"center"}>
+                            <Flex direction="column">
+                              <Text fontSize="xl" fontWeight="bold">
+                                {item.produto.nome}
+                              </Text>
+                              <Text>{item.produto.descricao}</Text>
+                            </Flex>
+                            <Spacer />
+                            <Text>
+                              {(
+                                item.quantidade * item.produto.valor
+                              ).toLocaleString("pt-br", {
+                                style: "currency",
+                                currency: "BRL"
+                              })}
+                            </Text>
+                          </Flex>
                         </Flex>
-                        <Spacer />
-                        <Text>
-                          {`${item.quantidade}x` +
-                            item.produto.valor.toLocaleString("pt-br", {
-                              style: "currency",
-                              currency: "BRL"
-                            })}
-                        </Text>
                       </Flex>
-                    </Flex>
-                    <Divider />
+                    ))}
                   </Flex>
-                ))}
+                  <Divider mt="4" />
+                </Flex>
+                <Spacer />
+                <Flex pt="4" pr="4">
+                  <Text fontSize="xl" fontWeight="500">
+                    {"Valor Total"}
+                  </Text>
+                  <Spacer />
+                  <Text fontSize="2xl">
+                    {carrinho?.itens
+                      .reduce(
+                        (prev, curr) =>
+                          prev + curr.produto.valor * curr.quantidade,
+                        0
+                      )
+                      .toLocaleString("pt-br", {
+                        style: "currency",
+                        currency: "BRL"
+                      })}
+                  </Text>
+                </Flex>
               </Flex>
             </Flex>
-            <Flex pt="4" pr="4" justifyContent={"end"}>
-              <Text fontSize="xl" fontWeight="bold">
-                {"Valor total:"}
-              </Text>
-              <Text fontSize="xl">
-                {carrinho?.itens
-                  .reduce(
-                    (prev, curr) => prev + curr.produto.valor * curr.quantidade,
-                    0
-                  )
-                  .toLocaleString("pt-br", {
-                    style: "currency",
-                    currency: "BRL"
-                  })}
-              </Text>
-            </Flex>
-            <Flex w="100%" alignItems="center" justifyContent="center">
-              <Flex
-                alignItems="center"
-                justifyContent="center"
-                direction="column"
-                p="6"
-                w="md"
-              >
-                <Text fontSize="xl">Escolha o método de pagamento</Text>
+            <Flex w="lg" rounded={"lg"} bg="white" boxShadow={"lg"} p={8}>
+              <Flex w="100%" alignItems="center" justifyContent="center">
                 <Flex
-                  w="100%"
-                  pt="10"
-                  alignItems={"center"}
+                  alignItems="center"
                   justifyContent="center"
+                  direction="column"
+                  p="6"
+                  w="md"
                 >
-                  <Tabs>
-                    <TabList>
-                      <Tab>Cartão</Tab>
-                      <Tab isDisabled>Mercado Pago</Tab>
-                    </TabList>
-                    <TabPanels>
-                      <TabPanel>
-                        <FormControl isRequired>
-                          <FormLabel>Nome Impresso no Cartão</FormLabel>
-                          <Input
-                            type="text"
-                            value={nomeTitular}
-                            onChange={e => setNomeTitular(e.target.value)}
-                            placeholder="Nome"
-                          />
-                        </FormControl>
-                        <FormControl isRequired>
-                          <FormLabel>Número do Cartão</FormLabel>
-                          <Input
-                            type="text"
-                            value={numeroCartao}
-                            onChange={e => setNumeroCartao(e.target.value)}
-                            placeholder="XXXX-XXXX-XXXX-XXXX"
-                          />
-                        </FormControl>
-                        <SimpleGrid columns={2} spacing="2">
-                          <FormControl isRequired>
-                            <FormLabel>CVV</FormLabel>
+                  <Text fontSize="xl">Escolha o método de pagamento</Text>
+                  <Flex
+                    w="100%"
+                    pt="10"
+                    alignItems={"center"}
+                    justifyContent="center"
+                  >
+                    <Tabs>
+                      <TabList>
+                        <Tab>Cartão</Tab>
+                        <Tab isDisabled>Mercado Pago</Tab>
+                      </TabList>
+                      <TabPanels>
+                        <TabPanel>
+                          <FormControl pt="3" isRequired>
+                            <FormLabel>Nome Impresso no Cartão</FormLabel>
                             <Input
                               type="text"
-                              value={cvvCartao}
-                              onChange={e => setCvvCartao(e.target.value)}
-                              placeholder="CVV"
+                              value={nomeTitular}
+                              onChange={e => setNomeTitular(e.target.value)}
+                              placeholder="Nome"
                             />
                           </FormControl>
-                          <FormControl isRequired>
-                            <FormLabel>Data de Vencimento</FormLabel>
+                          <FormControl pt="3" isRequired>
+                            <FormLabel>Número do Cartão</FormLabel>
                             <Input
-                              type="Date"
-                              value={vencimento}
-                              onChange={e => setVencimento(e.target.value)}
-                              placeholder="MM/AA"
+                              type="text"
+                              value={numeroCartao}
+                              onChange={e => setNumeroCartao(e.target.value)}
+                              placeholder="XXXX-XXXX-XXXX-XXXX"
                             />
                           </FormControl>
-                        </SimpleGrid>
-                        <FormControl isRequired>
-                          <FormLabel>CPF</FormLabel>
-                          <Input
-                            type="text"
-                            value={cpfTitular}
-                            onChange={e => setCpfTitular(e.target.value)}
-                            placeholder="123.456.789-10"
-                          />
-                        </FormControl>
-                        <Flex pt="6" justifyContent="center">
-                          <Button
-                            loadingText="Submitting"
-                            size="lg"
-                            bg={"blue.400"}
-                            color={"white"}
-                            _hover={{
-                              bg: "blue.500"
-                            }}
-                            onClick={() => realizarPedido()}
-                          >
-                            Finalizar Pedido
-                            <Flex ml="2">
-                              <RiShoppingCart2Line />
-                            </Flex>
-                          </Button>
-                        </Flex>
-                      </TabPanel>
-                    </TabPanels>
-                  </Tabs>
+                          <SimpleGrid columns={2} spacing="2">
+                            <FormControl pt="3" isRequired>
+                              <FormLabel>CVV</FormLabel>
+                              <Input
+                                type="text"
+                                value={cvvCartao}
+                                onChange={e => setCvvCartao(e.target.value)}
+                                placeholder="CVV"
+                              />
+                            </FormControl>
+                            <FormControl pt="3" isRequired>
+                              <FormLabel>Data de Vencimento</FormLabel>
+                              <Input
+                                type="Date"
+                                value={vencimento}
+                                onChange={e => setVencimento(e.target.value)}
+                                placeholder="MM/AA"
+                              />
+                            </FormControl>
+                          </SimpleGrid>
+                          <FormControl pt="3" isRequired>
+                            <FormLabel>CPF</FormLabel>
+                            <Input
+                              type="text"
+                              value={cpfTitular}
+                              onChange={e => setCpfTitular(e.target.value)}
+                              placeholder="123.456.789-10"
+                            />
+                          </FormControl>
+                          <Flex pt="6" justifyContent="center">
+                            <Button
+                              loadingText="Submitting"
+                              w="100%"
+                              bg={"blue.400"}
+                              color={"white"}
+                              _hover={{
+                                bg: "blue.500"
+                              }}
+                              onClick={() => realizarPedido()}
+                            >
+                              Finalizar Pedido
+                              <Flex ml="2">
+                                <RiShoppingCart2Line />
+                              </Flex>
+                            </Button>
+                          </Flex>
+                        </TabPanel>
+                      </TabPanels>
+                    </Tabs>
+                  </Flex>
                 </Flex>
               </Flex>
             </Flex>
