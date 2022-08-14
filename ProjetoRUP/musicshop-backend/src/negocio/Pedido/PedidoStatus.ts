@@ -1,6 +1,6 @@
 enum PedidoStatus {
   PENDENTE,
-  FINALIZADO,
+  CONFIRMADO,
   CANCELADO
 }
 

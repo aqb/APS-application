@@ -8,8 +8,9 @@ import Cliente from "../Cliente/Cliente";
 import ControladorCadastro from "../Cliente/ControladorCadastro";
 import ControladorLogin from "../Cliente/ControladorLogin";
 import IFabricaRepositorios from "../Fabricas/IFabricaRepositorios";
-import InfoPagamentoCartao from "../Pagamento/InfoPagamentoCartao/InfoPagamentoCartao";
+import InfoPagamentoCartao from "../Pagamento/PagamentoCartao/InfoPagamentoCartao";
 import ControladorPedido from "../Pedido/ControladorPedido";
+import Pedido from "../Pedido/Pedido";
 import Carrinho from "../Produto/Carrinho/Carrinho";
 import ControladorCarrinho from "../Produto/Carrinho/ControladorCarrinho";
 import ControladorEstoque from "../Produto/Estoque/ControladorEstoque";
@@ -83,12 +84,22 @@ class Facade {
     );
   }
 
-  public criarPedido(cliente: Cliente) {
-    this.controladorPedido.criarPedido(cliente);
+  public criarPedido(clienteId: string) {
+    return this.controladorPedido.criarPedido(clienteId);
   }
 
-  public async pagarCartao(infoPagamentoCartao: InfoPagamentoCartao) {
-    this.controladorPedido.pagarCartao(infoPagamentoCartao);
+  public pegarPedido(clienteId: string): Pedido[] {
+    return this.controladorPedido.pegarPedidos(clienteId);
+  }
+
+  public async pagarCartao(
+    clienteId: string,
+    pedidoId: string,
+    infoPagamentoCartao: InfoPagamentoCartao
+  ) {
+    await this.controladorPedido.pagarCartao(pedidoId, infoPagamentoCartao);
+    this.controladorPedido.confirmarPagamento(pedidoId);
+    this.controladorPedido.limparCarrinho(clienteId);
   }
 }
 

@@ -29,7 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { Carrinho } from "../../modelos/Carrinho";
 import { InfoPagamentoCartao } from "../../modelos/InfoPagamentoCartao";
 import { getCarrinho } from "../../services/carrinho";
-import { finalizarPedido } from "../../services/pedido";
+import { criarPedido, finalizarPedido } from "../../services/pedido";
 
 const TelaCarrinho: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -38,53 +38,64 @@ const TelaCarrinho: React.FC = () => {
 
   const [numeroCartao, setNumeroCartao] = useState("");
   const [cvvCartao, setCvvCartao] = useState("");
-  const [vencimento, setVencimento] = useState(new Date());
+  const [vencimento, setVencimento] = useState("");
   const [nomeTitular, setNomeTitular] = useState("");
   const [cpfTitular, setCpfTitular] = useState("");
-  const toast = useToast();
   const bandeira = () => {
     return numeroCartao[0] === "0" ? "beeceptor" : "mastercard";
   };
 
-  const validaPedido = () => {
-    console.log("valida pedido");
+  const toast = useToast();
+
+  const validaArgumentosPedido = () => {
     if (numeroCartao && cvvCartao && vencimento && nomeTitular && cpfTitular) {
       return true;
     }
-
     return false;
   };
 
-  const montarPedido = () => {
-    const tmpPedido: InfoPagamentoCartao = {
+  const getInfoPagamentCartao = (): InfoPagamentoCartao => {
+    return {
       numeroCartao,
       cvvCartao,
-      vencimento,
+      vencimento: new Date(vencimento),
       nomeTitular,
       cpfTitular,
       bandeira: bandeira()
     };
-    return tmpPedido;
   };
 
-  const realizarPagamentoPedido = () => {
-    if (validaPedido()) {
-      const novoPedido = montarPedido();
-      finalizarPedido(novoPedido, "cartao")
-        .then(() => {
-          toast({
-            title: "Pagamento enviado com sucesso",
-            status: "success",
-            duration: 4000
-          });
-        })
-        .catch(error => {
-          toast({
-            title: error.response.data.message,
-            status: "error",
-            duration: 4000
-          });
+  const realizarPedido = async () => {
+    if (validaArgumentosPedido()) {
+      try {
+        const pedido = await criarPedido();
+        const infoPagamento = getInfoPagamentCartao();
+        await finalizarPedido(pedido.id, infoPagamento, "cartao");
+        toast({
+          title: "Pedido realizado com sucesso!",
+          description: "Obrigado por comprar com o MusicShop.",
+          status: "success",
+          duration: 4000,
+          isClosable: true
         });
+        navigate(`/pedido/${pedido.id}`);
+      } catch (error: any) {
+        toast({
+          title: "Erro ao finalizar pedido.",
+          description: error.response.data.message,
+          status: "error",
+          duration: 4000,
+          isClosable: true
+        });
+      }
+    } else {
+      toast({
+        title: "Erro ao finalizar pedido.",
+        description: "Preencha todos os campos.",
+        status: "error",
+        duration: 4000,
+        isClosable: true
+      });
     }
   };
 
@@ -215,18 +226,18 @@ const TelaCarrinho: React.FC = () => {
                     <TabPanels>
                       <TabPanel>
                         <FormControl isRequired>
-                          <FormLabel>Nome impresso no cartão</FormLabel>
+                          <FormLabel>Nome Impresso no Cartão</FormLabel>
                           <Input
-                            type="String"
+                            type="text"
                             value={nomeTitular}
                             onChange={e => setNomeTitular(e.target.value)}
                             placeholder="Nome"
                           />
                         </FormControl>
                         <FormControl isRequired>
-                          <FormLabel>Número do cartão</FormLabel>
+                          <FormLabel>Número do Cartão</FormLabel>
                           <Input
-                            type="String"
+                            type="text"
                             value={numeroCartao}
                             onChange={e => setNumeroCartao(e.target.value)}
                             placeholder="XXXX-XXXX-XXXX-XXXX"
@@ -236,20 +247,18 @@ const TelaCarrinho: React.FC = () => {
                           <FormControl isRequired>
                             <FormLabel>CVV</FormLabel>
                             <Input
-                              type="String"
+                              type="text"
                               value={cvvCartao}
                               onChange={e => setCvvCartao(e.target.value)}
                               placeholder="CVV"
                             />
                           </FormControl>
                           <FormControl isRequired>
-                            <FormLabel>Data de validade</FormLabel>
+                            <FormLabel>Data de Vencimento</FormLabel>
                             <Input
-                              type="date-local"
-                              value={vencimento?.toString()}
-                              onChange={e =>
-                                setVencimento(new Date(e.target.value))
-                              }
+                              type="Date"
+                              value={vencimento}
+                              onChange={e => setVencimento(e.target.value)}
                               placeholder="MM/AA"
                             />
                           </FormControl>
@@ -257,7 +266,7 @@ const TelaCarrinho: React.FC = () => {
                         <FormControl isRequired>
                           <FormLabel>CPF</FormLabel>
                           <Input
-                            type="String"
+                            type="text"
                             value={cpfTitular}
                             onChange={e => setCpfTitular(e.target.value)}
                             placeholder="123.456.789-10"
@@ -272,9 +281,9 @@ const TelaCarrinho: React.FC = () => {
                             _hover={{
                               bg: "blue.500"
                             }}
-                            onClick={() => realizarPagamentoPedido()}
+                            onClick={() => realizarPedido()}
                           >
-                            Finalizar pedido
+                            Finalizar Pedido
                             <Flex ml="2">
                               <RiShoppingCart2Line />
                             </Flex>

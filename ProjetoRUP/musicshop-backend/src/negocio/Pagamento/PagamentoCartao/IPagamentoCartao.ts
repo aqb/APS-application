@@ -1,4 +1,4 @@
-import InfoPagamentoCartao from "../InfoPagamentoCartao/InfoPagamentoCartao";
+import InfoPagamentoCartao from "./InfoPagamentoCartao";
 
 interface IPagamentoCartao {
   pagarCartao(infoPagamentoCartao: InfoPagamentoCartao): Promise<any>;

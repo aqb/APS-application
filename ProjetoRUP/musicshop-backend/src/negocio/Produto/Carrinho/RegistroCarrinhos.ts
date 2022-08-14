@@ -25,6 +25,10 @@ class RegistroCarrinhos {
   public atualizarCarrinho(carrinho: Carrinho) {
     this.repositorioCarrinhos.atualizarCarrinho(carrinho);
   }
+
+  public limparCarrinho(clienteId: string) {
+    this.repositorioCarrinhos.limparCarrinho(clienteId);
+  }
 }
 
 export default RegistroCarrinhos;

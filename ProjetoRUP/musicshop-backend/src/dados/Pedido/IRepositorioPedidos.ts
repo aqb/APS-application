@@ -1,8 +1,11 @@
-import Cliente from "../../negocio/Cliente/Cliente";
+import Pedido from "../../negocio/Pedido/Pedido";
 import Carrinho from "../../negocio/Produto/Carrinho/Carrinho";
 
 interface IRepositorioPedidos {
-  adicionar(cliente: Cliente, carrinho: Carrinho): void;
+  adicionar(clienteId: string, carrinho: Carrinho): Pedido;
+  pegarPedidos(clienteId: string): Pedido[];
+  pegarPedido(pedidoId: string): Pedido;
+  confirmarPedido(pedidoId: string): void;
 }
 
 export default IRepositorioPedidos;

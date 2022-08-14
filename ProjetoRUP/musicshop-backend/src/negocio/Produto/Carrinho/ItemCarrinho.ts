@@ -21,6 +21,10 @@ class ItemCarrinho {
     this.produto = produto;
   }
 
+  public getValor(): number {
+    return this.getProduto().getValor();
+  }
+
   public getQuantidade(): number {
     return this.quantidade;
   }

@@ -1,25 +1,9 @@
 import { singleton } from "tsyringe";
 
-import Cliente from "../../../negocio/Cliente/Cliente";
 import ItemEstoque from "../../../negocio/Produto/Estoque/ItemEstoque";
 import Produto from "../../../negocio/Produto/Produto";
 import IRepositorioEstoque from "../IRepositorioEstoque";
-
-// TODO: Remover dados estaticos!
-const defaultItens: ItemEstoque[] = [
-  new ItemEstoque(new Produto("1", "Guitarra", "Guitarra de rock", 100), 13),
-  new ItemEstoque(new Produto("2", "Bateria", "Bateria Verde", 13000), 4),
-  new ItemEstoque(
-    new Produto("3", "Cavaquinho", "Cavaquinho de pagode", 130),
-    20
-  ),
-  new ItemEstoque(new Produto("4", "Microfone", "Microfone", 219), 10),
-  new ItemEstoque(
-    new Produto("5", "Pandeiro", "Pandeiro do Mumuzinho", 50000),
-    1
-  ),
-  new ItemEstoque(new Produto("14", "Guitarra", "Guitarra vermelha", 1300), 5)
-];
+import ItensDefault from "./default";
 
 @singleton()
 class RepositorioEstoqueInMemory implements IRepositorioEstoque {
@@ -27,7 +11,7 @@ class RepositorioEstoqueInMemory implements IRepositorioEstoque {
 
   constructor() {
     // TODO: Remover dados estaticos!
-    this.itens = defaultItens;
+    this.itens = ItensDefault;
   }
 
   adicionar(produto: Produto): void {

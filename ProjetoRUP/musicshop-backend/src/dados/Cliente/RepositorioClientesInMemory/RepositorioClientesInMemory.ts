@@ -4,31 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import Cliente from "../../../negocio/Cliente/Cliente";
 import Carrinho from "../../../negocio/Produto/Carrinho/Carrinho";
 import IRepositorioClientes from "../IRepositorioClientes";
-
-// TODO: Remover dados estaticos!
-const defaultClientes: Cliente[] = [
-  new Cliente(
-    "0",
-    "eric.clapton@gmail.com",
-    "1234",
-    "789",
-    new Carrinho("0", [])
-  ),
-  new Cliente(
-    "1",
-    "renato.russo@gmail.com",
-    "1234",
-    "789",
-    new Carrinho("1", [])
-  ),
-  new Cliente(
-    "2",
-    "reginaldo.rossi@gmail.com",
-    "1234",
-    "789",
-    new Carrinho("2", [])
-  )
-];
+import ClientesDefault from "./default";
 
 @singleton()
 class RepositorioClientesInMemory implements IRepositorioClientes {
@@ -36,7 +12,7 @@ class RepositorioClientesInMemory implements IRepositorioClientes {
 
   constructor() {
     // TODO: Remover dados estaticos!
-    this.clientes = defaultClientes;
+    this.clientes = ClientesDefault;
   }
 
   adicionar(email: string, senha: string, cpf: string): Cliente {
