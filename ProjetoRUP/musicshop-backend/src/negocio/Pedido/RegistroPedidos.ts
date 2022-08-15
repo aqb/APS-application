@@ -29,6 +29,10 @@ class RegistroPedidos {
   public confirmarPedido(pedidoId: string): void {
     this.repositorioPedidos.confirmarPedido(pedidoId);
   }
+
+  public cancelarPedido(pedidoId: string): void {
+    this.repositorioPedidos.cancelarPedido(pedidoId);
+  }
 }
 
 export default RegistroPedidos;

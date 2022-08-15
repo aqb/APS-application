@@ -1,11 +1,11 @@
 import { injectable } from "tsyringe";
 
-import Cliente from "../Cliente/Cliente";
 import AdapterPagamentoBeeceptor from "../Pagamento/PagamentoCartao/Beeceptor/AdapterPagamentoBeeceptor";
 import InfoPagamentoCartao from "../Pagamento/PagamentoCartao/InfoPagamentoCartao";
-import Carrinho from "../Produto/Carrinho/Carrinho";
 import RegistroCarrinhos from "../Produto/Carrinho/RegistroCarrinhos";
+import ItemEstoque from "../Produto/Estoque/ItemEstoque";
 import RegistroEstoque from "../Produto/Estoque/RegistroEstoque";
+import ItemPedido from "./ItemPedido";
 import Pedido from "./Pedido";
 import RegistroPedidos from "./RegistroPedidos";
 
@@ -50,14 +50,20 @@ class ControladorPedido {
     if (bandeiraCartao === "beeceptor") {
       const adapterBeeceptor = new AdapterPagamentoBeeceptor();
       try {
-        await adapterBeeceptor.pagarCartao(infoPagamentoCartao);
-        // TODO: Testar se a confirmação do pagamento e limpeza do carrinho funcionam aqui.
+        await adapterBeeceptor.pagarCartao(pedido.getId(), infoPagamentoCartao);
         this.registroPedidos.confirmarPedido(pedidoId);
         this.registroCarrinhos.limparCarrinho(clienteId);
       } catch (error: any) {
-        // TODO: Devolver produtos ao estoque e cancelar pedido.
-        // this.registroEstoque.devolverProdutos(carrinho);
-        // this.registroPedidos.cancelarPedido(pedidoId);
+        this.registroPedidos.cancelarPedido(pedidoId);
+
+        const itensParaDevolver = pedido.getItens().map((item: ItemPedido) => {
+          return {
+            produtoId: item.getProdutoId(),
+            quantidade: item.getQuantidade()
+          };
+        });
+        this.registroEstoque.devolverItensAoEstoque(itensParaDevolver);
+
         throw new Error(error.response.data.message);
       }
     } else {

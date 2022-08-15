@@ -38,10 +38,6 @@ routes.post("/criarpedido", verifyToken, (req, res) =>
 routes.post("/finalizarpedido", verifyToken, (req, res) =>
   carrinhoPresenter.finalizarPedido(req, res)
 );
-// TODO: A API Fake Beeceptor consegue acessar a rota?
-// routes.post("/confirmarpedido", verifyToken, (req, res) =>
-//   carrinhoPresenter.finalizarPedido(req, res)
-// );
 routes.get("/pedidos", verifyToken, (req, res) =>
   pedidosPresenter.pegarPedidos(req, res)
 );

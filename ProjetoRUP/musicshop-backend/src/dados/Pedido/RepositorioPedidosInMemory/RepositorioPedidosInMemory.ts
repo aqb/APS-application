@@ -39,6 +39,11 @@ class RepositorioPedidosInMemory implements IRepositorioPedidos {
     const pedido = this.pegarPedido(pedidoId);
     pedido.setStatus(PedidoStatus.CONFIRMADO);
   }
+
+  cancelarPedido(pedidoId: string): void {
+    const pedido = this.pegarPedido(pedidoId);
+    pedido.setStatus(PedidoStatus.CANCELADO);
+  }
 }
 
 export default RepositorioPedidosInMemory;

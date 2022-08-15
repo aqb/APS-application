@@ -54,6 +54,15 @@ const TelaCarrinho: React.FC = () => {
     return false;
   };
 
+  const valorTotal = () => {
+    return (
+      carrinho?.itens.reduce(
+        (prev, curr) => prev + curr.produto.valor * curr.quantidade,
+        0
+      ) || 0
+    );
+  };
+
   const getInfoPagamentCartao = (): InfoPagamentoCartao => {
     return {
       numeroCartao,
@@ -61,7 +70,8 @@ const TelaCarrinho: React.FC = () => {
       vencimento: new Date(vencimento),
       nomeTitular,
       cpfTitular,
-      bandeira: bandeira()
+      bandeira: bandeira(),
+      valorPagamento: valorTotal()
     };
   };
 
@@ -192,15 +202,10 @@ const TelaCarrinho: React.FC = () => {
                 {"Valor total:"}
               </Text>
               <Text fontSize="xl">
-                {carrinho?.itens
-                  .reduce(
-                    (prev, curr) => prev + curr.produto.valor * curr.quantidade,
-                    0
-                  )
-                  .toLocaleString("pt-br", {
-                    style: "currency",
-                    currency: "BRL"
-                  })}
+                {valorTotal().toLocaleString("pt-br", {
+                  style: "currency",
+                  currency: "BRL"
+                })}
               </Text>
             </Flex>
             <Flex w="100%" alignItems="center" justifyContent="center">

@@ -12,6 +12,8 @@ interface IRepositorioEstoque {
   pegarItemEstoquePeloId(id: string): ItemEstoque;
 
   reservaItemEstoque(carrinho: Carrinho): void;
+
+  devolverItensAoEstoque(itens: any): void;
 }
 
 export default IRepositorioEstoque;

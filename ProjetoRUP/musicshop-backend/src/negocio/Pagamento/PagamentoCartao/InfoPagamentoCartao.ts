@@ -5,6 +5,7 @@ class InfoPagamentoCartao {
   private nomeTitular;
   private cpfTitular;
   private bandeira;
+  private valorPagamento;
 
   public constructor(
     numeroCartao: string,
@@ -12,7 +13,8 @@ class InfoPagamentoCartao {
     vencimento: Date,
     nomeTitular: string,
     cpfTitular: string,
-    bandeira: string
+    bandeira: string,
+    valorPagamento: number
   ) {
     this.numeroCartao = numeroCartao;
     this.cvvCartao = cvvCartao;
@@ -20,6 +22,7 @@ class InfoPagamentoCartao {
     this.nomeTitular = nomeTitular;
     this.cpfTitular = cpfTitular;
     this.bandeira = bandeira;
+    this.valorPagamento = valorPagamento;
   }
 
   public getNumeroCartao(): string {
@@ -68,6 +71,14 @@ class InfoPagamentoCartao {
 
   public setBandeira(bandeira: string) {
     this.bandeira = bandeira;
+  }
+
+  public getValorPagamento(): number {
+    return this.valorPagamento;
+  }
+
+  public setValorPagamento(valorPagamento: number) {
+    this.valorPagamento = valorPagamento;
   }
 }
 

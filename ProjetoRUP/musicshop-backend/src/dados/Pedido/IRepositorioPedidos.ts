@@ -6,6 +6,7 @@ interface IRepositorioPedidos {
   pegarPedidos(clienteId: string): Pedido[];
   pegarPedido(pedidoId: string): Pedido;
   confirmarPedido(pedidoId: string): void;
+  cancelarPedido(pedidoId: string): void;
 }
 
 export default IRepositorioPedidos;

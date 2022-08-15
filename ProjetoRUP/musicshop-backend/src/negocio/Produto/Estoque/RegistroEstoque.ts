@@ -30,6 +30,10 @@ class RegistroEstoque {
   public reservaItemEstoque(carrinho: Carrinho) {
     return this.repositorioEstoque.reservaItemEstoque(carrinho);
   }
+
+  public devolverItensAoEstoque(itens: any) {
+    return this.repositorioEstoque.devolverItensAoEstoque(carrinho);
+  }
 }
 
 export default RegistroEstoque;

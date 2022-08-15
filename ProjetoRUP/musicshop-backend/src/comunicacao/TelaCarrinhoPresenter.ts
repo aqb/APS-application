@@ -46,7 +46,8 @@ class TelaCarrinhoPresenter {
         infoPagamentoJson.vencimento,
         infoPagamentoJson.nomeTitular,
         infoPagamentoJson.cpfTitular,
-        infoPagamentoJson.bandeira
+        infoPagamentoJson.bandeira,
+        infoPagamentoJson.valorPagamento
       );
       await this.fachada.pagarCartao(clienteId, pedidoId, infoPagamento);
       res.send();

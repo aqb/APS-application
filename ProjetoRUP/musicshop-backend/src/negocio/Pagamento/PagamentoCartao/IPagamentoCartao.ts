@@ -1,7 +1,10 @@
 import InfoPagamentoCartao from "./InfoPagamentoCartao";
 
 interface IPagamentoCartao {
-  pagarCartao(infoPagamentoCartao: InfoPagamentoCartao): Promise<any>;
+  pagarCartao(
+    pedidoId: string,
+    infoPagamentoCartao: InfoPagamentoCartao
+  ): Promise<any>;
 }
 
 export default IPagamentoCartao;
