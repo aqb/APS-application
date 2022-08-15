@@ -32,7 +32,7 @@ class RegistroEstoque {
   }
 
   public devolverItensAoEstoque(itens: any) {
-    return this.repositorioEstoque.devolverItensAoEstoque(carrinho);
+    return this.repositorioEstoque.devolverItensAoEstoque(itens);
   }
 }
 

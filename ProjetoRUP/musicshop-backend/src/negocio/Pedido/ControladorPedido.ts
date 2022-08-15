@@ -2,8 +2,8 @@ import { injectable } from "tsyringe";
 
 import AdapterPagamentoBeeceptor from "../Pagamento/PagamentoCartao/Beeceptor/AdapterPagamentoBeeceptor";
 import InfoPagamentoCartao from "../Pagamento/PagamentoCartao/InfoPagamentoCartao";
+import ItemCarrinho from "../Produto/Carrinho/ItemCarrinho";
 import RegistroCarrinhos from "../Produto/Carrinho/RegistroCarrinhos";
-import ItemEstoque from "../Produto/Estoque/ItemEstoque";
 import RegistroEstoque from "../Produto/Estoque/RegistroEstoque";
 import ItemPedido from "./ItemPedido";
 import Pedido from "./Pedido";
@@ -28,7 +28,17 @@ class ControladorPedido {
   public criarPedido(clienteId: string): Pedido {
     const carrinho = this.registroCarrinhos.pegarCarrinhoDe(clienteId);
     this.registroEstoque.reservaItemEstoque(carrinho);
-    return this.registroPedidos.adicionar(clienteId, carrinho);
+
+    const itensPedido = carrinho
+      .getItens()
+      .map((item: ItemCarrinho): ItemPedido => {
+        return new ItemPedido(
+          item.getId(),
+          item.getProduto().getValor(),
+          item.getQuantidade()
+        );
+      });
+    return this.registroPedidos.adicionar(clienteId, itensPedido);
   }
 
   public pegarPedidos(clienteId: string): Pedido[] {
