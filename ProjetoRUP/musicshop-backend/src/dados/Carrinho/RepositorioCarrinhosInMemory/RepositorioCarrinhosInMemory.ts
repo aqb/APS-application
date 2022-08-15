@@ -13,8 +13,8 @@ class RepositorioCarrinhosInMemory implements IRepositorioCarrinhos {
     this.carrinhos = CarrinhosDefault;
   }
 
-  adicionar(carrinho: Carrinho): void {
-    this.carrinhos.push(carrinho);
+  adicionar(clienteId: string): void {
+    this.carrinhos.push(new Carrinho(clienteId, []));
   }
 
   pegarCarrinhoDe(clienteId: string): Carrinho {

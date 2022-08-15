@@ -18,7 +18,7 @@ class ControladorCadastro {
 
   public efetuarCadastro(email: string, senha: string, cpf: string) {
     const cliente = this.registroClientes.adicionar(email, senha, cpf);
-    this.registroCarrinhos.adicionar(cliente);
+    this.registroCarrinhos.adicionar(cliente.getId());
   }
 }
 
