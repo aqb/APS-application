@@ -5,6 +5,7 @@ export type InfoPagamentoCartao = {
   nomeTitular: string;
   cpfTitular: string;
   bandeira: string;
+  valorPagamento: number;
 };
 
 export default InfoPagamentoCartao;

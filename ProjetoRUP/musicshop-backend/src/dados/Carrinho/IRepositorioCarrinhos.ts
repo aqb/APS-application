@@ -1,7 +1,7 @@
 import Carrinho from "../../negocio/Produto/Carrinho/Carrinho";
 
 interface IRepositorioCarrinhos {
-  adicionar(carrinho: Carrinho): void;
+  adicionar(clienteId: string): void;
   pegarCarrinhoDe(clienteId: string): Carrinho;
   atualizarCarrinho(carrinho: Carrinho): void;
   limparCarrinho(clienteId: string): void;

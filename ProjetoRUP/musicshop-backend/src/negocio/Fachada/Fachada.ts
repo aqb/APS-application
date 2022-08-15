@@ -49,7 +49,7 @@ class Facade {
   }
 
   public efetuarCadastro(email: string, senha: string, cpf: string) {
-    this.controladorCadastro.cadastrarUsuario(email, senha, cpf);
+    this.controladorCadastro.efetuarCadastro(email, senha, cpf);
   }
 
   public efetuarLogin(email: string, senha: string): Cliente {
@@ -97,9 +97,11 @@ class Facade {
     pedidoId: string,
     infoPagamentoCartao: InfoPagamentoCartao
   ) {
-    await this.controladorPedido.pagarCartao(pedidoId, infoPagamentoCartao);
-    this.controladorPedido.confirmarPagamento(pedidoId);
-    this.controladorPedido.limparCarrinho(clienteId);
+    await this.controladorPedido.pagarCartao(
+      clienteId,
+      pedidoId,
+      infoPagamentoCartao
+    );
   }
 }
 

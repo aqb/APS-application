@@ -1,7 +1,5 @@
 import { injectable } from "tsyringe";
 
-import Carrinho from "../Produto/Carrinho/Carrinho";
-import ItemCarrinho from "../Produto/Carrinho/ItemCarrinho";
 import ItemPedido from "./ItemPedido";
 import PedidoStatus from "./PedidoStatus";
 
@@ -15,12 +13,12 @@ class Pedido {
   public constructor(
     id: string,
     clienteId: string,
-    carrinho: Carrinho,
+    itens: ItemPedido[],
     status: PedidoStatus
   ) {
     this.id = id;
     this.clienteId = clienteId;
-    this.itens = this.converteCarrinhoParaItens(carrinho);
+    this.itens = itens;
     this.status = status;
   }
 
@@ -56,16 +54,6 @@ class Pedido {
     return this.itens.reduce((total: number, item: ItemPedido) => {
       return total + item.getValor();
     }, 0);
-  }
-
-  private converteCarrinhoParaItens(carrinho: Carrinho): ItemPedido[] {
-    return carrinho.getItens().map((item: ItemCarrinho) => {
-      return new ItemPedido(
-        item.getId(),
-        item.getValor(),
-        item.getQuantidade()
-      );
-    });
   }
 }
 

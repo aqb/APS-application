@@ -14,8 +14,8 @@ class RegistroCarrinhos {
     this.repositorioCarrinhos = repositorioCarrinhos;
   }
 
-  public adicionar(cliente: Cliente) {
-    this.repositorioCarrinhos.adicionar(cliente.getCarrinho());
+  public adicionar(clienteId: string) {
+    this.repositorioCarrinhos.adicionar(clienteId);
   }
 
   public pegarCarrinhoDe(clienteId: string): Carrinho {

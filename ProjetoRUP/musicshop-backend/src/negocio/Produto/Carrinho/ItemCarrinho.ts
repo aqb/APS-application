@@ -17,6 +17,10 @@ class ItemCarrinho {
     return this.produto;
   }
 
+  public getNome(): string {
+    return this.getProduto().getNome();
+  }
+
   public setProduto(produto: Produto) {
     this.produto = produto;
   }

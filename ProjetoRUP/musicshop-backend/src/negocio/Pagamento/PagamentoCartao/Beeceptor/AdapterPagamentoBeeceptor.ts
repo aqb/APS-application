@@ -3,9 +3,18 @@ import IPagamentoCartao from "../IPagamentoCartao";
 import PagamentoCartaoBeeceptorAPI from "./PagamentoCartaoBeeceptorAPI";
 
 class AdapterPagamentoBeeceptor implements IPagamentoCartao {
-  async pagarCartao(infoPagamentoCartao: InfoPagamentoCartao): Promise<any> {
+  async pagarCartao(
+    pedidoId: string,
+    infoPagamentoCartao: InfoPagamentoCartao
+  ): Promise<any> {
     const beeceptor = new PagamentoCartaoBeeceptorAPI();
 
+    const id = {
+      id: pedidoId
+    };
+    const pagamento = {
+      valor: infoPagamentoCartao.getValorPagamento()
+    };
     const cartao = {
       numero: infoPagamentoCartao.getNumeroCartao(),
       cvv: infoPagamentoCartao.getCvvCartao(),

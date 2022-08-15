@@ -59,6 +59,15 @@ const TelaCarrinho: React.FC = () => {
     return false;
   };
 
+  const valorTotal = () => {
+    return (
+      carrinho?.itens.reduce(
+        (prev, curr) => prev + curr.produto.valor * curr.quantidade,
+        0
+      ) || 0
+    );
+  };
+
   const getInfoPagamentCartao = (): InfoPagamentoCartao => {
     return {
       numeroCartao,
@@ -66,7 +75,8 @@ const TelaCarrinho: React.FC = () => {
       vencimento: new Date(vencimento),
       nomeTitular,
       cpfTitular,
-      bandeira: bandeira()
+      bandeira: bandeira(),
+      valorPagamento: valorTotal()
     };
   };
 

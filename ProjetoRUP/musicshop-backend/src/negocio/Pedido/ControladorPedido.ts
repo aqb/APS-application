@@ -1,10 +1,11 @@
 import { injectable } from "tsyringe";
 
-import Cliente from "../Cliente/Cliente";
 import AdapterPagamentoBeeceptor from "../Pagamento/PagamentoCartao/Beeceptor/AdapterPagamentoBeeceptor";
 import InfoPagamentoCartao from "../Pagamento/PagamentoCartao/InfoPagamentoCartao";
-import Carrinho from "../Produto/Carrinho/Carrinho";
+import ItemCarrinho from "../Produto/Carrinho/ItemCarrinho";
 import RegistroCarrinhos from "../Produto/Carrinho/RegistroCarrinhos";
+import RegistroEstoque from "../Produto/Estoque/RegistroEstoque";
+import ItemPedido from "./ItemPedido";
 import Pedido from "./Pedido";
 import RegistroPedidos from "./RegistroPedidos";
 
@@ -12,18 +13,32 @@ import RegistroPedidos from "./RegistroPedidos";
 class ControladorPedido {
   private registroPedidos: RegistroPedidos;
   private registroCarrinhos: RegistroCarrinhos;
+  private registroEstoque: RegistroEstoque;
 
   constructor(
     registroPedidos: RegistroPedidos,
-    registroCarrinhos: RegistroCarrinhos
+    registroCarrinhos: RegistroCarrinhos,
+    registroEstoque: RegistroEstoque
   ) {
     this.registroPedidos = registroPedidos;
     this.registroCarrinhos = registroCarrinhos;
+    this.registroEstoque = registroEstoque;
   }
 
   public criarPedido(clienteId: string): Pedido {
     const carrinho = this.registroCarrinhos.pegarCarrinhoDe(clienteId);
-    return this.registroPedidos.adicionar(clienteId, carrinho);
+    this.registroEstoque.reservaItemEstoque(carrinho);
+
+    const itensPedido = carrinho
+      .getItens()
+      .map((item: ItemCarrinho): ItemPedido => {
+        return new ItemPedido(
+          item.getId(),
+          item.getProduto().getValor(),
+          item.getQuantidade()
+        );
+      });
+    return this.registroPedidos.adicionar(clienteId, itensPedido);
   }
 
   public pegarPedidos(clienteId: string): Pedido[] {
@@ -31,6 +46,7 @@ class ControladorPedido {
   }
 
   public async pagarCartao(
+    clienteId: string,
     pedidoId: string,
     infoPagamentoCartao: InfoPagamentoCartao
   ) {
@@ -44,21 +60,25 @@ class ControladorPedido {
     if (bandeiraCartao === "beeceptor") {
       const adapterBeeceptor = new AdapterPagamentoBeeceptor();
       try {
-        await adapterBeeceptor.pagarCartao(infoPagamentoCartao);
+        await adapterBeeceptor.pagarCartao(pedido.getId(), infoPagamentoCartao);
+        this.registroPedidos.confirmarPedido(pedidoId);
+        this.registroCarrinhos.limparCarrinho(clienteId);
       } catch (error: any) {
+        this.registroPedidos.cancelarPedido(pedidoId);
+
+        const itensParaDevolver = pedido.getItens().map((item: ItemPedido) => {
+          return {
+            produtoId: item.getProdutoId(),
+            quantidade: item.getQuantidade()
+          };
+        });
+        this.registroEstoque.devolverItensAoEstoque(itensParaDevolver);
+
         throw new Error(error.response.data.message);
       }
     } else {
       throw new Error("Bandeira do cartão inválida: " + bandeiraCartao);
     }
-  }
-
-  public confirmarPagamento(pedidoId: string) {
-    this.registroPedidos.confirmarPedido(pedidoId);
-  }
-
-  public limparCarrinho(clienteId: string) {
-    this.registroCarrinhos.limparCarrinho(clienteId);
   }
 }
 
