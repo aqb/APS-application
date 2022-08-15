@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import IRepositorioEstoque from "../../../dados/Estoque/IRepositorioEstoque";
+import Carrinho from "../Carrinho/Carrinho";
 import Produto from "../Produto";
 import ItemEstoque from "./ItemEstoque";
 
@@ -24,6 +25,10 @@ class RegistroEstoque {
 
   public pegarItemEstoquePeloId(id: string): ItemEstoque {
     return this.repositorioEstoque.pegarItemEstoquePeloId(id);
+  }
+
+  public reservaItemEstoque(carrinho: Carrinho) {
+    return this.repositorioEstoque.reservaItemEstoque(carrinho);
   }
 }
 

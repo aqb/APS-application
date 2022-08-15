@@ -41,8 +41,8 @@ class ItemEstoque {
     this.setQuantidade(this.getQuantidade() + 1);
   }
 
-  public removerProduto() {
-    this.setQuantidade(this.getQuantidade() - 1);
+  public removerProduto(quantidade = 1) {
+    this.setQuantidade(this.getQuantidade() - quantidade);
   }
 }
 

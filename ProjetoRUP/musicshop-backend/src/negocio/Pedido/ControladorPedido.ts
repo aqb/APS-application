@@ -5,6 +5,7 @@ import AdapterPagamentoBeeceptor from "../Pagamento/PagamentoCartao/Beeceptor/Ad
 import InfoPagamentoCartao from "../Pagamento/PagamentoCartao/InfoPagamentoCartao";
 import Carrinho from "../Produto/Carrinho/Carrinho";
 import RegistroCarrinhos from "../Produto/Carrinho/RegistroCarrinhos";
+import RegistroEstoque from "../Produto/Estoque/RegistroEstoque";
 import Pedido from "./Pedido";
 import RegistroPedidos from "./RegistroPedidos";
 
@@ -12,17 +13,21 @@ import RegistroPedidos from "./RegistroPedidos";
 class ControladorPedido {
   private registroPedidos: RegistroPedidos;
   private registroCarrinhos: RegistroCarrinhos;
+  private registroEstoque: RegistroEstoque;
 
   constructor(
     registroPedidos: RegistroPedidos,
-    registroCarrinhos: RegistroCarrinhos
+    registroCarrinhos: RegistroCarrinhos,
+    registroEstoque: RegistroEstoque
   ) {
     this.registroPedidos = registroPedidos;
     this.registroCarrinhos = registroCarrinhos;
+    this.registroEstoque = registroEstoque;
   }
 
   public criarPedido(clienteId: string): Pedido {
     const carrinho = this.registroCarrinhos.pegarCarrinhoDe(clienteId);
+    this.registroEstoque.reservaItemEstoque(carrinho);
     return this.registroPedidos.adicionar(clienteId, carrinho);
   }
 
