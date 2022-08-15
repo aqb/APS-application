@@ -17,7 +17,7 @@ class TelaLoginPresenter {
       const token = this.fachada.registrarSessao(cliente);
       res.json({ token });
     } else {
-      throw new Error("Result not found");
+      throw new Error("Credenciais inválidas");
     }
   }
 }

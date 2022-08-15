@@ -24,6 +24,7 @@ class ControladorPedido {
   public criarPedido(clienteId: string): Pedido {
     const carrinho = this.registroCarrinhos.pegarCarrinhoDe(clienteId);
     // TODO: Reservar produtos no estoque.
+    // this.registroEstoque.reservarProdutos(carrinho);
     return this.registroPedidos.adicionar(clienteId, carrinho);
   }
 

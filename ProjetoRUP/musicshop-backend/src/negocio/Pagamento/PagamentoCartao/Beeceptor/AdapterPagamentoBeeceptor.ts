@@ -3,6 +3,7 @@ import IPagamentoCartao from "../IPagamentoCartao";
 import PagamentoCartaoBeeceptorAPI from "./PagamentoCartaoBeeceptorAPI";
 
 class AdapterPagamentoBeeceptor implements IPagamentoCartao {
+  // TODO: Inserir dados do pedido e do valor da compra.
   async pagarCartao(infoPagamentoCartao: InfoPagamentoCartao): Promise<any> {
     const beeceptor = new PagamentoCartaoBeeceptorAPI();
 
