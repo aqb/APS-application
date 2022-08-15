@@ -1,5 +1,8 @@
+import { openStdin } from "process";
+
 import { singleton } from "tsyringe";
 
+import Carrinho from "../../../negocio/Produto/Carrinho/Carrinho";
 import ItemEstoque from "../../../negocio/Produto/Estoque/ItemEstoque";
 import Produto from "../../../negocio/Produto/Produto";
 import IRepositorioEstoque from "../IRepositorioEstoque";
@@ -43,6 +46,24 @@ class RepositorioEstoqueInMemory implements IRepositorioEstoque {
       return item;
     }
     throw new Error(`Item ${id} não encontrado`);
+  }
+
+  reservaItemEstoque(carrinho: Carrinho) {
+    const itensCarrinho = carrinho.getItens();
+    itensCarrinho.forEach(itemCarrinho => {
+      const item = this.itens.find(
+        itemEstoque => itemEstoque.getId() === itemCarrinho.getId()
+      );
+      if (item !== undefined) {
+        if (item.getQuantidade() >= itemCarrinho.getQuantidade()) {
+          item.removerProduto(itemCarrinho.getQuantidade());
+        } else {
+          throw new Error("Item não existe em estoque");
+        }
+      } else {
+        throw new Error(`Item não encontrado no estoque`);
+      }
+    });
   }
 }
 

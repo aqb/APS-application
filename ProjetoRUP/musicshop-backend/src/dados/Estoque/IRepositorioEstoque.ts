@@ -1,3 +1,4 @@
+import Carrinho from "../../negocio/Produto/Carrinho/Carrinho";
 import ItemEstoque from "../../negocio/Produto/Estoque/ItemEstoque";
 import Produto from "../../negocio/Produto/Produto";
 
@@ -9,6 +10,8 @@ interface IRepositorioEstoque {
   pegarItemEstoque(produto: Produto): ItemEstoque;
 
   pegarItemEstoquePeloId(id: string): ItemEstoque;
+
+  reservaItemEstoque(carrinho: Carrinho): void;
 }
 
 export default IRepositorioEstoque;
