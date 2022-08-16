@@ -53,11 +53,11 @@ const TelaLogin: React.FC = () => {
 
   return (
     <Flex
-      maxW="screen"
+      maxW="100vw"
       minH={"100vh"}
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg={useColorModeValue("gray.100", "gray.800")}
     >
       <Stack
         spacing={8}

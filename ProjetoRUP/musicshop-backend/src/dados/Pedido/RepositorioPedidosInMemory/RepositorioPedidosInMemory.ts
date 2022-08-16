@@ -32,7 +32,7 @@ class RepositorioPedidosInMemory implements IRepositorioPedidos {
     if (pedido) {
       return pedido;
     }
-    throw new Error("Pedido não encontrado");
+    throw new Error("Pedido não encontrado.");
   }
 
   confirmarPedido(pedidoId: string): void {
