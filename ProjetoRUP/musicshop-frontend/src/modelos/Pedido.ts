@@ -5,7 +5,7 @@ export type Pedido = {
   status: PedidoStatus;
 };
 
-type ItemPedido = {
+export type ItemPedido = {
   produtoId: string;
   valor: number;
   quantidade: number;

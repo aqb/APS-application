@@ -27,6 +27,12 @@ class ControladorPedido {
 
   public criarPedido(clienteId: string): Pedido {
     const carrinho = this.registroCarrinhos.pegarCarrinhoDe(clienteId);
+    if (carrinho.getItens().length === 0) {
+      throw new Error(
+        "Seu carrinho vazio! Adicione produtos antes de criar o seu pedido."
+      );
+    }
+
     this.registroEstoque.reservaItemEstoque(carrinho);
 
     const itensPedido = carrinho
@@ -45,6 +51,10 @@ class ControladorPedido {
     return this.registroPedidos.pegarPedidos(clienteId);
   }
 
+  public pegarPedido(pedidoId: string): Pedido {
+    return this.registroPedidos.pegarPedido(pedidoId);
+  }
+
   public async pagarCartao(
     clienteId: string,
     pedidoId: string,
@@ -54,7 +64,7 @@ class ControladorPedido {
     const pedido = this.registroPedidos.pegarPedido(pedidoId);
 
     if (!pedido) {
-      throw new Error("Pedido não encontrado");
+      throw new Error("Pedido não encontrado para pagamento.");
     }
 
     if (bandeiraCartao === "beeceptor") {

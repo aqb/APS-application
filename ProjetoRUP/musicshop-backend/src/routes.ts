@@ -41,5 +41,8 @@ routes.post("/finalizarpedido", verifyToken, (req, res) =>
 routes.get("/pedidos", verifyToken, (req, res) =>
   pedidosPresenter.pegarPedidos(req, res)
 );
+routes.get("/pedidos/:id", verifyToken, (req, res) =>
+  pedidosPresenter.pegarPedido(req, res)
+);
 
 export default routes;

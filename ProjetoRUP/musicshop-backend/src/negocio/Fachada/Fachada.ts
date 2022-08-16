@@ -88,8 +88,12 @@ class Facade {
     return this.controladorPedido.criarPedido(clienteId);
   }
 
-  public pegarPedido(clienteId: string): Pedido[] {
+  public pegarPedidos(clienteId: string): Pedido[] {
     return this.controladorPedido.pegarPedidos(clienteId);
+  }
+
+  public pegarPedido(pedidoId: string): Pedido {
+    return this.controladorPedido.pegarPedido(pedidoId);
   }
 
   public async pagarCartao(

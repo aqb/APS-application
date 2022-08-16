@@ -8,7 +8,6 @@ import {
   Container,
   SimpleGrid,
   InputGroup,
-  InputLeftElement,
   Flex,
   Spinner,
   IconButton,
@@ -19,11 +18,12 @@ import {
 import {
   RiLogoutBoxLine,
   RiSearchLine,
+  RiShoppingBag3Line,
   RiShoppingCart2Line
 } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
-import CardProduto from "../../components/CardProduto";
+import CardProduto from "../../components/Estoque/CardProduto";
 import { ItemEstoque } from "../../modelos/Estoque";
 import { getEstoque } from "../../services/estoque";
 
@@ -52,18 +52,29 @@ const TelaHome: React.FC = () => {
     });
   };
 
+  const pedidos = () => {
+    navigate("/pedidos");
+  };
+
   return (
     <>
       {loading ? (
-        <Flex w="screen" h="screen" align="center" justify="center">
+        <Flex w="100vw" h="100vh" align="center" justify="center">
           <Spinner color="blue.400" size="lg" />
         </Flex>
       ) : (
-        <Box p={4}>
+        <Box p={4} bgColor="gray.100" h="100vh">
           <Flex justifyContent="flex-end">
             <HStack position="absolute" top="4" right="4">
               <IconButton
-                aria-label="logout"
+                aria-label="pedidos"
+                icon={<RiShoppingBag3Line />}
+                onClick={() => pedidos()}
+                bg="transparent"
+                fontSize={24}
+              />
+              <IconButton
+                aria-label="cart"
                 icon={<RiShoppingCart2Line />}
                 onClick={() => navigate("/carrinho")}
                 bg="transparent"

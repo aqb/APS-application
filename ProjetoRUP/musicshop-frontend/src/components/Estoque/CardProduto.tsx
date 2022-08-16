@@ -1,7 +1,7 @@
 import { Box, Button, Text, Image, Flex, Grid } from "@chakra-ui/react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { Produto } from "../modelos/Produto";
+import { Produto } from "../../modelos/Produto";
 
 interface CardProdutoProps {
   produto: Produto;

@@ -17,7 +17,6 @@ import {
   FormLabel,
   Input,
   SimpleGrid,
-  Box,
   useToast,
   Image
 } from "@chakra-ui/react";
@@ -93,7 +92,7 @@ const TelaCarrinho: React.FC = () => {
           duration: 4000,
           isClosable: true
         });
-        navigate(`/pedido/${pedido.id}`);
+        navigate(`/pedidos/${pedido.id}`);
       } catch (error: any) {
         toast({
           title: "Erro ao finalizar pedido.",
@@ -129,11 +128,16 @@ const TelaCarrinho: React.FC = () => {
   return (
     <>
       {loading ? (
-        <Flex w="screen" h="screen" align="center" justify="center">
+        <Flex w="100vw" h="100vh" align="center" justify="center">
           <Spinner color="blue.400" size="lg" />
         </Flex>
       ) : (
-        <Flex minH={"100vh"} align={"center"} justify={"center"} bg="gray.50">
+        <Flex
+          minH={"100vh"}
+          align={"center"}
+          justify={"center"}
+          bgColor="gray.100"
+        >
           <IconButton
             aria-label="Login database"
             icon={<RiHome4Line />}

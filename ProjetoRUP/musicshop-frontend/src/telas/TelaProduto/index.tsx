@@ -21,8 +21,13 @@ import {
   HStack,
   useToast
 } from "@chakra-ui/react";
-import { FaCartPlus, FaHome } from "react-icons/fa";
-import { RiLogoutBoxLine, RiShoppingCart2Line } from "react-icons/ri";
+import { FaCartPlus } from "react-icons/fa";
+import {
+  RiHome4Line,
+  RiLogoutBoxLine,
+  RiShoppingBag3Line,
+  RiShoppingCart2Line
+} from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Produto } from "../../modelos/Produto";
@@ -43,8 +48,6 @@ const TelaProduto: React.FC = () => {
       setLoading(false);
     });
   }, []);
-  const imgGenerica =
-    "https://i0.wp.com/www.sabra.org.br/site/wp-content/uploads/2020/04/instrumentos-musicais-voce-sabe-quais-sao-os-mais-tocados-no-mundo-20191202180617.jpg.jpg?fit=800%2C600&ssl=1";
 
   const aumentarQuantidade = () => {
     setQuantidade(quantidade + 1);
@@ -79,21 +82,35 @@ const TelaProduto: React.FC = () => {
     navigate("/login");
   };
 
+  const pedidos = () => {
+    navigate("/pedidos");
+  };
+
+  const imgGenerica =
+    "https://i0.wp.com/www.sabra.org.br/site/wp-content/uploads/2020/04/instrumentos-musicais-voce-sabe-quais-sao-os-mais-tocados-no-mundo-20191202180617.jpg.jpg?fit=800%2C600&ssl=1";
+
   return (
     <>
       {loading ? (
-        <Flex w="screen" h="screen" align="center" justify="center">
+        <Flex w="100vw" h="100vh" align="center" justify="center">
           <Spinner color="blue.400" size="lg" />
         </Flex>
       ) : (
         <Flex
-          minH={"screen"}
+          minH={"100vh"}
           w="screen"
           align={"center"}
           justify={"center"}
-          bg="gray.50"
+          bg="gray.100"
         >
           <HStack position="absolute" top="4" right="4">
+            <IconButton
+              aria-label="pedidos"
+              icon={<RiShoppingBag3Line />}
+              onClick={() => pedidos()}
+              bg="transparent"
+              fontSize={24}
+            />
             <IconButton
               aria-label="logout"
               icon={<RiShoppingCart2Line />}
@@ -110,8 +127,8 @@ const TelaProduto: React.FC = () => {
             />
           </HStack>
           <IconButton
-            aria-label="Login database"
-            icon={<FaHome />}
+            aria-label="home"
+            icon={<RiHome4Line />}
             bg="transparent"
             fontSize={24}
             onClick={() => navigate("../home")}
