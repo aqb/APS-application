@@ -1,4 +1,4 @@
-import Produto from "../Produto";
+import Produto from "../Produto/Produto";
 
 class ItemEstoque {
   private produto;

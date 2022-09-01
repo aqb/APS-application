@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
 
+import RegistroCarrinhos from "../Carrinho/RegistroCarrinhos";
 import RegistroClientes from "../Cliente/RegistroClientes";
-import RegistroCarrinhos from "../Produto/Carrinho/RegistroCarrinhos";
 
 @injectable()
 class ControladorCadastro {

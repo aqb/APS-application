@@ -1,4 +1,4 @@
-export type InfoPagamentoCartao = {
+export type PagamentoCartao = {
   numeroCartao: string;
   cvvCartao: string;
   vencimento: Date;
@@ -8,4 +8,4 @@ export type InfoPagamentoCartao = {
   valorPagamento: number;
 };
 
-export default InfoPagamentoCartao;
+export default PagamentoCartao;

@@ -1,28 +1,27 @@
-class InfoPagamentoCartao {
-  private numeroCartao;
-  private cvvCartao;
-  private vencimento;
-  private nomeTitular;
-  private cpfTitular;
-  private bandeira;
-  private valorPagamento;
+import Pagamento from "../Pagamento";
 
-  public constructor(
-    numeroCartao: string,
-    cvvCartao: string,
-    vencimento: Date,
-    nomeTitular: string,
-    cpfTitular: string,
-    bandeira: string,
-    valorPagamento: number
-  ) {
-    this.numeroCartao = numeroCartao;
-    this.cvvCartao = cvvCartao;
-    this.vencimento = vencimento;
-    this.nomeTitular = nomeTitular;
-    this.cpfTitular = cpfTitular;
-    this.bandeira = bandeira;
-    this.valorPagamento = valorPagamento;
+class PagamentoCartao extends Pagamento {
+  protected numeroCartao;
+  protected cvvCartao;
+  protected vencimento;
+  protected nomeTitular;
+  protected cpfTitular;
+  protected valorPagamento;
+  private bandeira;
+
+  public constructor(clienteId: string, pedidoId: string, infoPagamento: any) {
+    super(clienteId, pedidoId);
+    try {
+      this.numeroCartao = infoPagamento.numeroCartao;
+      this.cvvCartao = infoPagamento.cvvCartao;
+      this.vencimento = infoPagamento.vencimento;
+      this.nomeTitular = infoPagamento.nomeTitular;
+      this.cpfTitular = infoPagamento.cpfTitular;
+      this.bandeira = infoPagamento.bandeira;
+      this.valorPagamento = infoPagamento.valorPagamento;
+    } catch (error) {
+      throw new Error(`Erro ao criar pagamento com cartão. ${error}`);
+    }
   }
 
   public getNumeroCartao(): string {
@@ -80,6 +79,10 @@ class InfoPagamentoCartao {
   public setValorPagamento(valorPagamento: number) {
     this.valorPagamento = valorPagamento;
   }
+
+  public async pagar(): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
 }
 
-export default InfoPagamentoCartao;
+export default PagamentoCartao;

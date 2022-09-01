@@ -35,8 +35,10 @@ routes.get("/carrinho", verifyToken, (req, res) =>
 routes.post("/criarpedido", verifyToken, (req, res) =>
   carrinhoPresenter.criarPedido(req, res)
 );
-routes.post("/finalizarpedido", verifyToken, (req, res) =>
-  carrinhoPresenter.finalizarPedido(req, res)
+routes.post(
+  "/finalizarpedido",
+  verifyToken,
+  async (req, res) => await carrinhoPresenter.finalizarPedido(req, res)
 );
 routes.get("/pedidos", verifyToken, (req, res) =>
   pedidosPresenter.pegarPedidos(req, res)

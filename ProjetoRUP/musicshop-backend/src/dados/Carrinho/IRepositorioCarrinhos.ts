@@ -1,4 +1,4 @@
-import Carrinho from "../../negocio/Produto/Carrinho/Carrinho";
+import Carrinho from "../../negocio/Carrinho/Carrinho";
 
 interface IRepositorioCarrinhos {
   adicionar(clienteId: string): void;

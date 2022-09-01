@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { injectable } from "tsyringe";
 
-import Fachada from "../negocio/Fachada/Fachada";
+import Fachada from "../negocio/Fachada";
 
 @injectable()
 class TelaPedidosPresenter {

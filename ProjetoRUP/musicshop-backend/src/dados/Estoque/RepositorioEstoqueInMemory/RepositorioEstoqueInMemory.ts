@@ -1,7 +1,7 @@
 import { singleton } from "tsyringe";
 
-import Carrinho from "../../../negocio/Produto/Carrinho/Carrinho";
-import ItemEstoque from "../../../negocio/Produto/Estoque/ItemEstoque";
+import Carrinho from "../../../negocio/Carrinho/Carrinho";
+import ItemEstoque from "../../../negocio/Estoque/ItemEstoque";
 import Produto from "../../../negocio/Produto/Produto";
 import IRepositorioEstoque from "../IRepositorioEstoque";
 import ItensDefault from "./default";

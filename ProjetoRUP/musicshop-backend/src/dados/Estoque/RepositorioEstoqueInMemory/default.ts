@@ -1,4 +1,4 @@
-import ItemEstoque from "../../../negocio/Produto/Estoque/ItemEstoque";
+import ItemEstoque from "../../../negocio/Estoque/ItemEstoque";
 import Produto from "../../../negocio/Produto/Produto";
 
 const ItensDefault: ItemEstoque[] = [

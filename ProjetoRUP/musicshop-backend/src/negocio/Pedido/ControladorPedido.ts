@@ -1,10 +1,11 @@
 import { injectable } from "tsyringe";
 
-import AdapterPagamentoBeeceptor from "../Pagamento/PagamentoCartao/Beeceptor/AdapterPagamentoBeeceptor";
-import InfoPagamentoCartao from "../Pagamento/PagamentoCartao/InfoPagamentoCartao";
-import ItemCarrinho from "../Produto/Carrinho/ItemCarrinho";
-import RegistroCarrinhos from "../Produto/Carrinho/RegistroCarrinhos";
-import RegistroEstoque from "../Produto/Estoque/RegistroEstoque";
+import ItemCarrinho from "../Carrinho/ItemCarrinho";
+import RegistroCarrinhos from "../Carrinho/RegistroCarrinhos";
+import RegistroEstoque from "../Estoque/RegistroEstoque";
+import FabricaPagamento from "../Pagamento/FabricaPagamento";
+import Pagamento from "../Pagamento/Pagamento";
+import FabricaPagamentoCartao from "../Pagamento/PagamentoCartao/FabricaPagamentoCartao";
 import ItemPedido from "./ItemPedido";
 import Pedido from "./Pedido";
 import RegistroPedidos from "./RegistroPedidos";
@@ -55,40 +56,27 @@ class ControladorPedido {
     return this.registroPedidos.pegarPedido(pedidoId);
   }
 
-  public async pagarCartao(
+  public async pagar(
     clienteId: string,
     pedidoId: string,
-    infoPagamentoCartao: InfoPagamentoCartao
+    metodo: string,
+    infoPagamento: any
   ) {
-    const bandeiraCartao = infoPagamentoCartao.getBandeira();
     const pedido = this.registroPedidos.pegarPedido(pedidoId);
-
     if (!pedido) {
       throw new Error("Pedido não encontrado para pagamento.");
     }
 
-    if (bandeiraCartao === "beeceptor") {
-      const adapterBeeceptor = new AdapterPagamentoBeeceptor();
-      try {
-        await adapterBeeceptor.pagarCartao(pedido.getId(), infoPagamentoCartao);
-        this.registroPedidos.confirmarPedido(pedidoId);
-        this.registroCarrinhos.limparCarrinho(clienteId);
-      } catch (error: any) {
-        this.registroPedidos.cancelarPedido(pedidoId);
-
-        const itensParaDevolver = pedido.getItens().map((item: ItemPedido) => {
-          return {
-            produtoId: item.getProdutoId(),
-            quantidade: item.getQuantidade()
-          };
-        });
-        this.registroEstoque.devolverItensAoEstoque(itensParaDevolver);
-
-        throw new Error(error.response.data.message);
-      }
-    } else {
-      throw new Error("Bandeira do cartão inválida: " + bandeiraCartao);
+    const metodoPagamentoMap: { [key: string]: FabricaPagamento } = {
+      cartao: new FabricaPagamentoCartao(clienteId, pedidoId, infoPagamento)
+    };
+    const fabricaPagamento = metodoPagamentoMap[metodo];
+    if (!fabricaPagamento) {
+      throw new Error(`Método de pagamento ${metodo} não suportado.`);
     }
+    const pagamento = fabricaPagamento.criarPagamento();
+    await pagamento.pagar();
+    this.registroCarrinhos.limparCarrinho(clienteId);
   }
 }
 

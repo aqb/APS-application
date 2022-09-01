@@ -1,5 +1,5 @@
-import Carrinho from "../../../negocio/Produto/Carrinho/Carrinho";
-import ItemCarrinho from "../../../negocio/Produto/Carrinho/ItemCarrinho";
+import Carrinho from "../../../negocio/Carrinho/Carrinho";
+import ItemCarrinho from "../../../negocio/Carrinho/ItemCarrinho";
 import Produto from "../../../negocio/Produto/Produto";
 
 const CarrinhosDefault: Carrinho[] = [

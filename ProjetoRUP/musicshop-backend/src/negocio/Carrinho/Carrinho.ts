@@ -1,4 +1,4 @@
-import Produto from "../Produto";
+import Produto from "../Produto/Produto";
 import ItemCarrinho from "./ItemCarrinho";
 
 class Carrinho {

@@ -1,20 +1,19 @@
 import { container, inject, injectable, singleton } from "tsyringe";
 
-import IRepositorioCarrinhos from "../../dados/Carrinho/IRepositorioCarrinhos";
-import IRepositorioClientes from "../../dados/Cliente/IRepositorioClientes";
-import IRepositorioEstoque from "../../dados/Estoque/IRepositorioEstoque";
-import IRepositorioPedidos from "../../dados/Pedido/IRepositorioPedidos";
-import Cliente from "../Cliente/Cliente";
-import ControladorCadastro from "../Cliente/ControladorCadastro";
-import ControladorLogin from "../Cliente/ControladorLogin";
-import IFabricaRepositorios from "../Fabricas/IFabricaRepositorios";
-import InfoPagamentoCartao from "../Pagamento/PagamentoCartao/InfoPagamentoCartao";
-import ControladorPedido from "../Pedido/ControladorPedido";
-import Pedido from "../Pedido/Pedido";
-import Carrinho from "../Produto/Carrinho/Carrinho";
-import ControladorCarrinho from "../Produto/Carrinho/ControladorCarrinho";
-import ControladorEstoque from "../Produto/Estoque/ControladorEstoque";
-import ItemEstoque from "../Produto/Estoque/ItemEstoque";
+import IRepositorioCarrinhos from "../dados/Carrinho/IRepositorioCarrinhos";
+import IRepositorioClientes from "../dados/Cliente/IRepositorioClientes";
+import IRepositorioEstoque from "../dados/Estoque/IRepositorioEstoque";
+import IRepositorioPedidos from "../dados/Pedido/IRepositorioPedidos";
+import Carrinho from "./Carrinho/Carrinho";
+import ControladorCarrinho from "./Carrinho/ControladorCarrinho";
+import Cliente from "./Cliente/Cliente";
+import ControladorCadastro from "./Cliente/ControladorCadastro";
+import ControladorLogin from "./Cliente/ControladorLogin";
+import ControladorEstoque from "./Estoque/ControladorEstoque";
+import ItemEstoque from "./Estoque/ItemEstoque";
+import IFabricaRepositorios from "./IFabricaRepositorios";
+import ControladorPedido from "./Pedido/ControladorPedido";
+import Pedido from "./Pedido/Pedido";
 
 @injectable()
 @singleton()
@@ -96,15 +95,17 @@ class Facade {
     return this.controladorPedido.pegarPedido(pedidoId);
   }
 
-  public async pagarCartao(
+  public async pagar(
     clienteId: string,
     pedidoId: string,
-    infoPagamentoCartao: InfoPagamentoCartao
+    metodoPagamento: string,
+    infoPagamento: any
   ) {
-    await this.controladorPedido.pagarCartao(
+    await this.controladorPedido.pagar(
       clienteId,
       pedidoId,
-      infoPagamentoCartao
+      metodoPagamento,
+      infoPagamento
     );
   }
 }

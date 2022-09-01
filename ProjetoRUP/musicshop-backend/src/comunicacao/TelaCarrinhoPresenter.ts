@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { injectable } from "tsyringe";
 
-import Fachada from "../negocio/Fachada/Fachada";
-import InfoPagamentoCartao from "../negocio/Pagamento/PagamentoCartao/InfoPagamentoCartao";
+import Fachada from "../negocio/Fachada";
 
 @injectable()
 class TelaCarrinhoPresenter {
@@ -38,22 +37,15 @@ class TelaCarrinhoPresenter {
     const metodoPagamento = req.body.metodoPagamento;
     const pedidoId = req.body.pedidoId;
     const clienteId = req.body.clienteId;
-    if (metodoPagamento === "cartao") {
-      const infoPagamentoJson = req.body.infoPagamentoCartao;
-      const infoPagamento = new InfoPagamentoCartao(
-        infoPagamentoJson.numeroCartao,
-        infoPagamentoJson.cvvCartao,
-        infoPagamentoJson.vencimento,
-        infoPagamentoJson.nomeTitular,
-        infoPagamentoJson.cpfTitular,
-        infoPagamentoJson.bandeira,
-        infoPagamentoJson.valorPagamento
-      );
-      await this.fachada.pagarCartao(clienteId, pedidoId, infoPagamento);
-      res.send();
-    } else {
-      throw new Error(`Método de pagamento ${metodoPagamento} inválido.`);
-    }
+    const infoPagamento = req.body.infoPagamento;
+
+    const response = await this.fachada.pagar(
+      clienteId,
+      pedidoId,
+      metodoPagamento,
+      infoPagamento
+    );
+    res.json(response);
   }
 }
 

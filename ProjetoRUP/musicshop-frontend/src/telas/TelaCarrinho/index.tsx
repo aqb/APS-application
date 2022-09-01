@@ -28,7 +28,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { Carrinho } from "../../modelos/Carrinho";
-import { InfoPagamentoCartao } from "../../modelos/InfoPagamentoCartao";
+import PagamentoCartao from "../../modelos/PagamentoCartao";
 import { getCarrinho } from "../../services/carrinho";
 import { criarPedido, finalizarPedido } from "../../services/pedido";
 
@@ -40,19 +40,34 @@ const TelaCarrinho: React.FC = () => {
   const [carrinho, setCarrinho] = useState<Carrinho | null>(null);
   const navigate = useNavigate();
 
+  const [metodoPagamento, setMetodoPagamento] = useState("cartao");
   const [numeroCartao, setNumeroCartao] = useState("");
   const [cvvCartao, setCvvCartao] = useState("");
   const [vencimento, setVencimento] = useState("");
   const [nomeTitular, setNomeTitular] = useState("");
   const [cpfTitular, setCpfTitular] = useState("");
   const bandeira = () => {
-    return numeroCartao[0] === "0" ? "beeceptor" : "mastercard";
+    switch (numeroCartao.charAt(0)) {
+      case "0":
+        return "beeceptor";
+      case "1":
+        return "mastercard";
+      default:
+        return undefined;
+    }
   };
 
   const toast = useToast();
 
   const validaArgumentosPedido = () => {
-    if (numeroCartao && cvvCartao && vencimento && nomeTitular && cpfTitular) {
+    if (
+      numeroCartao &&
+      cvvCartao &&
+      vencimento &&
+      nomeTitular &&
+      cpfTitular &&
+      bandeira()
+    ) {
       return true;
     }
     return false;
@@ -67,14 +82,14 @@ const TelaCarrinho: React.FC = () => {
     );
   };
 
-  const getInfoPagamentCartao = (): InfoPagamentoCartao => {
+  const getInfoPagamentCartao = (): PagamentoCartao => {
     return {
       numeroCartao,
       cvvCartao,
       vencimento: new Date(vencimento),
       nomeTitular,
       cpfTitular,
-      bandeira: bandeira(),
+      bandeira: bandeira() || "",
       valorPagamento: valorTotal()
     };
   };
@@ -84,7 +99,7 @@ const TelaCarrinho: React.FC = () => {
       try {
         const pedido = await criarPedido();
         const infoPagamento = getInfoPagamentCartao();
-        await finalizarPedido(pedido.id, infoPagamento, "cartao");
+        await finalizarPedido(pedido.id, infoPagamento, metodoPagamento);
         toast({
           title: "Pedido realizado com sucesso!",
           description: "Obrigado por comprar com o MusicShop.",
@@ -283,7 +298,9 @@ const TelaCarrinho: React.FC = () => {
                   >
                     <Tabs>
                       <TabList>
-                        <Tab>Cartão</Tab>
+                        <Tab onClick={() => setMetodoPagamento("cartao")}>
+                          Cartão
+                        </Tab>
                         <Tab isDisabled>Mercado Pago</Tab>
                       </TabList>
                       <TabPanels>

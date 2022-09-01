@@ -1,8 +1,8 @@
 import { singleton } from "tsyringe";
 import { v4 as uuidv4 } from "uuid";
 
+import Carrinho from "../../../negocio/Carrinho/Carrinho";
 import Cliente from "../../../negocio/Cliente/Cliente";
-import Carrinho from "../../../negocio/Produto/Carrinho/Carrinho";
 import IRepositorioClientes from "../IRepositorioClientes";
 import ClientesDefault from "./default";
 

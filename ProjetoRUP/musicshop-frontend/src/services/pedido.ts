@@ -1,4 +1,4 @@
-import { InfoPagamentoCartao } from "../modelos/InfoPagamentoCartao";
+import { PagamentoCartao } from "../modelos/PagamentoCartao";
 import { Pedido } from "../modelos/Pedido";
 import { getRequest, postRequest } from "./base";
 
@@ -24,7 +24,7 @@ export const criarPedido = async (): Promise<PostCriarPedidoResponse> => {
 
 export const finalizarPedido = async (
   pedidoId: string,
-  infoPagamentoCartao: InfoPagamentoCartao,
+  infoPagamento: any,
   metodoPagamento: string
 ): Promise<void> => {
   const token = localStorage.getItem("token");
@@ -32,7 +32,7 @@ export const finalizarPedido = async (
     `/finalizarpedido`,
     {
       pedidoId,
-      infoPagamentoCartao,
+      infoPagamento,
       metodoPagamento
     },
     token?.toString()
