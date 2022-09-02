@@ -14,15 +14,17 @@ class FabricaPagamentoCartao extends FabricaPagamento {
     const bandeiraAdapterMap: { [key: string]: typeof PagamentoCartao } = {
       beeceptor: AdapterPagamentoBeeceptor
     };
-    const CartaoAdapter = bandeiraAdapterMap[this.infoPagamento.bandeira];
+    const CartaoAdapter = bandeiraAdapterMap[super.getInfoPagamento().bandeira];
     if (!CartaoAdapter) {
-      throw new Error(`Bandeira ${this.infoPagamento.bandeira} não suportada.`);
+      throw new Error(
+        `Bandeira ${super.getInfoPagamento().bandeira} não suportada.`
+      );
     }
     container.register("PagamentoCartao", {
       useValue: new CartaoAdapter(
-        this.clienteId,
-        this.pedidoId,
-        this.infoPagamento
+        super.getClienteId(),
+        super.getPedidoId(),
+        super.getInfoPagamento()
       )
     });
     const pagamento = container.resolve<PagamentoCartao>("PagamentoCartao");
