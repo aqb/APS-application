@@ -1,5 +1,6 @@
 import Carrinho from "../../negocio/Carrinho/Carrinho";
 import ItemEstoque from "../../negocio/Estoque/ItemEstoque";
+import ItemPedido from "../../negocio/Pedido/ItemPedido";
 import Produto from "../../negocio/Produto/Produto";
 
 interface IRepositorioEstoque {
@@ -13,7 +14,7 @@ interface IRepositorioEstoque {
 
   reservaItemEstoque(carrinho: Carrinho): void;
 
-  devolverItensAoEstoque(itens: any): void;
+  devolverItensAoEstoque(itens: ItemPedido[]): void;
 }
 
 export default IRepositorioEstoque;

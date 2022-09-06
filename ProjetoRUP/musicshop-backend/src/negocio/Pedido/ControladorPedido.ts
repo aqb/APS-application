@@ -60,7 +60,7 @@ class ControladorPedido {
     clienteId: string,
     pedidoId: string,
     metodo: string,
-    infoPagamento: any
+    infoPagamentoJSON: any
   ) {
     const pedido = this.registroPedidos.pegarPedido(pedidoId);
     if (!pedido) {
@@ -68,15 +68,21 @@ class ControladorPedido {
     }
 
     const metodoPagamentoMap: { [key: string]: FabricaPagamento } = {
-      cartao: new FabricaPagamentoCartao(clienteId, pedidoId, infoPagamento)
+      cartao: new FabricaPagamentoCartao()
     };
     const fabricaPagamento = metodoPagamentoMap[metodo];
     if (!fabricaPagamento) {
       throw new Error(`Método de pagamento ${metodo} não suportado.`);
     }
-    const pagamento = fabricaPagamento.criarPagamento();
-    await pagamento.pagar();
-    this.registroCarrinhos.limparCarrinho(clienteId);
+    try {
+      const pagamento = fabricaPagamento.criarPagamento(clienteId, pedidoId, infoPagamentoJSON);
+      pagamento.pagar();
+      this.registroCarrinhos.limparCarrinho(clienteId);
+    } catch (error) {
+      this.registroEstoque.devolverItensAoEstoque(pedido.getItens())
+      throw error
+    }
+    
   }
 }
 

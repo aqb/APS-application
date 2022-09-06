@@ -8,6 +8,14 @@ abstract class Pagamento {
   }
 
   abstract pagar(): Promise<any>;
+
+  public getClienteId(): string {
+    return this.clienteId;
+  }
+
+  public getPedidoId(): string {
+    return this.pedidoId;
+  }
 }
 
 export default Pagamento;

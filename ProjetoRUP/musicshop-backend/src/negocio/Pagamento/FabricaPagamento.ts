@@ -1,17 +1,7 @@
 import Pagamento from "./Pagamento";
 
-abstract class FabricaPagamento {
-  protected clienteId: string;
-  protected pedidoId: string;
-  protected infoPagamento: any;
-
-  constructor(clienteId: string, pedidoId: string, infoPagamento: any) {
-    this.clienteId = clienteId;
-    this.pedidoId = pedidoId;
-    this.infoPagamento = infoPagamento;
-  }
-
-  abstract criarPagamento(): Pagamento;
+interface FabricaPagamento {
+  criarPagamento(clienteId: string, pedidoId: string, infoPagamentoJSON: any): Pagamento;
 }
 
 export default FabricaPagamento;

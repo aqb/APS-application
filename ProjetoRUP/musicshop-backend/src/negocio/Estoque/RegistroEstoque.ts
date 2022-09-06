@@ -2,6 +2,7 @@ import { inject, injectable } from "tsyringe";
 
 import IRepositorioEstoque from "../../dados/Estoque/IRepositorioEstoque";
 import Carrinho from "../Carrinho/Carrinho";
+import ItemPedido from "../Pedido/ItemPedido";
 import Produto from "../Produto/Produto";
 import ItemEstoque from "./ItemEstoque";
 
@@ -31,7 +32,7 @@ class RegistroEstoque {
     return this.repositorioEstoque.reservaItemEstoque(carrinho);
   }
 
-  public devolverItensAoEstoque(itens: any) {
+  public devolverItensAoEstoque(itens: ItemPedido[]) {
     return this.repositorioEstoque.devolverItensAoEstoque(itens);
   }
 }

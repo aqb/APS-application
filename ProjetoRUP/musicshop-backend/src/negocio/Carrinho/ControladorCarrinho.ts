@@ -1,6 +1,5 @@
 import { injectable } from "tsyringe";
 
-import Cliente from "../Cliente/Cliente";
 import RegistroEstoque from "../Estoque/RegistroEstoque";
 import Carrinho from "./Carrinho";
 import RegistroCarrinhos from "./RegistroCarrinhos";
@@ -40,7 +39,7 @@ class ControladorCarrinho {
       throw new Error(
         `${itemEstoque
           .getProduto()
-          .getNome()} nao tem ${quantidadeDesejada} unidades em estoque.`
+          .getNome()} nao tem ${quantidadeCarrinho + quantidadeDesejada} unidades em estoque.`
       );
     }
   }

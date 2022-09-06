@@ -24,6 +24,10 @@ class PagamentoCartao extends Pagamento {
     }
   }
 
+  public getClienteId() {
+    return super.getClienteId();
+  }
+
   public getNumeroCartao(): string {
     return this.numeroCartao;
   }

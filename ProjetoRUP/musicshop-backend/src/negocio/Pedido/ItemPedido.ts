@@ -9,7 +9,7 @@ class ItemPedido {
     this.quantidade = quantidade;
   }
 
-  public getProdutoId(): string {
+  public getId(): string {
     return this.produtoId;
   }
 

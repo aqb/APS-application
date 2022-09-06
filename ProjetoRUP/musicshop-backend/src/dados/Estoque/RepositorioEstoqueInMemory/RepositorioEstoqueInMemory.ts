@@ -1,7 +1,9 @@
 import { singleton } from "tsyringe";
 
 import Carrinho from "../../../negocio/Carrinho/Carrinho";
+import ItemCarrinho from "../../../negocio/Carrinho/ItemCarrinho";
 import ItemEstoque from "../../../negocio/Estoque/ItemEstoque";
+import ItemPedido from "../../../negocio/Pedido/ItemPedido";
 import Produto from "../../../negocio/Produto/Produto";
 import IRepositorioEstoque from "../IRepositorioEstoque";
 import ItensDefault from "./default";
@@ -64,12 +66,9 @@ class RepositorioEstoqueInMemory implements IRepositorioEstoque {
     });
   }
 
-  devolverItensAoEstoque(itens: any): void {
+  devolverItensAoEstoque(itens: ItemPedido[]): void {
     itens.forEach(
-      (item: {
-        getId: () => string;
-        getQuantidade: () => number | undefined;
-      }) => {
+      (item) => {
         const itemEstoque = this.pegarItemEstoquePeloId(item.getId());
         itemEstoque.adicionarProduto(item.getQuantidade());
       }
