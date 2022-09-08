@@ -1,8 +1,5 @@
-import { PagamentoCartao } from "../modelos/PagamentoCartao";
 import { Pedido } from "../modelos/Pedido";
 import { getRequest, postRequest } from "./base";
-
-type PostCriarPedidoResponse = Pedido;
 
 export const getPedido = async (id: string): Promise<Pedido> => {
   const token = localStorage.getItem("token");
@@ -16,25 +13,18 @@ export const getPedidos = async (): Promise<Pedido[]> => {
   return response;
 };
 
-export const criarPedido = async (): Promise<PostCriarPedidoResponse> => {
+export const realizarPedido = async (
+  metodoPagamento: string,
+  infoPagamento: any
+): Promise<Pedido> => {
   const token = localStorage.getItem("token");
-  const response = await postRequest(`/criarpedido`, {}, token?.toString());
-  return response;
-};
-
-export const finalizarPedido = async (
-  pedidoId: string,
-  infoPagamento: any,
-  metodoPagamento: string
-): Promise<void> => {
-  const token = localStorage.getItem("token");
-  await postRequest(
-    `/finalizarpedido`,
+  const response = await postRequest(
+    `/realizarpedido`,
     {
-      pedidoId,
-      infoPagamento,
-      metodoPagamento
+      metodoPagamento,
+      infoPagamento
     },
     token?.toString()
   );
+  return response;
 };

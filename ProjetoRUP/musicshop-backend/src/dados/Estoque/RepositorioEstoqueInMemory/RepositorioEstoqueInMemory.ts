@@ -1,29 +1,52 @@
 import { singleton } from "tsyringe";
+import { v4 as uuidv4 } from "uuid";
 
-import Carrinho from "../../../negocio/Carrinho/Carrinho";
-import ItemCarrinho from "../../../negocio/Carrinho/ItemCarrinho";
-import ItemEstoque from "../../../negocio/Estoque/ItemEstoque";
-import ItemPedido from "../../../negocio/Pedido/ItemPedido";
+import Item from "../../../negocio/Item/Item";
+import ItemProps from "../../../negocio/Item/ItemProps";
 import Produto from "../../../negocio/Produto/Produto";
 import IRepositorioEstoque from "../IRepositorioEstoque";
 import ItensDefault from "./default";
 
 @singleton()
 class RepositorioEstoqueInMemory implements IRepositorioEstoque {
-  private itens: ItemEstoque[];
+  private itens: Item[];
 
   constructor() {
     // TODO: Remover dados estaticos!
     this.itens = ItensDefault;
   }
 
-  adicionar(produto: Produto): void {
-    const id = (this.itens.length + 1).toString();
-    const item = new ItemEstoque(produto, 1);
+  adicionarNovoProduto(props: ItemProps) {
+    const id = uuidv4();
+    const produto = new Produto(
+      id,
+      props.produto.nome,
+      props.produto.descricao,
+      props.produto.preco
+    );
+    const item = new Item(produto, props.quantidade);
     this.itens.push(item);
   }
 
-  pegarItensEstoque(nomeFiltro?: string): ItemEstoque[] {
+  adicionarItens(itens: Item[]): void {
+    itens.forEach(item => {
+      this.adicionar(item);
+    });
+  }
+
+  adicionar(item: Item): void {
+    const itemEstoque = this.itens.find(
+      itemEstoque => itemEstoque.getId() === item.getId()
+    );
+
+    if (itemEstoque) {
+      itemEstoque.adicionarProduto(item.getQuantidade());
+    } else {
+      this.itens.push(item);
+    }
+  }
+
+  pegarItens(nomeFiltro?: string): Item[] {
     return this.itens.filter(item => {
       if (nomeFiltro) {
         return item
@@ -36,11 +59,7 @@ class RepositorioEstoqueInMemory implements IRepositorioEstoque {
     });
   }
 
-  pegarItemEstoque(produto: Produto): ItemEstoque {
-    return this.pegarItemEstoquePeloId(produto.getId());
-  }
-
-  pegarItemEstoquePeloId(id: string): ItemEstoque {
+  pegarItemPeloId(id: string): Item {
     const item = this.itens.find(item => item.getId() === id);
     if (item) {
       return item;
@@ -48,31 +67,26 @@ class RepositorioEstoqueInMemory implements IRepositorioEstoque {
     throw new Error(`Item ${id} não encontrado`);
   }
 
-  reservaItemEstoque(carrinho: Carrinho) {
-    const itensCarrinho = carrinho.getItens();
+  reservarItens(itensCarrinho: Item[]) {
     itensCarrinho.forEach(itemCarrinho => {
-      const item = this.itens.find(
+      const itemEstoque = this.itens.find(
         itemEstoque => itemEstoque.getId() === itemCarrinho.getId()
       );
-      if (item !== undefined) {
-        if (item.getQuantidade() >= itemCarrinho.getQuantidade()) {
-          item.removerProduto(itemCarrinho.getQuantidade());
+      if (itemEstoque !== undefined) {
+        const qtdParaAdicionar = itemCarrinho.getQuantidade();
+        if (itemEstoque.getQuantidade() >= qtdParaAdicionar) {
+          itemEstoque.removerProduto(qtdParaAdicionar);
         } else {
-          throw new Error(`Item ${item.getNome()} não existe em estoque`);
+          throw new Error(
+            `Item ${itemEstoque.getNome()} não existe em estoque.`
+          );
         }
       } else {
-        throw new Error(`Item não encontrado no estoque`);
+        throw new Error(
+          `Item ${itemCarrinho.getNome()} não encontrado no estoque.`
+        );
       }
     });
-  }
-
-  devolverItensAoEstoque(itens: ItemPedido[]): void {
-    itens.forEach(
-      (item) => {
-        const itemEstoque = this.pegarItemEstoquePeloId(item.getId());
-        itemEstoque.adicionarProduto(item.getQuantidade());
-      }
-    );
   }
 }
 

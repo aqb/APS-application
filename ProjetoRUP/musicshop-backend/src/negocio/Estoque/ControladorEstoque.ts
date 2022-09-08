@@ -1,6 +1,6 @@
 import { injectable } from "tsyringe";
 
-import ItemEstoque from "./ItemEstoque";
+import Item from "../Item/Item";
 import RegistroEstoque from "./RegistroEstoque";
 
 @injectable()
@@ -11,12 +11,12 @@ class ControladorEstoque {
     this.registroEstoque = registroEstoque;
   }
 
-  public pegarItensEstoque(nomeFiltro?: string): ItemEstoque[] {
-    return this.registroEstoque.pegarItensEstoque(nomeFiltro);
+  public pegarItensEstoque(nomeFiltro?: string): Item[] {
+    return this.registroEstoque.pegarItens(nomeFiltro);
   }
 
-  public pegarItemEstoquePeloId(id: string): ItemEstoque {
-    return this.registroEstoque.pegarItemEstoquePeloId(id);
+  public pegarItemPeloId(id: string): Item {
+    return this.registroEstoque.pegarItemPeloId(id);
   }
 }
 

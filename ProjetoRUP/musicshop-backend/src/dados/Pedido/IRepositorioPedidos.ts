@@ -1,8 +1,8 @@
-import ItemPedido from "../../negocio/Pedido/ItemPedido";
+import ItemPedido from "../../negocio/Item/ItemPedido";
 import Pedido from "../../negocio/Pedido/Pedido";
 
 interface IRepositorioPedidos {
-  adicionar(clienteId: string, itens: ItemPedido[]): Pedido;
+  adicionar(pedido: Pedido): void;
   pegarPedidos(clienteId: string): Pedido[];
   pegarPedido(pedidoId: string): Pedido;
   confirmarPedido(pedidoId: string): void;

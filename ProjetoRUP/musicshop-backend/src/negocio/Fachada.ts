@@ -10,14 +10,14 @@ import Cliente from "./Cliente/Cliente";
 import ControladorCadastro from "./Cliente/ControladorCadastro";
 import ControladorLogin from "./Cliente/ControladorLogin";
 import ControladorEstoque from "./Estoque/ControladorEstoque";
-import ItemEstoque from "./Estoque/ItemEstoque";
 import IFabricaRepositorios from "./IFabricaRepositorios";
+import Item from "./Item/Item";
 import ControladorPedido from "./Pedido/ControladorPedido";
 import Pedido from "./Pedido/Pedido";
 
 @injectable()
 @singleton()
-class Facade {
+class Fachada {
   private controladorLogin;
   private controladorCadastro;
   private controladorEstoque;
@@ -59,12 +59,12 @@ class Facade {
     return this.controladorLogin.registrarSessao(cliente);
   }
 
-  public pegarItensEstoque(nomeFiltro?: string): ItemEstoque[] {
+  public pegarItensEstoque(nomeFiltro?: string): Item[] {
     return this.controladorEstoque.pegarItensEstoque(nomeFiltro);
   }
 
-  public pegarItemEstoque(id: string): ItemEstoque {
-    return this.controladorEstoque.pegarItemEstoquePeloId(id);
+  public pegarItemEstoque(id: string): Item {
+    return this.controladorEstoque.pegarItemPeloId(id);
   }
 
   public pegarCarrinho(clienteId: string): Carrinho {
@@ -83,8 +83,18 @@ class Facade {
     );
   }
 
-  public criarPedido(clienteId: string) {
-    return this.controladorPedido.criarPedido(clienteId);
+  public async realizarPedido(
+    clienteId: string,
+    metodoPagamento: string,
+    infoPagamento: any
+  ): Promise<Pedido> {
+    const pedido = await this.controladorPedido.realizarPedido(
+      clienteId,
+      metodoPagamento,
+      infoPagamento
+    );
+
+    return pedido;
   }
 
   public pegarPedidos(clienteId: string): Pedido[] {
@@ -94,20 +104,6 @@ class Facade {
   public pegarPedido(pedidoId: string): Pedido {
     return this.controladorPedido.pegarPedido(pedidoId);
   }
-
-  public async pagar(
-    clienteId: string,
-    pedidoId: string,
-    metodoPagamento: string,
-    infoPagamento: any
-  ) {
-    await this.controladorPedido.pagar(
-      clienteId,
-      pedidoId,
-      metodoPagamento,
-      infoPagamento
-    );
-  }
 }
 
-export default Facade;
+export default Fachada;

@@ -1,6 +1,6 @@
 import { Produto } from "./Produto";
 
-export type ItemEstoque = {
+export type Item = {
   produto: Produto;
   quantidade: number;
 };

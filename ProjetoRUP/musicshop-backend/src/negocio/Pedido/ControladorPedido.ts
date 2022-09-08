@@ -1,13 +1,13 @@
 import { injectable } from "tsyringe";
+import { v4 as uuidv4 } from "uuid";
 
-import ItemCarrinho from "../Carrinho/ItemCarrinho";
 import RegistroCarrinhos from "../Carrinho/RegistroCarrinhos";
 import RegistroEstoque from "../Estoque/RegistroEstoque";
+import ItemPedido from "../Item/ItemPedido";
 import FabricaPagamento from "../Pagamento/FabricaPagamento";
-import Pagamento from "../Pagamento/Pagamento";
 import FabricaPagamentoCartao from "../Pagamento/PagamentoCartao/FabricaPagamentoCartao";
-import ItemPedido from "./ItemPedido";
 import Pedido from "./Pedido";
+import PedidoStatus from "./PedidoStatus";
 import RegistroPedidos from "./RegistroPedidos";
 
 @injectable()
@@ -26,26 +26,58 @@ class ControladorPedido {
     this.registroEstoque = registroEstoque;
   }
 
-  public criarPedido(clienteId: string): Pedido {
+  public async realizarPedido(
+    clienteId: string,
+    metodoPagamento: string,
+    infoPagamentoJSON: any
+  ): Promise<Pedido> {
+    // Verificação das Informações Pagamento.
+    const metodoPagamentoMap: { [key: string]: FabricaPagamento } = {
+      cartao: new FabricaPagamentoCartao()
+    };
+    const fabricaPagamento = metodoPagamentoMap[metodoPagamento];
+    if (!fabricaPagamento) {
+      throw new Error(`Método de pagamento ${metodoPagamento} não suportado.`);
+    }
+
+    // Verificação do Carrinho.
     const carrinho = this.registroCarrinhos.pegarCarrinhoDe(clienteId);
-    if (carrinho.getItens().length === 0) {
+    if (carrinho.isEmpty()) {
       throw new Error(
         "Seu carrinho vazio! Adicione produtos antes de criar o seu pedido."
       );
     }
+    this.registroEstoque.reservarItens(carrinho.getItens());
 
-    this.registroEstoque.reservaItemEstoque(carrinho);
+    // Criação do Pedido.
+    const pedidoId = uuidv4();
+    const itensPedido = carrinho.getItens().map(item => {
+      const produto = item.getProduto();
+      const quantidade = item.getQuantidade();
+      return new ItemPedido(produto, quantidade, produto.getValor());
+    });
+    const pedido = new Pedido(
+      pedidoId,
+      clienteId,
+      itensPedido,
+      PedidoStatus.PENDENTE
+    );
 
-    const itensPedido = carrinho
-      .getItens()
-      .map((item: ItemCarrinho): ItemPedido => {
-        return new ItemPedido(
-          item.getId(),
-          item.getProduto().getValor(),
-          item.getQuantidade()
-        );
-      });
-    return this.registroPedidos.adicionar(clienteId, itensPedido);
+    // Pagamento.
+    try {
+      const pagamento = fabricaPagamento.criarPagamento(
+        clienteId,
+        pedidoId,
+        infoPagamentoJSON
+      );
+      await pagamento.pagar();
+      this.registroPedidos.adicionar(pedido);
+      this.registroCarrinhos.limparCarrinho(clienteId);
+      return pedido;
+    } catch (error) {
+      this.registroEstoque.devolverItensAoEstoque(carrinho.getItens());
+      throw error;
+    }
   }
 
   public pegarPedidos(clienteId: string): Pedido[] {
@@ -54,35 +86,6 @@ class ControladorPedido {
 
   public pegarPedido(pedidoId: string): Pedido {
     return this.registroPedidos.pegarPedido(pedidoId);
-  }
-
-  public async pagar(
-    clienteId: string,
-    pedidoId: string,
-    metodo: string,
-    infoPagamentoJSON: any
-  ) {
-    const pedido = this.registroPedidos.pegarPedido(pedidoId);
-    if (!pedido) {
-      throw new Error("Pedido não encontrado para pagamento.");
-    }
-
-    const metodoPagamentoMap: { [key: string]: FabricaPagamento } = {
-      cartao: new FabricaPagamentoCartao()
-    };
-    const fabricaPagamento = metodoPagamentoMap[metodo];
-    if (!fabricaPagamento) {
-      throw new Error(`Método de pagamento ${metodo} não suportado.`);
-    }
-    try {
-      const pagamento = fabricaPagamento.criarPagamento(clienteId, pedidoId, infoPagamentoJSON);
-      pagamento.pagar();
-      this.registroCarrinhos.limparCarrinho(clienteId);
-    } catch (error) {
-      this.registroEstoque.devolverItensAoEstoque(pedido.getItens())
-      throw error
-    }
-    
   }
 }
 

@@ -1,6 +1,6 @@
 import { injectable } from "tsyringe";
 
-import ItemPedido from "./ItemPedido";
+import ItemPedido from "../Item/ItemPedido";
 import PedidoStatus from "./PedidoStatus";
 
 @injectable()

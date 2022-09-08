@@ -23,25 +23,13 @@ class TelaCarrinhoPresenter {
     }
   }
 
-  public criarPedido(req: Request, res: Response) {
+  public async realizarPedido(req: Request, res: Response) {
     const clienteId = req.body.clienteId;
-    const pedido = this.fachada.criarPedido(clienteId);
-    if (pedido) {
-      res.json(pedido);
-    } else {
-      throw new Error("Não foi possível criar o pedido.");
-    }
-  }
-
-  public async finalizarPedido(req: Request, res: Response) {
     const metodoPagamento = req.body.metodoPagamento;
-    const pedidoId = req.body.pedidoId;
-    const clienteId = req.body.clienteId;
     const infoPagamento = req.body.infoPagamento;
 
-    const response = await this.fachada.pagar(
+    const response = await this.fachada.realizarPedido(
       clienteId,
-      pedidoId,
       metodoPagamento,
       infoPagamento
     );

@@ -30,7 +30,7 @@ import { useNavigate } from "react-router-dom";
 import { Carrinho } from "../../modelos/Carrinho";
 import PagamentoCartao from "../../modelos/PagamentoCartao";
 import { getCarrinho } from "../../services/carrinho";
-import { criarPedido, finalizarPedido } from "../../services/pedido";
+import { realizarPedido } from "../../services/pedido";
 
 const TelaCarrinho: React.FC = () => {
   const imgGenerica =
@@ -59,20 +59,6 @@ const TelaCarrinho: React.FC = () => {
 
   const toast = useToast();
 
-  const validaArgumentosPedido = () => {
-    if (
-      numeroCartao &&
-      cvvCartao &&
-      vencimento &&
-      nomeTitular &&
-      cpfTitular &&
-      bandeira()
-    ) {
-      return true;
-    }
-    return false;
-  };
-
   const valorTotal = () => {
     return (
       carrinho?.itens.reduce(
@@ -94,12 +80,37 @@ const TelaCarrinho: React.FC = () => {
     };
   };
 
-  const realizarPedido = async () => {
-    if (validaArgumentosPedido()) {
+  const validaArgumentosPagamentoCartao = () => {
+    if (
+      numeroCartao &&
+      cvvCartao &&
+      vencimento &&
+      nomeTitular &&
+      cpfTitular &&
+      bandeira()
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const getInfoPagamento = (): PagamentoCartao | undefined => {
+    const metodoPagamentoInfoMap: {
+      [key: string]: PagamentoCartao | undefined;
+    } = {
+      cartao: validaArgumentosPagamentoCartao()
+        ? getInfoPagamentCartao()
+        : undefined
+    };
+    return metodoPagamentoInfoMap[metodoPagamento];
+  };
+
+  const checkoutCarrinho = async () => {
+    const infoPagamento = getInfoPagamento();
+    if (infoPagamento) {
       try {
-        const pedido = await criarPedido();
-        const infoPagamento = getInfoPagamentCartao();
-        await finalizarPedido(pedido.id, infoPagamento, metodoPagamento);
+        const pedido = await realizarPedido(metodoPagamento, infoPagamento);
+        console.log("PEDIDO REALIZADO: ", pedido);
         toast({
           title: "Pedido realizado com sucesso!",
           description: "Obrigado por comprar com o MusicShop.",
@@ -361,7 +372,7 @@ const TelaCarrinho: React.FC = () => {
                               _hover={{
                                 bg: "blue.500"
                               }}
-                              onClick={() => realizarPedido()}
+                              onClick={() => checkoutCarrinho()}
                             >
                               Finalizar Pedido
                               <Flex ml="2">

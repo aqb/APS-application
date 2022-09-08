@@ -7,7 +7,7 @@ abstract class Pagamento {
     this.pedidoId = pedidoId;
   }
 
-  abstract pagar(): Promise<any>;
+  abstract pagar(): Promise<void>;
 
   public getClienteId(): string {
     return this.clienteId;

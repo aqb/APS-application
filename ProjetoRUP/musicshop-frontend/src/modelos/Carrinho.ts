@@ -1,11 +1,6 @@
-import { Produto } from "./Produto";
-
-export type ItemCarrinho = {
-  produto: Produto;
-  quantidade: number;
-};
+import { Item } from "./Item";
 
 export type Carrinho = {
   id: string;
-  itens: ItemCarrinho[];
+  itens: Item[];
 };

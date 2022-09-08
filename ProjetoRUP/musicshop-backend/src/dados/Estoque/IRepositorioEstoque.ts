@@ -1,20 +1,18 @@
-import Carrinho from "../../negocio/Carrinho/Carrinho";
-import ItemEstoque from "../../negocio/Estoque/ItemEstoque";
-import ItemPedido from "../../negocio/Pedido/ItemPedido";
-import Produto from "../../negocio/Produto/Produto";
+import Item from "../../negocio/Item/Item";
+import ItemProps from "../../negocio/Item/ItemProps";
 
 interface IRepositorioEstoque {
-  adicionar(produto: Produto): void;
+  adicionar(item: Item): void;
 
-  pegarItensEstoque(nomeFiltro?: string): ItemEstoque[];
+  adicionarItens(itens: Item[]): void;
 
-  pegarItemEstoque(produto: Produto): ItemEstoque;
+  adicionarNovoProduto(props: ItemProps): void;
 
-  pegarItemEstoquePeloId(id: string): ItemEstoque;
+  pegarItens(nomeFiltro?: string): Item[];
 
-  reservaItemEstoque(carrinho: Carrinho): void;
+  pegarItemPeloId(id: string): Item;
 
-  devolverItensAoEstoque(itens: ItemPedido[]): void;
+  reservarItens(itens: Item[]): void;
 }
 
 export default IRepositorioEstoque;

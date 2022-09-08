@@ -1,6 +1,7 @@
 import { injectable } from "tsyringe";
 
 import RegistroEstoque from "../Estoque/RegistroEstoque";
+import Item from "../Item/Item";
 import Carrinho from "./Carrinho";
 import RegistroCarrinhos from "./RegistroCarrinhos";
 
@@ -26,20 +27,20 @@ class ControladorCarrinho {
     produtoId: string,
     quantidadeDesejada: number
   ) {
-    const itemEstoque = this.registroEstoque.pegarItemEstoquePeloId(produtoId);
+    const item = this.registroEstoque.pegarItemPeloId(produtoId);
     const carrinho = this.pegarCarrinhoDe(clienteId);
     const quantidadeCarrinho = carrinho.getQuantidade(produtoId);
     if (
-      itemEstoque &&
-      itemEstoque.getQuantidade() >= quantidadeCarrinho + quantidadeDesejada
+      item &&
+      item.getQuantidade() >= quantidadeCarrinho + quantidadeDesejada
     ) {
-      carrinho.adicionarProduto(itemEstoque.getProduto(), quantidadeDesejada);
+      carrinho.adicionarItem(new Item(item.getProduto(), quantidadeDesejada));
       this.registroCarrinhos.atualizarCarrinho(carrinho);
     } else {
       throw new Error(
-        `${itemEstoque
-          .getProduto()
-          .getNome()} nao tem ${quantidadeCarrinho + quantidadeDesejada} unidades em estoque.`
+        `${item.getProduto().getNome()} nao tem ${
+          quantidadeCarrinho + quantidadeDesejada
+        } unidades em estoque.`
       );
     }
   }

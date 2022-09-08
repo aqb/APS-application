@@ -1,4 +1,5 @@
 class Produto {
+  [x: string]: any;
   private id;
   private nome;
   private descricao;

@@ -1,7 +1,5 @@
 import { singleton } from "tsyringe";
-import { v4 as uuidv4 } from "uuid";
 
-import ItemPedido from "../../../negocio/Pedido/ItemPedido";
 import Pedido from "../../../negocio/Pedido/Pedido";
 import PedidoStatus from "../../../negocio/Pedido/PedidoStatus";
 import IRepositorioPedidos from "../IRepositorioPedidos";
@@ -16,11 +14,8 @@ class RepositorioPedidosInMemory implements IRepositorioPedidos {
     this.pedidos = PedidosDefault;
   }
 
-  adicionar(clienteId: string, itens: ItemPedido[]): Pedido {
-    const id = uuidv4();
-    const pedido = new Pedido(id, clienteId, itens, PedidoStatus.PENDENTE);
+  adicionar(pedido: Pedido): void {
     this.pedidos.push(pedido);
-    return pedido;
   }
 
   pegarPedidos(clienteId: string): Pedido[] {
@@ -32,7 +27,7 @@ class RepositorioPedidosInMemory implements IRepositorioPedidos {
     if (pedido) {
       return pedido;
     }
-    throw new Error("Pedido não encontrado.");
+    throw new Error(`Pedido ${pedidoId} não encontrado.`);
   }
 
   confirmarPedido(pedidoId: string): void {

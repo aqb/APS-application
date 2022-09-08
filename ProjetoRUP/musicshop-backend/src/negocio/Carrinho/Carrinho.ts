@@ -1,11 +1,10 @@
-import Produto from "../Produto/Produto";
-import ItemCarrinho from "./ItemCarrinho";
+import Item from "../Item/Item";
 
 class Carrinho {
   private id;
   private itens;
 
-  public constructor(id: string, itens: ItemCarrinho[]) {
+  public constructor(id: string, itens: Item[]) {
     this.id = id;
     this.itens = itens;
   }
@@ -14,19 +13,15 @@ class Carrinho {
     return this.id;
   }
 
-  public getItens(): ItemCarrinho[] {
+  public getItens(): Item[] {
     return this.itens;
   }
 
-  public setItens(itens: ItemCarrinho[]) {
+  public setItens(itens: Item[]) {
     this.itens = itens;
   }
 
-  public adicionarItem(item: ItemCarrinho) {
-    this.itens.push(item);
-  }
-
-  public removerItem(item: ItemCarrinho) {
+  public removerItem(item: Item) {
     this.itens = this.itens.filter(i => i.getId() !== item.getId());
   }
 
@@ -34,12 +29,14 @@ class Carrinho {
     return this.itens.reduce((total, item) => total + item.getValorTotal(), 0);
   }
 
-  public adicionarProduto(produto: Produto, quantidade: number) {
-    const itemCarrinho = this.itens.find(i => i.getId() === produto.getId());
+  public adicionarItem(item: Item) {
+    const itemCarrinho = this.itens.find(
+      itemCarrinho => itemCarrinho.getId() === item.getId()
+    );
     if (itemCarrinho) {
-      itemCarrinho.adicionarProduto(quantidade);
+      itemCarrinho.adicionarProduto(item.getQuantidade());
     } else {
-      this.adicionarItem(new ItemCarrinho(produto, quantidade));
+      this.itens.push(item);
     }
   }
 
@@ -53,6 +50,10 @@ class Carrinho {
 
   public limpar(): void {
     this.setItens([]);
+  }
+
+  public isEmpty(): boolean {
+    return this.getItens().length === 0;
   }
 }
 

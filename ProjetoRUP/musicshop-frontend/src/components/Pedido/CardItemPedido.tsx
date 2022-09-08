@@ -19,9 +19,13 @@ const CardItemPedido: React.FC<CardItemPedidoProps> = ({
   const [produto, setProduto] = useState<Produto | null>(null);
 
   useEffect(() => {
-    getProduto(produtoId).then(({ produto }) => {
-      setProduto(produto);
-    });
+    getProduto(produtoId)
+      .then(({ produto }) => {
+        setProduto(produto);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
 
   const imgGenerica =
