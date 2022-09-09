@@ -24,12 +24,12 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import CardProduto from "../../components/Estoque/CardProduto";
-import { ItemEstoque } from "../../modelos/Estoque";
+import { Item } from "../../modelos/Item";
 import { getEstoque } from "../../services/estoque";
 
 const TelaHome: React.FC = () => {
   const [loading, setLoading] = useState(true);
-  const [estoque, setEstoque] = useState<ItemEstoque[] | null>(null);
+  const [estoque, setEstoque] = useState<Item[] | null>(null);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 

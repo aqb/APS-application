@@ -2,7 +2,6 @@ import { singleton } from "tsyringe";
 import { v4 as uuidv4 } from "uuid";
 
 import Cliente from "../../../negocio/Cliente/Cliente";
-import Carrinho from "../../../negocio/Produto/Carrinho/Carrinho";
 import IRepositorioClientes from "../IRepositorioClientes";
 import ClientesDefault from "./default";
 
@@ -25,14 +24,7 @@ class RepositorioClientesInMemory implements IRepositorioClientes {
     }
 
     const id = uuidv4();
-
-    const novoCliente = new Cliente(
-      id,
-      email,
-      senha,
-      cpf,
-      new Carrinho(id, [])
-    );
+    const novoCliente = new Cliente(id, email, senha, cpf);
 
     this.clientes.push(novoCliente);
     return novoCliente;
@@ -47,6 +39,14 @@ class RepositorioClientesInMemory implements IRepositorioClientes {
       return cliente;
     }
     throw new Error("Credenciais inválidas.");
+  }
+
+  pegarCliente(id: string): Cliente {
+    const cliente = this.clientes.find(cliente => cliente.getId() === id);
+    if (cliente) {
+      return cliente;
+    }
+    throw new Error(`Cliente ${id} não encontrado.`);
   }
 }
 

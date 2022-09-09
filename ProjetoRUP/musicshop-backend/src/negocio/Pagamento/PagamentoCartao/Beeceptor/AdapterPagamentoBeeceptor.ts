@@ -1,35 +1,34 @@
-import InfoPagamentoCartao from "../InfoPagamentoCartao";
-import IPagamentoCartao from "../IPagamentoCartao";
+import { container, injectable } from "tsyringe";
+
+import PagamentoCartao from "../PagamentoCartao";
 import PagamentoCartaoBeeceptorAPI from "./PagamentoCartaoBeeceptorAPI";
 
-class AdapterPagamentoBeeceptor implements IPagamentoCartao {
-  async pagarCartao(
-    pedidoId: string,
-    infoPagamentoCartao: InfoPagamentoCartao
-  ): Promise<any> {
-    const beeceptor = new PagamentoCartaoBeeceptorAPI();
-
+@injectable()
+class AdapterPagamentoBeeceptor extends PagamentoCartao {
+  public async pagar(): Promise<void> {
+    const beeceptor = container.resolve(PagamentoCartaoBeeceptorAPI);
     const id = {
-      id: pedidoId
+      id: this.pedidoId
     };
     const pagamento = {
-      valor: infoPagamentoCartao.getValorPagamento()
+      valor: this.valorPagamento
     };
     const cartao = {
-      numero: infoPagamentoCartao.getNumeroCartao(),
-      cvv: infoPagamentoCartao.getCvvCartao(),
-      vencimento: infoPagamentoCartao.getVencimento()
+      numero: this.numeroCartao,
+      cvv: this.cvvCartao,
+      vencimento: this.vencimento
     };
     const titular = {
-      nome: infoPagamentoCartao.getNomeTitular(),
-      cpf: infoPagamentoCartao.getCPFTitular()
+      nome: this.nomeTitular,
+      cpf: this.cpfTitular
     };
     const argumentoBeeceptor = {
+      id,
+      pagamento,
       cartao,
       titular
     };
-
-    return beeceptor.pagar(argumentoBeeceptor);
+    await beeceptor.pagar(argumentoBeeceptor);
   }
 }
 

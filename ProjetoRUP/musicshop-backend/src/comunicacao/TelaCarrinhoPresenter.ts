@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { injectable } from "tsyringe";
 
-import Fachada from "../negocio/Fachada/Fachada";
-import InfoPagamentoCartao from "../negocio/Pagamento/PagamentoCartao/InfoPagamentoCartao";
+import Fachada from "../negocio/Fachada";
 
 @injectable()
 class TelaCarrinhoPresenter {
@@ -24,36 +23,17 @@ class TelaCarrinhoPresenter {
     }
   }
 
-  public criarPedido(req: Request, res: Response) {
+  public async realizarPedido(req: Request, res: Response) {
     const clienteId = req.body.clienteId;
-    const pedido = this.fachada.criarPedido(clienteId);
-    if (pedido) {
-      res.json(pedido);
-    } else {
-      throw new Error("Não foi possível criar o pedido.");
-    }
-  }
-
-  public async finalizarPedido(req: Request, res: Response) {
     const metodoPagamento = req.body.metodoPagamento;
-    const pedidoId = req.body.pedidoId;
-    const clienteId = req.body.clienteId;
-    if (metodoPagamento === "cartao") {
-      const infoPagamentoJson = req.body.infoPagamentoCartao;
-      const infoPagamento = new InfoPagamentoCartao(
-        infoPagamentoJson.numeroCartao,
-        infoPagamentoJson.cvvCartao,
-        infoPagamentoJson.vencimento,
-        infoPagamentoJson.nomeTitular,
-        infoPagamentoJson.cpfTitular,
-        infoPagamentoJson.bandeira,
-        infoPagamentoJson.valorPagamento
-      );
-      await this.fachada.pagarCartao(clienteId, pedidoId, infoPagamento);
-      res.send();
-    } else {
-      throw new Error(`Método de pagamento ${metodoPagamento} inválido.`);
-    }
+    const infoPagamento = req.body.infoPagamento;
+
+    const response = await this.fachada.realizarPedido(
+      clienteId,
+      metodoPagamento,
+      infoPagamento
+    );
+    res.json(response);
   }
 }
 

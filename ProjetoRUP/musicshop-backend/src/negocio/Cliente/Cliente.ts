@@ -1,24 +1,14 @@
-import Carrinho from "../Produto/Carrinho/Carrinho";
-
 class Cliente {
   private id;
   private email;
   private senha;
   private cpf;
-  private carrinho;
 
-  constructor(
-    id: string,
-    email: string,
-    senha: string,
-    cpf: string,
-    carrinho: Carrinho
-  ) {
+  constructor(id: string, email: string, senha: string, cpf: string) {
     this.id = id;
     this.email = email;
     this.senha = senha;
     this.cpf = cpf;
-    this.carrinho = carrinho;
   }
 
   public getId() {
@@ -47,14 +37,6 @@ class Cliente {
 
   public setCPF(cpf: string) {
     this.cpf = cpf;
-  }
-
-  public getCarrinho(): Carrinho {
-    return this.carrinho;
-  }
-
-  public setCarrinho(carrinho: Carrinho) {
-    this.carrinho = carrinho;
   }
 }
 

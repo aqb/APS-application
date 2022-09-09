@@ -20,10 +20,8 @@ const routes = Router();
 
 routes.post("/cadastro", (req, res) => cadastroPresenter.cadastro(req, res));
 routes.post("/login", (req, res) => loginPresenter.login(req, res));
-routes.get("/estoque", verifyToken, (req, res) =>
-  estoquePresenter.pegarEstoque(req, res)
-);
-routes.get("/produto/:id", verifyToken, (req, res) =>
+routes.get("/estoque", (req, res) => estoquePresenter.pegarEstoque(req, res));
+routes.get("/produto/:id", (req, res) =>
   produtoPresenter.pegarProduto(req, res)
 );
 routes.post("/adicionar", verifyToken, (req, res) =>
@@ -32,11 +30,10 @@ routes.post("/adicionar", verifyToken, (req, res) =>
 routes.get("/carrinho", verifyToken, (req, res) =>
   carrinhoPresenter.pegarCarrinho(req, res)
 );
-routes.post("/criarpedido", verifyToken, (req, res) =>
-  carrinhoPresenter.criarPedido(req, res)
-);
-routes.post("/finalizarpedido", verifyToken, (req, res) =>
-  carrinhoPresenter.finalizarPedido(req, res)
+routes.post(
+  "/realizarpedido",
+  verifyToken,
+  async (req, res) => await carrinhoPresenter.realizarPedido(req, res)
 );
 routes.get("/pedidos", verifyToken, (req, res) =>
   pedidosPresenter.pegarPedidos(req, res)

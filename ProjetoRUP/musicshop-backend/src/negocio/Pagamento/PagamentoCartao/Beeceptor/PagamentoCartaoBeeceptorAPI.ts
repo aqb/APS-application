@@ -1,4 +1,5 @@
 import axios from "axios";
+import { injectable } from "tsyringe";
 
 export type PagamentoCartaoBeeceptorAPIArgument = {
   cartao: {
@@ -12,6 +13,7 @@ export type PagamentoCartaoBeeceptorAPIArgument = {
   };
 };
 
+@injectable()
 class PagamentoCartaoBeeceptorAPI {
   private apiUrl =
     "https://apsapplication.free.beeceptor.com/my/api/musicshop/beeceptor/pagamento";

@@ -1,13 +1,12 @@
-import { ItemEstoque } from "../modelos/Estoque";
+import { Item } from "../modelos/Item";
 import { getRequest } from "./base";
 
-type GetEstoqueResponse = ItemEstoque[];
+type GetEstoqueResponse = Item[];
 
 export const getEstoque = async (
   nomeFiltro?: string
 ): Promise<GetEstoqueResponse> => {
-  const token = localStorage.getItem("token");
-  const response = await getRequest(`/estoque`, token?.toString(), {
+  const response = await getRequest(`/estoque`, undefined, {
     nome: nomeFiltro
   });
   return response;

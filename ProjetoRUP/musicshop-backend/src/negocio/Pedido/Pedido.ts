@@ -1,23 +1,24 @@
 import { injectable } from "tsyringe";
 
-import ItemPedido from "./ItemPedido";
+import Cliente from "../Cliente/Cliente";
+import ItemPedido from "../Item/ItemPedido";
 import PedidoStatus from "./PedidoStatus";
 
 @injectable()
 class Pedido {
   private id: string;
-  private clienteId: string;
+  private cliente: Cliente;
   private itens: ItemPedido[];
   private status: PedidoStatus;
 
   public constructor(
     id: string,
-    clienteId: string,
+    cliente: Cliente,
     itens: ItemPedido[],
     status: PedidoStatus
   ) {
     this.id = id;
-    this.clienteId = clienteId;
+    this.cliente = cliente;
     this.itens = itens;
     this.status = status;
   }
@@ -26,12 +27,12 @@ class Pedido {
     return this.id;
   }
 
-  public getClienteId(): string {
-    return this.clienteId;
+  public getCliente(): Cliente {
+    return this.cliente;
   }
 
-  public setCliente(id: string) {
-    this.clienteId = id;
+  public setCliente(cliente: Cliente) {
+    this.cliente = cliente;
   }
 
   public getItens(): ItemPedido[] {

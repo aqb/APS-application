@@ -1,3 +1,5 @@
+import { Produto } from "./Produto";
+
 export type Pedido = {
   id: string;
   clienteId: string;
@@ -6,7 +8,7 @@ export type Pedido = {
 };
 
 export type ItemPedido = {
-  produtoId: string;
+  produto: Produto;
   valor: number;
   quantidade: number;
 };

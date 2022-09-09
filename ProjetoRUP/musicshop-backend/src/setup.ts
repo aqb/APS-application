@@ -1,7 +1,7 @@
 import { container } from "tsyringe";
 
-import FabricaRepositoriosInMemory from "./negocio/Fabricas/FabricaRepositoriosInMemory";
-import IFabricaRepositorios from "./negocio/Fabricas/IFabricaRepositorios";
+import FabricaRepositoriosInMemory from "./negocio/FabricaRepositoriosInMemory";
+import IFabricaRepositorios from "./negocio/IFabricaRepositorios";
 
 container.register<IFabricaRepositorios>("FabricaRepositorios", {
   useClass: FabricaRepositoriosInMemory

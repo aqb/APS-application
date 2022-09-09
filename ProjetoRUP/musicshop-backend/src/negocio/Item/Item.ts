@@ -1,6 +1,6 @@
-import Produto from "../Produto";
+import Produto from "../Produto/Produto";
 
-class ItemCarrinho {
+class Item {
   private produto;
   private quantidade;
 
@@ -25,10 +25,6 @@ class ItemCarrinho {
     this.produto = produto;
   }
 
-  public getValor(): number {
-    return this.getProduto().getValor();
-  }
-
   public getQuantidade(): number {
     return this.quantidade;
   }
@@ -50,4 +46,4 @@ class ItemCarrinho {
   }
 }
 
-export default ItemCarrinho;
+export default Item;

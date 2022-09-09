@@ -34,7 +34,7 @@ const CardPedido: React.FC<CardPedidoProps> = ({ pedido }) => {
             <Flex key={index} direction="column">
               <Flex bg="white" py="4" pr="6" alignItems="center" w="100%">
                 <CardItemPedido
-                  produtoId={item.produtoId}
+                  produtoId={item.produto.id}
                   quantidade={item.quantidade}
                   valor={item.valor}
                 ></CardItemPedido>
