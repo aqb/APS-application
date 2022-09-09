@@ -1,5 +1,4 @@
 import { injectable } from "tsyringe";
-import { v4 as uuidv4 } from "uuid";
 
 import RegistroCarrinhos from "../Carrinho/RegistroCarrinhos";
 import RegistroClientes from "../Cliente/RegistroClientes";
@@ -8,7 +7,6 @@ import ItemPedido from "../Item/ItemPedido";
 import FabricaPagamento from "../Pagamento/FabricaPagamento";
 import FabricaPagamentoCartao from "../Pagamento/PagamentoCartao/FabricaPagamentoCartao";
 import Pedido from "./Pedido";
-import PedidoStatus from "./PedidoStatus";
 import RegistroPedidos from "./RegistroPedidos";
 
 @injectable()
@@ -57,31 +55,24 @@ class ControladorPedido {
     this.registroEstoque.reservarItens(carrinho.getItens());
 
     // Criação do Pedido.
-    const pedidoId = uuidv4();
     const itensPedido = carrinho.getItens().map(item => {
       const produto = item.getProduto();
       const quantidade = item.getQuantidade();
       return new ItemPedido(produto, quantidade, produto.getValor());
     });
-    const pedido = new Pedido(
-      pedidoId,
-      cliente,
-      itensPedido,
-      PedidoStatus.PENDENTE
-    );
+    const pedido = this.registroPedidos.adicionar(cliente, itensPedido);
 
     // Pagamento.
     try {
       const pagamento = fabricaPagamento.criarPagamento(
-        clienteId,
-        pedidoId,
+        pedido,
         infoPagamentoJSON
       );
       await pagamento.pagar();
-      this.registroPedidos.adicionar(pedido);
       this.registroCarrinhos.limparCarrinho(carrinho);
       return pedido;
     } catch (error) {
+      this.registroPedidos.cancelarPedido(pedido.getId());
       this.registroEstoque.devolverItensAoEstoque(carrinho.getItens());
       throw error;
     }

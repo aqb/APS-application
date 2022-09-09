@@ -14,7 +14,7 @@ export type ItemPedido = {
 };
 
 enum PedidoStatus {
-  PENDENTE,
-  FINALIZADO,
-  CANCELADO
+  PENDENTE = "Pendente",
+  FINALIZADO = "Finalizado",
+  CANCELADO = "Cancelado"
 }

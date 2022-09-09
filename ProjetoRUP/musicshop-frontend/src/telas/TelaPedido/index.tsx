@@ -28,7 +28,7 @@ const TelaPedido: React.FC = () => {
       })
       .catch(() => {
         toast({
-          title: "Pedido não encontrado",
+          title: "Pedido não encontrado.",
           status: "error",
           duration: 4000,
           isClosable: true

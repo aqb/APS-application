@@ -1,7 +1,8 @@
+import Pedido from "../Pedido/Pedido";
 import Pagamento from "./Pagamento";
 
 interface FabricaPagamento {
-  criarPagamento(clienteId: string, pedidoId: string, infoPagamentoJSON: any): Pagamento;
+  criarPagamento(pedido: Pedido, infoPagamentoJSON: any): Pagamento;
 }
 
 export default FabricaPagamento;

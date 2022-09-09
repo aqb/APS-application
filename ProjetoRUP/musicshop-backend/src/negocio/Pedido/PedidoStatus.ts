@@ -1,7 +1,7 @@
 enum PedidoStatus {
-  PENDENTE,
-  CONFIRMADO,
-  CANCELADO
+  PENDENTE = "Pendente",
+  CONFIRMADO = "Confirmado",
+  CANCELADO = "Cancelado"
 }
 
 export default PedidoStatus;
