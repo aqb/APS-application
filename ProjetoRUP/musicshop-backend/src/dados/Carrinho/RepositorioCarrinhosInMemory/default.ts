@@ -1,17 +1,15 @@
+import { v4 as uuidv4 } from "uuid";
+
 import Carrinho from "../../../negocio/Carrinho/Carrinho";
 import Item from "../../../negocio/Item/Item";
 import Produto from "../../../negocio/Produto/Produto";
+import ClientesDefault from "../../Cliente/RepositorioClientesInMemory/default";
 
-const CarrinhosDefault: Carrinho[] = [
-  new Carrinho("0", [
+const CarrinhosDefault: Carrinho[] = ClientesDefault.map(cliente => {
+  const id = uuidv4();
+  return new Carrinho(id, cliente, [
     new Item(new Produto("3", "Cavaquinho", "Cavaquinho de pagode", 130), 10)
-  ]),
-  new Carrinho("1", [
-    new Item(new Produto("1", "Guitarra", "Guitarra de rock", 100), 2)
-  ]),
-  new Carrinho("2", [
-    new Item(new Produto("2", "Bateria", "Bateria Verde", 13000), 1)
-  ])
-];
+  ]);
+});
 
 export default CarrinhosDefault;

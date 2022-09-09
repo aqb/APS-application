@@ -2,6 +2,7 @@ import { injectable } from "tsyringe";
 import { v4 as uuidv4 } from "uuid";
 
 import RegistroCarrinhos from "../Carrinho/RegistroCarrinhos";
+import RegistroClientes from "../Cliente/RegistroClientes";
 import RegistroEstoque from "../Estoque/RegistroEstoque";
 import ItemPedido from "../Item/ItemPedido";
 import FabricaPagamento from "../Pagamento/FabricaPagamento";
@@ -12,15 +13,18 @@ import RegistroPedidos from "./RegistroPedidos";
 
 @injectable()
 class ControladorPedido {
+  private registroClientes: RegistroClientes;
   private registroPedidos: RegistroPedidos;
   private registroCarrinhos: RegistroCarrinhos;
   private registroEstoque: RegistroEstoque;
 
   constructor(
+    registroClientes: RegistroClientes,
     registroPedidos: RegistroPedidos,
     registroCarrinhos: RegistroCarrinhos,
     registroEstoque: RegistroEstoque
   ) {
+    this.registroClientes = registroClientes;
     this.registroPedidos = registroPedidos;
     this.registroCarrinhos = registroCarrinhos;
     this.registroEstoque = registroEstoque;
@@ -31,6 +35,9 @@ class ControladorPedido {
     metodoPagamento: string,
     infoPagamentoJSON: any
   ): Promise<Pedido> {
+    // Buscar Comprador.
+    const cliente = this.registroClientes.pegarCliente(clienteId);
+
     // Verificação das Informações Pagamento.
     const metodoPagamentoMap: { [key: string]: FabricaPagamento } = {
       cartao: new FabricaPagamentoCartao()
@@ -58,7 +65,7 @@ class ControladorPedido {
     });
     const pedido = new Pedido(
       pedidoId,
-      clienteId,
+      cliente,
       itensPedido,
       PedidoStatus.PENDENTE
     );
@@ -72,7 +79,7 @@ class ControladorPedido {
       );
       await pagamento.pagar();
       this.registroPedidos.adicionar(pedido);
-      this.registroCarrinhos.limparCarrinho(clienteId);
+      this.registroCarrinhos.limparCarrinho(carrinho);
       return pedido;
     } catch (error) {
       this.registroEstoque.devolverItensAoEstoque(carrinho.getItens());

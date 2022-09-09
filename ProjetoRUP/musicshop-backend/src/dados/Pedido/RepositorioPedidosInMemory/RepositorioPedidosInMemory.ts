@@ -19,7 +19,9 @@ class RepositorioPedidosInMemory implements IRepositorioPedidos {
   }
 
   pegarPedidos(clienteId: string): Pedido[] {
-    return this.pedidos.filter(pedido => pedido.getClienteId() === clienteId);
+    return this.pedidos.filter(pedido => {
+      return pedido.getCliente().getId() === clienteId;
+    });
   }
 
   pegarPedido(pedidoId: string): Pedido {

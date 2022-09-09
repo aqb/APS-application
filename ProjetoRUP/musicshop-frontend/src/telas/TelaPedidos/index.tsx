@@ -34,7 +34,7 @@ const TelaPedidos: React.FC = () => {
       })
       .catch(() => {
         toast({
-          title: "Pedidos não encontrado",
+          title: "Pedidos não encontrados.",
           status: "error",
           duration: 4000,
           isClosable: true

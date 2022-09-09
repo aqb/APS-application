@@ -110,7 +110,6 @@ const TelaCarrinho: React.FC = () => {
     if (infoPagamento) {
       try {
         const pedido = await realizarPedido(metodoPagamento, infoPagamento);
-        console.log("PEDIDO REALIZADO: ", pedido);
         toast({
           title: "Pedido realizado com sucesso!",
           description: "Obrigado por comprar com o MusicShop.",

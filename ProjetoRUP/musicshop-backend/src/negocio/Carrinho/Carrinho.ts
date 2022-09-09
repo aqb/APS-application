@@ -1,16 +1,27 @@
+import Cliente from "../Cliente/Cliente";
 import Item from "../Item/Item";
 
 class Carrinho {
+  private cliente;
   private id;
   private itens;
 
-  public constructor(id: string, itens: Item[]) {
+  public constructor(id: string, cliente: Cliente, itens: Item[]) {
     this.id = id;
+    this.cliente = cliente;
     this.itens = itens;
   }
 
   public getId(): string {
     return this.id;
+  }
+
+  public getCliente(): Cliente {
+    return this.cliente;
+  }
+
+  public setCliente(cliente: Cliente) {
+    this.cliente = cliente;
   }
 
   public getItens(): Item[] {

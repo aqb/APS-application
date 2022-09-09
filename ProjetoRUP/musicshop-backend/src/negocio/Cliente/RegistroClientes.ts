@@ -20,5 +20,9 @@ class RegistroClientes {
   public efetuarLogin(email: string, senha: string): Cliente {
     return this.repositorioClientes.efetuarLogin(email, senha);
   }
+
+  public pegarCliente(id: string): Cliente {
+    return this.repositorioClientes.pegarCliente(id);
+  }
 }
 export default RegistroClientes;
