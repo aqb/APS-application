@@ -1,3 +1,4 @@
+import Pedido from "../../Pedido/Pedido";
 import Pagamento from "../Pagamento";
 
 class PagamentoCartao extends Pagamento {
@@ -9,8 +10,8 @@ class PagamentoCartao extends Pagamento {
   protected valorPagamento;
   private bandeira;
 
-  public constructor(clienteId: string, pedidoId: string, infoPagamento: any) {
-    super(clienteId, pedidoId);
+  public constructor(pedido: Pedido, infoPagamento: any) {
+    super(pedido);
     try {
       this.numeroCartao = infoPagamento.numeroCartao;
       this.cvvCartao = infoPagamento.cvvCartao;
@@ -22,10 +23,6 @@ class PagamentoCartao extends Pagamento {
     } catch (error) {
       throw new Error(`Erro ao criar pagamento com cartão. ${error}`);
     }
-  }
-
-  public getClienteId() {
-    return super.getClienteId();
   }
 
   public getNumeroCartao(): string {

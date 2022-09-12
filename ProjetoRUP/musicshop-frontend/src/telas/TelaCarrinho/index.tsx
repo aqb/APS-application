@@ -53,9 +53,10 @@ const TelaCarrinho: React.FC = () => {
       case "1":
         return "mastercard";
       default:
-        return undefined;
+        return "undefined";
     }
   };
+  const creditCardsAccepted = ["beeceptor"];
 
   const toast = useToast();
 
@@ -81,17 +82,42 @@ const TelaCarrinho: React.FC = () => {
   };
 
   const validaArgumentosPagamentoCartao = () => {
+    const creditCard = bandeira();
+
+    // Empty fields.
     if (
-      numeroCartao &&
-      cvvCartao &&
-      vencimento &&
-      nomeTitular &&
-      cpfTitular &&
-      bandeira()
+      !numeroCartao ||
+      !cvvCartao ||
+      !vencimento ||
+      !nomeTitular ||
+      !cpfTitular ||
+      !creditCard
     ) {
-      return true;
+      toast({
+        title: "Erro ao finalizar pedido.",
+        description: "Preencha todos os campos.",
+        status: "error",
+        duration: 4000,
+        isClosable: true
+      });
+
+      return false;
     }
-    return false;
+
+    // Invalid credit card.
+    if (creditCard && !creditCardsAccepted.includes(creditCard)) {
+      toast({
+        title: "Erro ao finalizar pedido.",
+        description: `Bandeira ${creditCard} não é aceita.`,
+        status: "error",
+        duration: 4000,
+        isClosable: true
+      });
+      return false;
+    }
+
+    // Valid data.
+    return true;
   };
 
   const getInfoPagamento = (): PagamentoCartao | undefined => {
@@ -127,14 +153,6 @@ const TelaCarrinho: React.FC = () => {
           isClosable: true
         });
       }
-    } else {
-      toast({
-        title: "Erro ao finalizar pedido.",
-        description: "Preencha todos os campos.",
-        status: "error",
-        duration: 4000,
-        isClosable: true
-      });
     }
   };
 

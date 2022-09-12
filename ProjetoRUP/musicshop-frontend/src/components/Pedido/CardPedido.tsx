@@ -41,6 +41,9 @@ const CardPedido: React.FC<CardPedidoProps> = ({ pedido }) => {
               </Flex>
             </Flex>
           ))}
+          <Text fontSize="lg" fontWeight="semibold" color="gray.600">
+            {pedido?.status}
+          </Text>
         </Flex>
       </Flex>
     </Flex>

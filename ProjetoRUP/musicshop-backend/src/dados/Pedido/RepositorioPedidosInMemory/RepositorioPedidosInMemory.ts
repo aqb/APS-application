@@ -1,5 +1,8 @@
 import { singleton } from "tsyringe";
+import { v4 as uuidv4 } from "uuid";
 
+import Cliente from "../../../negocio/Cliente/Cliente";
+import ItemPedido from "../../../negocio/Item/ItemPedido";
 import Pedido from "../../../negocio/Pedido/Pedido";
 import PedidoStatus from "../../../negocio/Pedido/PedidoStatus";
 import IRepositorioPedidos from "../IRepositorioPedidos";
@@ -14,8 +17,11 @@ class RepositorioPedidosInMemory implements IRepositorioPedidos {
     this.pedidos = PedidosDefault;
   }
 
-  adicionar(pedido: Pedido): void {
+  adicionar(cliente: Cliente, itens: ItemPedido[]): Pedido {
+    const id = uuidv4();
+    const pedido = new Pedido(id, cliente, itens, PedidoStatus.PENDENTE);
     this.pedidos.push(pedido);
+    return pedido;
   }
 
   pegarPedidos(clienteId: string): Pedido[] {

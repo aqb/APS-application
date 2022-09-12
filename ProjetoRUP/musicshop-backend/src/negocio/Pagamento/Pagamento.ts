@@ -1,20 +1,16 @@
-abstract class Pagamento {
-  protected clienteId: string;
-  protected pedidoId: string;
+import Pedido from "../Pedido/Pedido";
 
-  constructor(clienteId: string, pedidoId: string) {
-    this.clienteId = clienteId;
-    this.pedidoId = pedidoId;
+abstract class Pagamento {
+  protected pedido: Pedido;
+
+  constructor(pedido: Pedido) {
+    this.pedido = pedido;
   }
 
   abstract pagar(): Promise<void>;
 
-  public getClienteId(): string {
-    return this.clienteId;
-  }
-
   public getPedidoId(): string {
-    return this.pedidoId;
+    return this.pedido.getId();
   }
 }
 
