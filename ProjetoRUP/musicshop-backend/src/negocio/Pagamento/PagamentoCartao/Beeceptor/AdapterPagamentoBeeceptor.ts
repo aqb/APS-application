@@ -8,7 +8,7 @@ class AdapterPagamentoBeeceptor extends PagamentoCartao {
   public async pagar(): Promise<void> {
     const beeceptor = container.resolve(PagamentoCartaoBeeceptorAPI);
     const id = {
-      id: this.pedidoId
+      id: this.pedido.getId()
     };
     const pagamento = {
       valor: this.valorPagamento
