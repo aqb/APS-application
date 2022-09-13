@@ -1,0 +1,19 @@
+{
+    "node_name": "discovery-server",
+    "server": true,
+    "bootstrap": true,
+    "enable_script_checks": true,
+    "ui_config": {
+        "enabled" : true
+    },
+    "ports": {
+      "dns": 53
+    },
+    "data_dir": "/consul/data",
+    "addresses": {
+        "http" : "0.0.0.0"
+    },
+    "connect": {
+        "enabled": true
+    }
+}
