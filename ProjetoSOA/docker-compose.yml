@@ -16,6 +16,38 @@ services:
     networks:
       - app-network
     restart: unless-stopped
+
+  inventory-service:
+    build:
+      context: ./inventory-service/
+      dockerfile: Dockerfile
+    command: yarn dev
+    depends_on:
+      - discovery
+      - discovery-esm      
+    ports:
+      - "3033:3000"
+    volumes:
+      - ./inventory-service:/app    
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  cart-service:
+    build:
+      context: ./cart-service/
+      dockerfile: Dockerfile
+    command: yarn dev
+    depends_on:
+      - discovery
+      - discovery-esm      
+    ports:
+      - "3033:3000"
+    volumes:
+      - ./cart-service:/app    
+    networks:
+      - app-network
+    restart: unless-stopped
     
   discovery:
     image: consul:latest
