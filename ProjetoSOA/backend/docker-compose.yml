@@ -1,0 +1,51 @@
+version: "3.4"
+
+services:
+  account-service:
+    build:
+      context: ./account-service/
+      dockerfile: Dockerfile
+    command: yarn start
+    # depends_on:
+    # TODO: ADD DISCOVERY
+    ports:
+      - "3013:3333"
+    volumes:
+      - ./account-service:/app    
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  inventory-service:
+    build:
+      context: ./inventory-service/
+      dockerfile: Dockerfile
+    command: yarn start
+    # depends_on:
+    # TODO: ADD DISCOVERY  
+    ports:
+      - "3014:3333"
+    volumes:
+      - ./inventory-service:/app    
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  cart-service:
+    build:
+      context: ./cart-service/
+      dockerfile: Dockerfile
+    command: yarn start
+    # depends_on:
+    # TODO: ADD DISCOVERY
+    ports:
+      - "3015:3333"
+    volumes:
+      - ./cart-service:/app    
+    networks:
+      - app-network
+    restart: unless-stopped
+  
+networks:
+  app-network:
+    driver: bridge
