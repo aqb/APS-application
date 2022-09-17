@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { injectable } from "tsyringe";
 
-import Fachada from "../negocio/Fachada";
+import Fachada from "../../negocio/Fachada";
 
 @injectable()
 class TelaCadastroPresenter {
@@ -12,13 +12,8 @@ class TelaCadastroPresenter {
   }
 
   public cadastro(req: Request, res: Response) {
-    // TODO: Criar um UserProps e passar para a fachada.
-    const email = req.body.email;
-    const senha = req.body.senha;
-    const cpf = req.body.cpf;
-    const perfil = req.body.perfil;
-
-    this.fachada.efetuarCadastro(email, senha, cpf, perfil);
+    const usuario = req.body.usuario;
+    this.fachada.efetuarCadastro(usuario);
 
     res.status(201).send();
   }

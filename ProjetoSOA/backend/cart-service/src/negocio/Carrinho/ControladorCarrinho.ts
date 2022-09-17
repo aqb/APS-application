@@ -1,7 +1,8 @@
 import { injectable } from "tsyringe";
 
+import { comunicar } from "../../services/comunicar";
 import Item from "../Item/Item";
-import Produto from "../Produto/Produto";
+import Usuario from "../Usuario/Usuario";
 import Carrinho from "./Carrinho";
 import RegistroCarrinhos from "./RegistroCarrinhos";
 
@@ -13,34 +14,49 @@ class ControladorCarrinho {
     this.registroCarrinhos = registroCarrinhos;
   }
 
+  public criarCarrinho(cliente: Usuario): Carrinho {
+    return this.registroCarrinhos.adicionar(cliente);
+  }
+
   public pegarCarrinhoDe(clienteId: string): Carrinho {
     return this.registroCarrinhos.pegarCarrinhoDe(clienteId);
   }
 
-  public atualizarCarrinho(
+  public async atualizarCarrinho(
     clienteId: string,
     produtoId: string,
     quantidadeDesejada: number
   ) {
-    // TODO: Implementar comunicação com o serviço de estoque.
-    const item = new Item(
-      new Produto("1", "Guitarra", "Guitarra de rock", 100),
-      13
-    );
+    // Comunicação com o serviço de estoque.
+    const res = await comunicar("inventory-service", {
+      url: "/item",
+      method: "post",
+      data: {
+        produtoId
+      }
+    });
 
-    const carrinho = this.pegarCarrinhoDe(clienteId);
-    const quantidadeCarrinho = carrinho.getQuantidade(produtoId);
-    if (
-      item &&
-      item.getQuantidade() >= quantidadeCarrinho + quantidadeDesejada
-    ) {
-      carrinho.adicionarItem(new Item(item.getProduto(), quantidadeDesejada));
-      this.registroCarrinhos.atualizarCarrinho(carrinho);
-    } else {
+    // Atualiza o carrinho.
+    try {
+      const item = res.data as Item;
+      const carrinho = this.pegarCarrinhoDe(clienteId);
+      const quantidadeCarrinho = carrinho.getQuantidade(produtoId);
+      if (
+        item &&
+        item.getQuantidade() >= quantidadeCarrinho + quantidadeDesejada
+      ) {
+        carrinho.adicionarItem(new Item(item.getProduto(), quantidadeDesejada));
+        this.registroCarrinhos.atualizarCarrinho(carrinho);
+      } else {
+        throw new Error(
+          `${item.getProduto().getNome()} nao tem ${
+            quantidadeCarrinho + quantidadeDesejada
+          } unidades em estoque.`
+        );
+      }
+    } catch (error) {
       throw new Error(
-        `${item.getProduto().getNome()} nao tem ${
-          quantidadeCarrinho + quantidadeDesejada
-        } unidades em estoque.`
+        `Não foi poossível atualizar o carrinho do cliente ${clienteId}`
       );
     }
   }

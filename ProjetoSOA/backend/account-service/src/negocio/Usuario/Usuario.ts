@@ -6,17 +6,11 @@ import Senha from "../Senha/Senha";
 class Usuario {
   private id;
   private email;
-  private senha;
+  private senha?;
   private cpf;
   private perfil;
 
-  constructor(
-    id: string,
-    email: Email,
-    senha: Senha,
-    cpf: CPF,
-    perfil: Perfil
-  ) {
+  constructor(id: string, email: Email, senha: any, cpf: CPF, perfil: Perfil) {
     this.id = id;
     this.email = email;
     this.senha = senha;
@@ -40,11 +34,11 @@ class Usuario {
     this.email = email;
   }
 
-  public getSenha(): Senha {
+  public getSenha() {
     return this.senha;
   }
 
-  public setSenha(senha: Senha) {
+  public setSenha(senha?: Senha) {
     this.senha = senha;
   }
 

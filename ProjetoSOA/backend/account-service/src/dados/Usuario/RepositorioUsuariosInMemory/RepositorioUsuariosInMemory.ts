@@ -42,14 +42,22 @@ class RepositorioUsuariosInMemory implements IRepositorioUsuarios {
   }
 
   efetuarLogin(email: Email, senha: Senha): Usuario {
-    const usuario = this.usuarios.find(
+    const usuarioExistente = this.usuarios.find(
       usuario =>
         usuario.getEmail().getEmail() === email.getEmail() &&
         usuario.getSenha().getSenha() === senha.getSenha()
     );
 
-    if (usuario) {
-      return usuario;
+    if (usuarioExistente) {
+      // Cria uma nova instância de usuario para nao alterar o usuario
+      // existente no repositorio em memoria.
+      return new Usuario(
+        usuarioExistente.getId(),
+        usuarioExistente.getEmail(),
+        usuarioExistente.getSenha(),
+        usuarioExistente.getCPF(),
+        usuarioExistente.getPerfil()
+      );
     }
     throw new Error("Credenciais inválidas.");
   }

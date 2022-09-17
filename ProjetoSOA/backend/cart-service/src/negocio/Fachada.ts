@@ -3,14 +3,13 @@ import { container, inject, injectable, singleton } from "tsyringe";
 import IRepositorioCarrinhos from "../dados/Carrinho/IRepositorioCarrinhos";
 import Carrinho from "./Carrinho/Carrinho";
 import ControladorCarrinho from "./Carrinho/ControladorCarrinho";
-import Cliente from "./Usuario/Usuario";
 import IFabricaRepositorios from "./IFabricaRepositorios";
-import Item from "./Item/Item";
+import Usuario from "./Usuario/Usuario";
 
 @injectable()
 @singleton()
 class Fachada {
-  private controladorCarrinho;  
+  private controladorCarrinho;
 
   constructor(
     @inject("FabricaRepositorios") fabricaRepositorios: IFabricaRepositorios
@@ -18,8 +17,12 @@ class Fachada {
     container.register<IRepositorioCarrinhos>("RepositorioCarrinhos", {
       useValue: fabricaRepositorios.criarRepositorioCarrinhos()
     });
-    
-    this.controladorCarrinho = container.resolve(ControladorCarrinho);    
+
+    this.controladorCarrinho = container.resolve(ControladorCarrinho);
+  }
+
+  public criarCarrinho(cliente: Usuario): Carrinho {
+    return this.controladorCarrinho.criarCarrinho(cliente);
   }
 
   public pegarCarrinho(clienteId: string): Carrinho {

@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import IRepositorioCarrinhos from "../../dados/Carrinho/IRepositorioCarrinhos";
-import Cliente from "../Usuario/Usuario";
+import Usuario from "../Usuario/Usuario";
 import Carrinho from "./Carrinho";
 
 @injectable()
@@ -14,8 +14,8 @@ class RegistroCarrinhos {
     this.repositorioCarrinhos = repositorioCarrinhos;
   }
 
-  public adicionar(cliente: Cliente) {
-    this.repositorioCarrinhos.adicionar(cliente);
+  public adicionar(cliente: Usuario) {
+    return this.repositorioCarrinhos.adicionar(cliente);
   }
 
   public pegarCarrinhoDe(clienteId: string): Carrinho {

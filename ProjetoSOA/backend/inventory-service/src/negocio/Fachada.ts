@@ -1,6 +1,7 @@
 import { container, inject, injectable, singleton } from "tsyringe";
 
 import IRepositorioEstoque from "../dados/Estoque/IRepositorioEstoque";
+import { comunicar } from "../services/comunicar";
 import ControladorEstoque from "./Estoque/ControladorEstoque";
 import IFabricaRepositorios from "./IFabricaRepositorios";
 import Item from "./Item/Item";
@@ -28,12 +29,21 @@ class Fachada {
     return this.controladorEstoque.pegarItemPeloId(id);
   }
 
-  public adicionarAoCarrinho(
+  public async adicionarAoCarrinho(
     clienteId: string,
     produtoId: string,
     quantidadeDesejada: number
   ) {
-    // TODO: Implementar comunicação com o serviço de carrinho.
+    // Comunicação com o serviço de carrinho.
+    await comunicar("cart-service", {
+      url: "/adicionar",
+      method: "post",
+      data: {
+        clienteId,
+        produtoId,
+        quantidadeDesejada
+      }
+    });
   }
 }
 

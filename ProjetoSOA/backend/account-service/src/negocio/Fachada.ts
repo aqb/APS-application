@@ -1,6 +1,9 @@
 import { container, inject, injectable, singleton } from "tsyringe";
+
 import IRepositorioUsuarios from "../dados/Usuario/IRepositorioUsuarios";
+import Email from "./Email/Email";
 import IFabricaRepositorios from "./IFabricaRepositorios";
+import Senha from "./Senha/Senha";
 import ControladorCadastro from "./Usuario/ControladorCadastro";
 import ControladorLogin from "./Usuario/ControladorLogin";
 import Usuario from "./Usuario/Usuario";
@@ -9,7 +12,7 @@ import Usuario from "./Usuario/Usuario";
 @singleton()
 class Fachada {
   private controladorLogin;
-  private controladorCadastro;  
+  private controladorCadastro;
 
   constructor(
     @inject("FabricaRepositorios") fabricaRepositorios: IFabricaRepositorios
@@ -19,14 +22,14 @@ class Fachada {
     });
 
     this.controladorLogin = container.resolve(ControladorLogin);
-    this.controladorCadastro = container.resolve(ControladorCadastro);    
+    this.controladorCadastro = container.resolve(ControladorCadastro);
   }
 
-  public efetuarCadastro(email: string, senha: string, cpf: string, perfil: string) {
-    this.controladorCadastro.efetuarCadastro(email, senha, cpf, perfil);
+  public efetuarCadastro(usuario: Usuario) {
+    this.controladorCadastro.efetuarCadastro(usuario);
   }
 
-  public efetuarLogin(email: string, senha: string): Usuario {
+  public efetuarLogin(email: Email, senha: Senha): Usuario {
     return this.controladorLogin.efetuarLogin(email, senha);
   }
 
