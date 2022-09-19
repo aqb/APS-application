@@ -1,6 +1,34 @@
 version: "3.4"
 
 services:
+  api-gateway:
+    build:
+      context: ./api-gateway/
+      dockerfile: Dockerfile
+    command: yarn dev
+    depends_on:
+      - discovery
+    ports:
+      - "3030:3333"
+    volumes:
+      - ./api-gateway:/app
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  discovery:
+    image: consul:latest
+    command: "agent"
+    ports:
+      - "3333:8500"
+      - "8600:53/tcp"
+      - "8600:53/udp"
+    volumes:
+      - ./discovery/server.json:/consul/config/server.json:ro
+    networks:
+      - app-network
+    restart: always
+
   account-service:
     build:
       context: ./account-service/
@@ -9,7 +37,7 @@ services:
     depends_on:
       - discovery
     ports:
-      - "3030:3333"
+      - "3032:3333"
     volumes:
       - ./account-service:/app    
     networks:
@@ -24,7 +52,7 @@ services:
     depends_on:
       - discovery
     ports:
-      - "3031:3333"
+      - "3033:3333"
     volumes:
       - ./inventory-service:/app    
     networks:
@@ -39,25 +67,12 @@ services:
     depends_on:
       - discovery
     ports:
-      - "3032:3333"
+      - "3034:3333"
     volumes:
       - ./cart-service:/app    
     networks:
       - app-network
     restart: unless-stopped
-
-  discovery:
-    image: consul:latest
-    command: "agent"
-    ports:
-      - "8500:8500"
-      - "8600:53/tcp"
-      - "8600:53/udp"
-    volumes:
-      - ./discovery/server.json:/consul/config/server.json:ro
-    networks:
-      - app-network
-    restart: always
   
 networks:
   app-network:

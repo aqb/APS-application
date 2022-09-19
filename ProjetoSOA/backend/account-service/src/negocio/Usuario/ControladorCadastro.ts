@@ -13,7 +13,7 @@ class ControladorCadastro {
   }
 
   public async efetuarCadastro(camposUsuario: Usuario) {
-    const novoUsuario = this.registroUsuarios.adicionar(camposUsuario);
+    const novoUsuario = await this.registroUsuarios.adicionar(camposUsuario);
 
     await comunicar("cart-service", {
       url: "/account",

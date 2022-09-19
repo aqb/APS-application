@@ -18,13 +18,13 @@ class TelaLoginPresenter {
   public async login(req: Request, res: Response) {
     const email = new Email(req.body.email);
     const senha = new Senha(req.body.senha);
-    const usuario = this.fachada.efetuarLogin(email, senha);
+    const usuario = await this.fachada.efetuarLogin(email, senha);
 
     if (!usuario) {
       throw new Error("Credenciais inválidas!");
     }
 
-    const token = this.fachada.registrarSessao(usuario);
+    const token = await this.fachada.registrarSessao(usuario);
 
     res.cookie("access-token", token, {
       httpOnly: true,

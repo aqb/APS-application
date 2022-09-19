@@ -16,7 +16,7 @@ class RepositorioUsuariosInMemory implements IRepositorioUsuarios {
     this.usuarios = UsuariosDefault;
   }
 
-  adicionar(camposUsuario: Usuario): Usuario {
+  async adicionar(camposUsuario: Usuario): Promise<Usuario> {
     if (
       this.usuarios.find(
         user =>
@@ -41,7 +41,7 @@ class RepositorioUsuariosInMemory implements IRepositorioUsuarios {
     return camposUsuario;
   }
 
-  efetuarLogin(email: Email, senha: Senha): Usuario {
+  async efetuarLogin(email: Email, senha: Senha): Promise<Usuario> {
     const usuarioExistente = this.usuarios.find(
       usuario =>
         usuario.getEmail().getEmail() === email.getEmail() &&
@@ -62,7 +62,7 @@ class RepositorioUsuariosInMemory implements IRepositorioUsuarios {
     throw new Error("Credenciais inválidas.");
   }
 
-  editar(usuario: Usuario): Usuario {
+  async editar(usuario: Usuario): Promise<Usuario> {
     const usuarioIndex = this.usuarios.findIndex(
       user => user.getId() === usuario.getId()
     );
@@ -74,7 +74,7 @@ class RepositorioUsuariosInMemory implements IRepositorioUsuarios {
     return usuario;
   }
 
-  pegarUsuario(id: string): Usuario {
+  async pegarUsuario(id: string): Promise<Usuario> {
     const usuario = this.usuarios.find(usuario => usuario.getId() === id);
     if (usuario) {
       return usuario;

@@ -50,12 +50,12 @@ class App {
   private discovery() {
     consul.agent.service.register(
       {
-        id: "access-service",
-        name: "access-service",
-        address: "access-service",
+        id: "cart-service",
+        name: "cart-service",
+        address: "cart-service",
         port: 3333,
         check: {
-          http: "http://access-service:3333/health",
+          http: "http://cart-service:3333/health",
           interval: "10s"
         }
       },

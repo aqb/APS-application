@@ -1,21 +1,18 @@
-import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
+import { createProxyMiddleware } from "http-proxy-middleware";
 import morgan from "morgan";
-import { injectable } from "tsyringe";
 
-import consul from "./config/consul";
-import routes from "./routes";
+import { getHost } from "../communication/host";
+import services from "../communication/services";
 
-@injectable()
 class App {
   private server;
 
   constructor() {
     this.server = express();
     this.middlewares();
-    this.routes();
-    this.discovery();
+    this.proxies();
   }
 
   private middlewares() {
@@ -27,14 +24,21 @@ class App {
         origin: "*"
       })
     );
-    this.server.use(cookieParser());
     this.server.use(morgan("dev"));
-    this.server.use(express.json());
-    this.server.use(express.urlencoded({ extended: false }));
   }
 
-  private routes() {
-    this.server.use(routes);
+  private proxies() {
+    services.forEach(service => {
+      this.server.use(
+        service.path,
+        createProxyMiddleware(service.path, {
+          target: service.name,
+          pathRewrite: (path: string) => path.replace(service.path, ""),
+          changeOrigin: true,
+          router: getHost(service.name)
+        })
+      );
+    });
 
     this.server.use((req: Request, res: Response, next: NextFunction) => {
       res.status(404).json({ message: "Path Not Found" });
@@ -42,27 +46,8 @@ class App {
 
     this.server.use(
       (err: Error, req: Request, res: Response, next: NextFunction) => {
+        console.log(err);
         res.status(500).json({ message: err.message });
-      }
-    );
-  }
-
-  private discovery() {
-    consul.agent.service.register(
-      {
-        id: "account-service",
-        name: "account-service",
-        address: "account-service",
-        port: 3333,
-        check: {
-          http: "http://account-service:3333/health",
-          interval: "10s"
-        }
-      },
-      err => {
-        if (err) {
-          console.log("Error registering service on Consul");
-        }
       }
     );
   }

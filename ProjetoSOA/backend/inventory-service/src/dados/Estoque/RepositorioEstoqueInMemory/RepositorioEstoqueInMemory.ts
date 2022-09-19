@@ -14,19 +14,19 @@ class RepositorioEstoqueInMemory implements IRepositorioEstoque {
     this.itens = ItensDefault;
   }
 
-  adicionarNovoProduto(item: Item) {
+  async adicionarNovoProduto(item: Item): Promise<void> {
     const id = uuidv4();
     item.getProduto().setId(id);
     this.itens.push(item);
   }
 
-  adicionarItens(itens: Item[]): void {
+  async adicionarItens(itens: Item[]): Promise<void> {
     itens.forEach(item => {
       this.adicionar(item);
     });
   }
 
-  adicionar(item: Item): void {
+  async adicionar(item: Item): Promise<void> {
     const itemEstoque = this.itens.find(
       itemEstoque => itemEstoque.getId() === item.getId()
     );
@@ -38,7 +38,7 @@ class RepositorioEstoqueInMemory implements IRepositorioEstoque {
     }
   }
 
-  pegarItens(nomeFiltro?: string): Item[] {
+  async pegarItens(nomeFiltro?: string): Promise<Item[]> {
     return this.itens.filter(item => {
       if (nomeFiltro) {
         return item
@@ -51,7 +51,7 @@ class RepositorioEstoqueInMemory implements IRepositorioEstoque {
     });
   }
 
-  pegarItemPeloId(id: string): Item {
+  async pegarItemPeloId(id: string): Promise<Item> {
     const item = this.itens.find(item => item.getId() === id);
     if (item) {
       return item;
@@ -59,7 +59,7 @@ class RepositorioEstoqueInMemory implements IRepositorioEstoque {
     throw new Error(`Item ${id} não encontrado`);
   }
 
-  reservarItens(itensCarrinho: Item[]) {
+  async reservarItens(itensCarrinho: Item[]): Promise<void> {
     itensCarrinho.forEach(itemCarrinho => {
       const itemEstoque = this.itens.find(
         itemEstoque => itemEstoque.getId() === itemCarrinho.getId()

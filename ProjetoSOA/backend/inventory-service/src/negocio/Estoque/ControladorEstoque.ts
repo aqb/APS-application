@@ -11,12 +11,12 @@ class ControladorEstoque {
     this.registroEstoque = registroEstoque;
   }
 
-  public pegarItensEstoque(nomeFiltro?: string): Item[] {
-    return this.registroEstoque.pegarItens(nomeFiltro);
+  public async pegarItensEstoque(nomeFiltro?: string): Promise<Item[]> {
+    return await this.registroEstoque.pegarItens(nomeFiltro);
   }
 
-  public pegarItemPeloId(id: string): Item {
-    return this.registroEstoque.pegarItemPeloId(id);
+  public async pegarItemPeloId(id: string): Promise<Item> {
+    return await this.registroEstoque.pegarItemPeloId(id);
   }
 }
 

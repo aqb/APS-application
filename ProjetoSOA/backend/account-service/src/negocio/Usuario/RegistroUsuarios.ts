@@ -15,19 +15,19 @@ class RegistroUsuarios {
     this.repositorioUsuarios = repositorioUsuarios;
   }
 
-  public adicionar(camposUsuario: Usuario): Usuario {
+  public async adicionar(camposUsuario: Usuario): Promise<Usuario> {
     return this.repositorioUsuarios.adicionar(camposUsuario);
   }
 
-  public efetuarLogin(email: Email, senha: Senha): Usuario {
+  public async efetuarLogin(email: Email, senha: Senha): Promise<Usuario> {
     return this.repositorioUsuarios.efetuarLogin(email, senha);
   }
 
-  public editar(usuario: Usuario) {
+  public async editar(usuario: Usuario) {
     return this.repositorioUsuarios.editar(usuario);
   }
 
-  public pegarUsuario(id: string): Usuario {
+  public async pegarUsuario(id: string): Promise<Usuario> {
     return this.repositorioUsuarios.pegarUsuario(id);
   }
 }

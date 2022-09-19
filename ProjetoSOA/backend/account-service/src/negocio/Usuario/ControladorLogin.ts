@@ -15,13 +15,13 @@ class ControladorLogin {
     this.registroUsuarios = registroUsuarios;
   }
 
-  public efetuarLogin(email: Email, senha: Senha): Usuario {
-    const usuario = this.registroUsuarios.efetuarLogin(email, senha);
+  public async efetuarLogin(email: Email, senha: Senha): Promise<Usuario> {
+    const usuario = await this.registroUsuarios.efetuarLogin(email, senha);
     usuario.setSenha(undefined);
     return usuario;
   }
 
-  public registrarSessao(usuario: Usuario): string {
+  public async registrarSessao(usuario: Usuario): Promise<string> {
     return jwt.sign({ id: usuario.getId() }, auth.secret, {
       expiresIn: auth.expiresIn
     });

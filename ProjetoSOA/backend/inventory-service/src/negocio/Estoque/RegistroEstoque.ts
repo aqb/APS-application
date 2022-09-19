@@ -13,24 +13,24 @@ class RegistroEstoque {
     this.repositorioEstoque = repositorioEstoque;
   }
 
-  public adicionar(item: Item) {
+  public async adicionar(item: Item) {
     this.repositorioEstoque.adicionar(item);
   }
 
-  public pegarItens(nomeFiltro?: string): Item[] {
+  public async pegarItens(nomeFiltro?: string): Promise<Item[]> {
     return this.repositorioEstoque.pegarItens(nomeFiltro);
   }
 
-  public pegarItemPeloId(id: string): Item {
+  public async pegarItemPeloId(id: string): Promise<Item> {
     return this.repositorioEstoque.pegarItemPeloId(id);
   }
 
-  public reservarItens(itens: Item[]) {
-    return this.repositorioEstoque.reservarItens(itens);
+  public async reservarItens(itens: Item[]) {
+    return await this.repositorioEstoque.reservarItens(itens);
   }
 
-  public devolverItensAoEstoque(itens: Item[]) {
-    return this.repositorioEstoque.adicionarItens(itens);
+  public async devolverItensAoEstoque(itens: Item[]) {
+    return await this.repositorioEstoque.adicionarItens(itens);
   }
 }
 

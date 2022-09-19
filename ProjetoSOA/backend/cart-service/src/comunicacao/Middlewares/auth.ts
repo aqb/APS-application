@@ -1,41 +1,26 @@
 import { NextFunction, Request, Response } from "express";
-import { verify } from "jsonwebtoken";
+import { injectable } from "tsyringe";
 
-export const verifyToken = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void => {
-  const authHeader = req.headers.authorization;
+import { comunicar } from "../../services/comunicar";
 
-  if (!authHeader) {
-    res.status(401).send({ error: "No token provided" });
-    return;
-  }
+@injectable()
+class AuthMiddleware {
+  public async verify(req: Request, res: Response, next: NextFunction) {
+    const authHeader = req.headers.authorization;
 
-  const parts = authHeader.split(" ");
+    const authenticationResponse = await comunicar("account-service", {
+      url: "/me",
+      headers: { authorization: authHeader || "" },
+      validateStatus: status => status < 500
+    });
 
-  if (parts.length !== 2) {
-    res.status(401).send({ error: "Token error" });
-    return;
-  }
-
-  const [scheme, token] = parts;
-
-  if (!/^Bearer$/i.test(scheme)) {
-    res.status(401).send({ error: "Token malformatted" });
-    return;
-  }
-
-  const secret = "secret";
-
-  verify(token, secret, (err: any, decoded: any) => {
-    if (err) return res.status(401).send({ error: "Token invalid" });
-
-    if (decoded) {
-      req.body.clienteId = decoded.id;
+    if (authenticationResponse.status !== 200) {
+      return res.status(401).send({ error: "Token invalid" });
     }
 
+    req.params.authenticatedUserId = authenticationResponse.data?.user?.id;
     return next();
-  });
-};
+  }
+}
+
+export default AuthMiddleware;

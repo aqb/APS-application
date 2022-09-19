@@ -1,17 +1,17 @@
 import Item from "../../negocio/Item/Item";
 
 interface IRepositorioEstoque {
-  adicionar(item: Item): void;
+  adicionar(item: Item): Promise<void>;
 
-  adicionarItens(itens: Item[]): void;
+  adicionarItens(itens: Item[]): Promise<void>;
 
-  adicionarNovoProduto(props: Item): void;
+  adicionarNovoProduto(props: Item): Promise<void>;
 
-  pegarItens(nomeFiltro?: string): Item[];
+  pegarItens(nomeFiltro?: string): Promise<Item[]>;
 
-  pegarItemPeloId(id: string): Item;
+  pegarItemPeloId(id: string): Promise<Item>;
 
-  reservarItens(itens: Item[]): void;
+  reservarItens(itens: Item[]): Promise<void>;
 }
 
 export default IRepositorioEstoque;

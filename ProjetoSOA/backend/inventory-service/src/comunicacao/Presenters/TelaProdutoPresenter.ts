@@ -11,7 +11,7 @@ class TelaProdutoPresenter {
     this.fachada = fachada;
   }
 
-  public adicionarCarrinho(req: Request, res: Response) {
+  public async adicionarCarrinho(req: Request, res: Response) {
     const clienteId = req.body.clienteId;
     const produtoId = req.body.produtoId;
     const quantidadeDesejada = req.body.quantidade;
@@ -19,7 +19,7 @@ class TelaProdutoPresenter {
     res.status(201).send();
   }
 
-  public pegarProduto(req: Request, res: Response) {
+  public async pegarProduto(req: Request, res: Response) {
     const produtoId = req.params.id;
     const item = this.fachada.pegarItemEstoque(produtoId);
     if (item) {

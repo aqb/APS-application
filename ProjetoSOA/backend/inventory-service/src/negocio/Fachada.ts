@@ -21,12 +21,12 @@ class Fachada {
     this.controladorEstoque = container.resolve(ControladorEstoque);
   }
 
-  public pegarItensEstoque(nomeFiltro?: string): Item[] {
-    return this.controladorEstoque.pegarItensEstoque(nomeFiltro);
+  public async pegarItensEstoque(nomeFiltro?: string): Promise<Item[]> {
+    return await this.controladorEstoque.pegarItensEstoque(nomeFiltro);
   }
 
-  public pegarItemEstoque(id: string): Item {
-    return this.controladorEstoque.pegarItemPeloId(id);
+  public async pegarItemEstoque(id: string): Promise<Item> {
+    return await this.controladorEstoque.pegarItemPeloId(id);
   }
 
   public async adicionarAoCarrinho(
