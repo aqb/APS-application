@@ -28,20 +28,20 @@ class Fachada {
     this.controladorPerfil = container.resolve(ControladorPerfil);
   }
 
-  public efetuarCadastro(usuario: Usuario) {
-    this.controladorCadastro.efetuarCadastro(usuario);
+  public async efetuarCadastro(usuario: Usuario) {
+    await this.controladorCadastro.efetuarCadastro(usuario);
   }
 
   public async efetuarLogin(email: Email, senha: Senha): Promise<Usuario> {
-    return this.controladorLogin.efetuarLogin(email, senha);
+    return await this.controladorLogin.efetuarLogin(email, senha);
   }
 
   public async registrarSessao(usuario: Usuario): Promise<string> {
-    return this.controladorLogin.registrarSessao(usuario);
+    return await this.controladorLogin.registrarSessao(usuario);
   }
 
   public async me(id: string): Promise<Usuario> {
-    return this.controladorPerfil.me(id);
+    return await this.controladorPerfil.me(id);
   }
 }
 

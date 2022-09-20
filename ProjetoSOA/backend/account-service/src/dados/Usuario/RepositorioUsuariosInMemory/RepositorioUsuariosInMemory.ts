@@ -59,7 +59,7 @@ class RepositorioUsuariosInMemory implements IRepositorioUsuarios {
         usuarioExistente.getPerfil()
       );
     }
-    throw new Error("Credenciais inválidas.");
+    throw new Error("Não foi possível efetuar o login.");
   }
 
   async editar(usuario: Usuario): Promise<Usuario> {

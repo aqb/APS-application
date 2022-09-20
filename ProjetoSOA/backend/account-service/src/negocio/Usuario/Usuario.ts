@@ -10,7 +10,7 @@ class Usuario {
   private cpf;
   private perfil;
 
-  constructor(id: string, email: Email, senha: any, cpf: CPF, perfil: Perfil) {
+  constructor(id: any, email: Email, senha: any, cpf: CPF, perfil: Perfil) {
     this.id = id;
     this.email = email;
     this.senha = senha;

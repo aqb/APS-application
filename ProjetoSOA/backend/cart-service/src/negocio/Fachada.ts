@@ -4,6 +4,7 @@ import IRepositorioCarrinhos from "../dados/Carrinho/IRepositorioCarrinhos";
 import Carrinho from "./Carrinho/Carrinho";
 import ControladorCarrinho from "./Carrinho/ControladorCarrinho";
 import IFabricaRepositorios from "./IFabricaRepositorios";
+import Item from "./Item/Item";
 import Usuario from "./Usuario/Usuario";
 
 @injectable()
@@ -21,22 +22,22 @@ class Fachada {
     this.controladorCarrinho = container.resolve(ControladorCarrinho);
   }
 
-  public criarCarrinho(cliente: Usuario): Carrinho {
-    return this.controladorCarrinho.criarCarrinho(cliente);
+  public async criarCarrinho(cliente: Usuario): Promise<Carrinho> {
+    return await this.controladorCarrinho.criarCarrinho(cliente);
   }
 
-  public pegarCarrinho(clienteId: string): Carrinho {
-    return this.controladorCarrinho.pegarCarrinhoDe(clienteId);
+  public async pegarCarrinho(clienteId: string): Promise<Carrinho> {
+    return await this.controladorCarrinho.pegarCarrinhoDe(clienteId);
   }
 
-  public adicionarAoCarrinho(
+  public async adicionarAoCarrinho(
     clienteId: string,
-    produtoId: string,
+    item: Item,
     quantidadeDesejada: number
   ) {
-    this.controladorCarrinho.atualizarCarrinho(
+    await this.controladorCarrinho.atualizarCarrinho(
       clienteId,
-      produtoId,
+      item,
       quantidadeDesejada
     );
   }

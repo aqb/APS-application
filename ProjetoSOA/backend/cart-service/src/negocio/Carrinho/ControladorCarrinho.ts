@@ -1,3 +1,5 @@
+import { Console } from "console";
+
 import { injectable } from "tsyringe";
 
 import { comunicar } from "../../services/comunicar";
@@ -14,39 +16,30 @@ class ControladorCarrinho {
     this.registroCarrinhos = registroCarrinhos;
   }
 
-  public criarCarrinho(cliente: Usuario): Carrinho {
-    return this.registroCarrinhos.adicionar(cliente);
+  public async criarCarrinho(cliente: Usuario): Promise<Carrinho> {
+    return await this.registroCarrinhos.adicionar(cliente);
   }
 
-  public pegarCarrinhoDe(clienteId: string): Carrinho {
-    return this.registroCarrinhos.pegarCarrinhoDe(clienteId);
+  public async pegarCarrinhoDe(clienteId: string): Promise<Carrinho> {
+    return await this.registroCarrinhos.pegarCarrinhoDe(clienteId);
   }
 
   public async atualizarCarrinho(
     clienteId: string,
-    produtoId: string,
+    item: Item,
     quantidadeDesejada: number
   ) {
-    // Comunicação com o serviço de estoque.
-    const res = await comunicar("inventory-service", {
-      url: "/item",
-      method: "post",
-      data: {
-        produtoId
-      }
-    });
-
     // Atualiza o carrinho.
     try {
-      const item = res.data as Item;
-      const carrinho = this.pegarCarrinhoDe(clienteId);
-      const quantidadeCarrinho = carrinho.getQuantidade(produtoId);
+      const carrinho = await this.registroCarrinhos.pegarCarrinhoDe(clienteId);
+      const quantidadeCarrinho = carrinho.getQuantidade(item.getId());
       if (
         item &&
         item.getQuantidade() >= quantidadeCarrinho + quantidadeDesejada
       ) {
+        console.log("pode adicionar no carrinho!");
         carrinho.adicionarItem(new Item(item.getProduto(), quantidadeDesejada));
-        this.registroCarrinhos.atualizarCarrinho(carrinho);
+        await this.registroCarrinhos.atualizarCarrinho(carrinho);
       } else {
         throw new Error(
           `${item.getProduto().getNome()} nao tem ${

@@ -18,7 +18,7 @@ class AuthMiddleware {
       return res.status(401).send({ error: "Token invalid" });
     }
 
-    req.params.authenticatedUserId = authenticationResponse.data?.user?.id;
+    req.params.authenticatedUserId = authenticationResponse.data?.usuario?.id;
     return next();
   }
 }

@@ -12,9 +12,9 @@ class TelaPerfilPresenter {
   }
 
   public async me(req: Request, res: Response) {
-    const user = await this.fachada.me(req.params.authenticatedUserId);
+    const usuario = await this.fachada.me(req.params.authenticatedUserId);
 
-    res.status(200).json({ user });
+    res.status(200).json({ usuario });
   }
 }
 

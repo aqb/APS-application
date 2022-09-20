@@ -1,11 +1,11 @@
 import Carrinho from "../../negocio/Carrinho/Carrinho";
-import Cliente from "../../negocio/Usuario/Usuario";
+import Usuario from "../../negocio/Usuario/Usuario";
 
 interface IRepositorioCarrinhos {
-  adicionar(cliente: Cliente): Carrinho;
-  pegarCarrinhoDe(clienteId: string): Carrinho;
-  atualizarCarrinho(carrinho: Carrinho): void;
-  limparCarrinho(carrinho: Carrinho): void;
+  adicionar(cliente: Usuario): Promise<Carrinho>;
+  pegarCarrinhoDe(clienteId: string): Promise<Carrinho>;
+  atualizarCarrinho(carrinho: Carrinho): Promise<void>;
+  limparCarrinho(carrinho: Carrinho): Promise<void>;
 }
 
 export default IRepositorioCarrinhos;

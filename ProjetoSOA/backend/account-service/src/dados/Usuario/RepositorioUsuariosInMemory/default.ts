@@ -8,14 +8,14 @@ import Usuario from "../../../negocio/Usuario/Usuario";
 
 const UsuariosDefault: Usuario[] = [
   new Usuario(
-    uuidv4(),
+    "1",
     new Email("eric.clapton@gmail.com"),
     new Senha("12345678"),
     new CPF("123.456.789-00"),
     Perfil.CLIENTE
   ),
   new Usuario(
-    uuidv4(),
+    "2",
     new Email("renato.russo@gmail.com"),
     new Senha("12345678"),
     new CPF("123.456.789-11"),

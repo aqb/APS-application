@@ -14,20 +14,20 @@ class RegistroCarrinhos {
     this.repositorioCarrinhos = repositorioCarrinhos;
   }
 
-  public adicionar(cliente: Usuario) {
-    return this.repositorioCarrinhos.adicionar(cliente);
+  public async adicionar(cliente: Usuario) {
+    return await this.repositorioCarrinhos.adicionar(cliente);
   }
 
-  public pegarCarrinhoDe(clienteId: string): Carrinho {
-    return this.repositorioCarrinhos.pegarCarrinhoDe(clienteId);
+  public async pegarCarrinhoDe(clienteId: string): Promise<Carrinho> {
+    return await this.repositorioCarrinhos.pegarCarrinhoDe(clienteId);
   }
 
-  public atualizarCarrinho(carrinho: Carrinho) {
-    this.repositorioCarrinhos.atualizarCarrinho(carrinho);
+  public async atualizarCarrinho(carrinho: Carrinho) {
+    await this.repositorioCarrinhos.atualizarCarrinho(carrinho);
   }
 
-  public limparCarrinho(carrinho: Carrinho) {
-    this.repositorioCarrinhos.limparCarrinho(carrinho);
+  public async limparCarrinho(carrinho: Carrinho) {
+    await this.repositorioCarrinhos.limparCarrinho(carrinho);
   }
 }
 

@@ -1,12 +1,12 @@
-import Cliente from "../Usuario/Usuario";
 import Item from "../Item/Item";
+import Usuario from "../Usuario/Usuario";
 
 class Carrinho {
   private cliente;
   private id;
   private itens;
 
-  public constructor(id: string, cliente: Cliente, itens: Item[]) {
+  public constructor(id: string, cliente: Usuario, itens: Item[]) {
     this.id = id;
     this.cliente = cliente;
     this.itens = itens;
@@ -16,11 +16,11 @@ class Carrinho {
     return this.id;
   }
 
-  public getCliente(): Cliente {
+  public getCliente(): Usuario {
     return this.cliente;
   }
 
-  public setCliente(cliente: Cliente) {
+  public setCliente(cliente: Usuario) {
     this.cliente = cliente;
   }
 

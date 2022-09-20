@@ -26,15 +26,7 @@ class TelaLoginPresenter {
 
     const token = await this.fachada.registrarSessao(usuario);
 
-    res.cookie("access-token", token, {
-      httpOnly: true,
-      maxAge: 1000 * auth.expiresIn,
-      sameSite: environment.isProduction ? "none" : "lax",
-      path: "/",
-      secure: environment.isProduction
-    });
-
-    res.status(200).json({ usuario });
+    res.status(200).json({ usuario, token });
   }
 }
 

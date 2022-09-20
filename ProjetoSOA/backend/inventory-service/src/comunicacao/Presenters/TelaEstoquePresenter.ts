@@ -11,9 +11,9 @@ class TelaEstoquePresenter {
     this.fachada = fachada;
   }
 
-  public pegarEstoque(req: Request, res: Response) {
+  public async pegarEstoque(req: Request, res: Response) {
     const nomeFiltro = req.query.nome?.toString();
-    const itens = this.fachada.pegarItensEstoque(nomeFiltro);
+    const itens = await this.fachada.pegarItensEstoque(nomeFiltro);
     if (itens) {
       res.json(itens);
     } else {

@@ -4,6 +4,8 @@ import { injectable } from "tsyringe";
 import CPF from "../../negocio/CPF/CPF";
 import Email from "../../negocio/Email/Email";
 import Fachada from "../../negocio/Fachada";
+import Item from "../../negocio/Item/Item";
+import Produto from "../../negocio/Produto/Produto";
 import Senha from "../../negocio/Senha/Senha";
 import Usuario from "../../negocio/Usuario/Usuario";
 
@@ -15,18 +17,18 @@ class TelaCarrinhoPresenter {
     this.fachada = fachada;
   }
 
-  public criarCarrinho(req: Request, res: Response) {
-    const { usuario } = req.body.usuario;
+  public async criarCarrinho(req: Request, res: Response) {
+    const usuario = req.body.usuario;
 
     try {
       const cliente = new Usuario(
-        usuario.userId,
+        usuario.id,
         new Email(usuario.email),
         new Senha(usuario.senha),
         new CPF(usuario.cpf),
         usuario.perfil
       );
-      const carrinho = this.fachada.criarCarrinho(cliente);
+      const carrinho = await this.fachada.criarCarrinho(cliente);
       if (carrinho) {
         return res.json(carrinho);
       } else {
@@ -39,9 +41,9 @@ class TelaCarrinhoPresenter {
     }
   }
 
-  public pegarCarrinho(req: Request, res: Response) {
+  public async pegarCarrinho(req: Request, res: Response) {
     const clienteId = req.body.clienteId;
-    const carrinho = this.fachada.pegarCarrinho(clienteId);
+    const carrinho = await this.fachada.pegarCarrinho(clienteId);
     if (carrinho) {
       res.json(carrinho);
     } else {
@@ -51,9 +53,25 @@ class TelaCarrinhoPresenter {
     }
   }
 
-  public adicionarAoCarrinho(req: Request, res: Response) {
-    const { clienteId, itemId, quantidade } = req.body;
-    this.fachada.adicionarAoCarrinho(clienteId, itemId, quantidade);
+  public async adicionarAoCarrinho(req: Request, res: Response) {
+    const authenticatedUserId = req.params.authenticatedUserId;
+    const { item, quantidadeDesejada } = req.body;
+
+    await this.fachada.adicionarAoCarrinho(
+      authenticatedUserId,
+      new Item(
+        new Produto(
+          item.produto.id,
+          item.produto.nome,
+          item.produto.descricao,
+          item.produto.preco
+        ),
+        item.quantidade
+      ),
+      quantidadeDesejada
+    );
+
+    res.status(201).send();
   }
 
   public async realizarPedido(req: Request, res: Response) {

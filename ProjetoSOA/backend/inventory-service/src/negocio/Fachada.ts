@@ -30,17 +30,22 @@ class Fachada {
   }
 
   public async adicionarAoCarrinho(
-    clienteId: string,
+    authHeader: string,
     produtoId: string,
     quantidadeDesejada: number
   ) {
+    // Busca o item do estoque pelo id recebido.
+    const item = await this.pegarItemEstoque(produtoId);
+
     // Comunicação com o serviço de carrinho.
     await comunicar("cart-service", {
       url: "/adicionar",
       method: "post",
+      headers: {
+        authorization: authHeader
+      },
       data: {
-        clienteId,
-        produtoId,
+        item,
         quantidadeDesejada
       }
     });

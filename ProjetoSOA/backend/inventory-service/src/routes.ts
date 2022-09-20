@@ -27,6 +27,6 @@ routes.post(
   async (req, res) => await produtoPresenter.adicionarCarrinho(req, res)
 );
 
-routes.get("/health", (req, res) => res.status(200).send());
+routes.get("/health", async (req, res) => await res.status(200).send());
 
 export default routes;

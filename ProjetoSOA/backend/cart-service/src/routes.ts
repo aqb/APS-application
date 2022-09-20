@@ -9,17 +9,21 @@ const carrinhoPresenter = container.resolve(TelaCarrinhoPresenter);
 
 const routes = Router();
 
-// TODO: funcs async??
-routes.post("/carrinho", authMiddleware.verify, (req, res) =>
-  carrinhoPresenter.criarCarrinho(req, res)
+routes.post(
+  "/carrinho",
+  async (req, res) => await carrinhoPresenter.criarCarrinho(req, res)
 );
 
-routes.get("/carrinho", authMiddleware.verify, (req, res) =>
-  carrinhoPresenter.pegarCarrinho(req, res)
+routes.get(
+  "/carrinho",
+  authMiddleware.verify,
+  async (req, res) => await carrinhoPresenter.pegarCarrinho(req, res)
 );
 
-routes.post("adicionar", authMiddleware.verify, (req, res) =>
-  carrinhoPresenter.adicionarAoCarrinho(req, res)
+routes.post(
+  "/adicionar",
+  authMiddleware.verify,
+  async (req, res) => await carrinhoPresenter.adicionarAoCarrinho(req, res)
 );
 
 routes.post(
@@ -28,6 +32,6 @@ routes.post(
   async (req, res) => await carrinhoPresenter.realizarPedido(req, res)
 );
 
-routes.get("/health", (req, res) => res.status(200).send());
+routes.get("/health", async (req, res) => res.status(200).send());
 
 export default routes;

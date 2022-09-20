@@ -2,7 +2,7 @@ import { singleton } from "tsyringe";
 import { v4 as uuidv4 } from "uuid";
 
 import Carrinho from "../../../negocio/Carrinho/Carrinho";
-import Cliente from "../../../negocio/Usuario/Usuario";
+import Usuario from "../../../negocio/Usuario/Usuario";
 import IRepositorioCarrinhos from "../IRepositorioCarrinhos";
 import CarrinhosDefault from "./default";
 
@@ -15,14 +15,15 @@ class RepositorioCarrinhosInMemory implements IRepositorioCarrinhos {
     this.carrinhos = CarrinhosDefault;
   }
 
-  adicionar(cliente: Cliente): Carrinho {
+  async adicionar(cliente: Usuario): Promise<Carrinho> {
     const id = uuidv4();
     const carrinho = new Carrinho(id, cliente, []);
     this.carrinhos.push(carrinho);
+
     return carrinho;
   }
 
-  pegarCarrinhoDe(clienteId: string): Carrinho {
+  async pegarCarrinhoDe(clienteId: string): Promise<Carrinho> {
     const carrinho = this.carrinhos.find(
       carrinho => carrinho.getCliente().getId() === clienteId
     );
@@ -32,7 +33,7 @@ class RepositorioCarrinhosInMemory implements IRepositorioCarrinhos {
     throw new Error(`Carrinho do cliente ${clienteId} não encontrado`);
   }
 
-  atualizarCarrinho(carrinho: Carrinho): void {
+  async atualizarCarrinho(carrinho: Carrinho): Promise<void> {
     const carrinhoIndex = this.carrinhos.findIndex(
       carrinhoRegistro => carrinhoRegistro.getId() === carrinho.getId()
     );
@@ -42,7 +43,7 @@ class RepositorioCarrinhosInMemory implements IRepositorioCarrinhos {
     this.carrinhos[carrinhoIndex] = carrinho;
   }
 
-  limparCarrinho(carrinho: Carrinho): void {
+  async limparCarrinho(carrinho: Carrinho): Promise<void> {
     const carrinhoIndex = this.carrinhos.findIndex(
       carrinhoRegistro => carrinhoRegistro.getId() === carrinho.getId()
     );

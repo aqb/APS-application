@@ -15,21 +15,22 @@ class ControladorCadastro {
   public async efetuarCadastro(camposUsuario: Usuario) {
     const novoUsuario = await this.registroUsuarios.adicionar(camposUsuario);
 
+    const usuarioCarrinho = new Usuario(
+      novoUsuario.getId(),
+      novoUsuario.getEmail(),
+      undefined,
+      novoUsuario.getCPF(),
+      novoUsuario.getPerfil()
+    );
     await comunicar("cart-service", {
-      url: "/account",
+      url: "/carrinho",
       method: "post",
       data: {
         // Não é necessário enviar a senha do cliente, pois essa informação não é
         // relevante para o carrinho de compras, e sim para o serviço de autenticação.
-        // Alem disso, a senha do cliente é uma informçao sensível, e não deve ser
+        // Alem disso, a senha do cliente é uma informaçao sensível, e não deve ser
         // compartilhada com outros serviços.
-        usuario: new Usuario(
-          novoUsuario.getId(),
-          novoUsuario.getEmail(),
-          undefined,
-          novoUsuario.getCPF(),
-          novoUsuario.getPerfil()
-        )
+        usuario: usuarioCarrinho
       }
     });
   }
