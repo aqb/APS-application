@@ -22,12 +22,16 @@ class RegistroCarrinhos {
     return await this.repositorioCarrinhos.pegarCarrinhoDe(clienteId);
   }
 
+  public async pegarCarrinho(carrinhoId: string): Promise<Carrinho> {
+    return await this.repositorioCarrinhos.pegarCarrinho(carrinhoId);
+  }
+
   public async atualizarCarrinho(carrinho: Carrinho) {
     await this.repositorioCarrinhos.atualizarCarrinho(carrinho);
   }
 
-  public async limparCarrinho(carrinho: Carrinho) {
-    await this.repositorioCarrinhos.limparCarrinho(carrinho);
+  public async limparCarrinho(carrinhoId: string) {
+    await this.repositorioCarrinhos.limparCarrinho(carrinhoId);
   }
 }
 

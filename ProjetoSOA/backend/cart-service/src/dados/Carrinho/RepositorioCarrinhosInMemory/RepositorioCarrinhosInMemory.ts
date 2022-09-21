@@ -33,6 +33,16 @@ class RepositorioCarrinhosInMemory implements IRepositorioCarrinhos {
     throw new Error(`Carrinho do cliente ${clienteId} não encontrado`);
   }
 
+  async pegarCarrinho(carrinhoId: string): Promise<Carrinho> {
+    const carrinho = this.carrinhos.find(
+      carrinho => carrinho.getId() === carrinhoId
+    );
+    if (carrinho) {
+      return carrinho;
+    }
+    throw new Error(`Carrinho ${carrinhoId} não encontrado`);
+  }
+
   async atualizarCarrinho(carrinho: Carrinho): Promise<void> {
     const carrinhoIndex = this.carrinhos.findIndex(
       carrinhoRegistro => carrinhoRegistro.getId() === carrinho.getId()
@@ -43,12 +53,12 @@ class RepositorioCarrinhosInMemory implements IRepositorioCarrinhos {
     this.carrinhos[carrinhoIndex] = carrinho;
   }
 
-  async limparCarrinho(carrinho: Carrinho): Promise<void> {
+  async limparCarrinho(carrinhoId: string): Promise<void> {
     const carrinhoIndex = this.carrinhos.findIndex(
-      carrinhoRegistro => carrinhoRegistro.getId() === carrinho.getId()
+      carrinhoRegistro => carrinhoRegistro.getId() === carrinhoId
     );
     if (carrinhoIndex === -1) {
-      throw new Error(`Carrinho ${carrinho.getId()} não encontrado`);
+      throw new Error(`Carrinho ${carrinhoId} não encontrado`);
     }
     this.carrinhos[carrinhoIndex].limpar();
   }

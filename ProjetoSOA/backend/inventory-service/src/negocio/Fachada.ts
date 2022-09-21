@@ -28,6 +28,14 @@ class Fachada {
   public async pegarItemEstoque(id: string): Promise<Item> {
     return await this.controladorEstoque.pegarItemPeloId(id);
   }
+
+  public async removerItensEstoque(itens: Item[]): Promise<void> {
+    await this.controladorEstoque.removerItensEstoque(itens);
+  }
+
+  public async devolverItensAoEstoque(itens: Item[]): Promise<void> {
+    await this.controladorEstoque.devolverItensAoEstoque(itens);
+  }
 }
 
 export default Fachada;

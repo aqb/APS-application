@@ -59,7 +59,7 @@ class RepositorioEstoqueInMemory implements IRepositorioEstoque {
     throw new Error(`Item ${id} não encontrado`);
   }
 
-  async reservarItens(itensCarrinho: Item[]): Promise<void> {
+  async removerItens(itensCarrinho: Item[]): Promise<void> {
     itensCarrinho.forEach(itemCarrinho => {
       const itemEstoque = this.itens.find(
         itemEstoque => itemEstoque.getId() === itemCarrinho.getId()

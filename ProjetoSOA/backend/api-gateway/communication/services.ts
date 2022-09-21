@@ -10,6 +10,10 @@ const services = [
   {
     path: "/inventory",
     name: "inventory-service"
+  },
+  {
+    path: "/order",
+    name: "order-service"
   }
 ];
 

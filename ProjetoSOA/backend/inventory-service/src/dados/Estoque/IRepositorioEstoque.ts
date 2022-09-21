@@ -11,7 +11,7 @@ interface IRepositorioEstoque {
 
   pegarItemPeloId(id: string): Promise<Item>;
 
-  reservarItens(itens: Item[]): Promise<void>;
+  removerItens(itens: Item[]): Promise<void>;
 }
 
 export default IRepositorioEstoque;

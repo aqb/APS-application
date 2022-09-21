@@ -36,6 +36,7 @@ services:
     command: yarn dev
     depends_on:
       - discovery
+      - api-gateway
     ports:
       - "3032:3333"
     volumes:
@@ -51,6 +52,7 @@ services:
     command: yarn dev
     depends_on:
       - discovery
+      - api-gateway
     ports:
       - "3033:3333"
     volumes:
@@ -66,10 +68,27 @@ services:
     command: yarn dev
     depends_on:
       - discovery
+      - api-gateway
     ports:
       - "3034:3333"
     volumes:
       - ./cart-service:/app    
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  order-service:
+    build:
+      context: ./order-service/
+      dockerfile: Dockerfile
+    command: yarn dev
+    depends_on:
+      - discovery
+      - api-gateway
+    ports:
+      - "3035:3333"
+    volumes:
+      - ./order-service:/app    
     networks:
       - app-network
     restart: unless-stopped
