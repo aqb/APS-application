@@ -43,3 +43,26 @@ Cada entrega está disponível neste repositório, separadas por tags. Cada entr
     - [x] A checagem da bandeira do cartão é feita ainda no frontend, verificando se a mesma é aceita pela aplicação antes de realizar a requisição para o backend do sistema.
 
 Além disso, as pastas do projeto em código estão condizentes com os pacotes definidos no Diagrama de Dependência de Pacotes.
+
+### [Entrega 3](https://github.com/aqb/APS-application/tree/Entrega3)
+- [Modelo de Informação do Negócio](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/astah-diagrams/Modelo%20de%20Informação%20do%20Negocio.asta)
+- [Modelo Navegacional](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/astah-diagrams/Modelo%20Navegacional%20-%20Flowchart.asta)
+- [Protótipo de Interface Gráfica](https://www.figma.com/file/F4005TuUMmH1sLfCkoRF14/wireframTelas?node-id=0%3A1)
+
+- [Arquitetura dos Serviços](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/astah-diagrams/Arquitetura%20dos%20Servi%C3%A7os.asta)
+- [Modelo de Interação dos Serviços](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/astah-diagrams/Modelo%20de%20Interação%20dos%20Serviços.asta)
+- [Modelo de Informação Refinado](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/astah-diagrams/Modelo%20de%20Informação%20Refinado.asta)
+- [Diagrama de Componentes dos Serviços](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/astah-diagrams/Diagrama%20de%20Componentes%20dos%20Serviços%20-%20Nível%20de%20Análise.asta)
+- [Diagrama de Componentes do Sistema](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/astah-diagrams/Componentes%20do%20Sistema.asta)
+
+- [Projeto Detalhado de Telas Front-end](https://www.figma.com/file/F4005TuUMmH1sLfCkoRF14/wireframTelas?node-id=0%3A1)
+- [Projeto Detalhado Serviço Carrinho](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/astah-diagrams/Projeto%20Detalhado%20-%20Serviço%20Carrinho.asta)
+- [Projeto Detalhado Serviço Conta](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/astah-diagrams/Projeto%20Detalhado%20-%20Serviço%20Conta.asta)
+- [Projeto Detalhado Serviço Estoque](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/astah-diagrams/Projeto%20Detalhado%20-%20Serviço%20Estoque.asta)
+- [Projeto Detalhado Serviço Pedido](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/astah-diagrams/Projeto%20Detalhado%20-%20Serviço%20Pedido.asta)
+
+- [Implementação de Microserviços](https://github.com/aqb/APS-application/tree/Entrega3/ProjetoSOA/backend)
+
+- [Apresentação do Projeto](https://docs.google.com/presentation/d/11fP19hVO2UfDPkMHSxTCxYn-DJwGNbJa/edit?usp=sharing&ouid=114869885420205725413&rtpof=true&sd=true)
+
+
