@@ -134,9 +134,13 @@ const TelaCarrinho: React.FC = () => {
 
   const checkoutCarrinho = async () => {
     const infoPagamento = getInfoPagamento();
-    if (infoPagamento) {
+    if (infoPagamento && carrinho) {
       try {
-        const pedido = await realizarPedido(metodoPagamento, infoPagamento);
+        const pedido = await realizarPedido(
+          carrinho?.id,
+          metodoPagamento,
+          infoPagamento
+        );
         toast({
           title: "Pedido realizado com sucesso!",
           description: "Obrigado por comprar com o MusicShop.",

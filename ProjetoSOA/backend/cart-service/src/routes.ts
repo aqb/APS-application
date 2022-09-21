@@ -17,6 +17,12 @@ routes.post(
 routes.get(
   "/carrinho",
   authMiddleware.verify,
+  async (req, res) => await carrinhoPresenter.pegarCarrinhoDoCliente(req, res)
+);
+
+routes.get(
+  "/carrinho/:id",
+  authMiddleware.verify,
   async (req, res) => await carrinhoPresenter.pegarCarrinho(req, res)
 );
 
@@ -26,10 +32,10 @@ routes.post(
   async (req, res) => await carrinhoPresenter.adicionarAoCarrinho(req, res)
 );
 
-routes.post(
-  "/realizarpedido",
+routes.patch(
+  "/limpar/:id",
   authMiddleware.verify,
-  async (req, res) => await carrinhoPresenter.realizarPedido(req, res)
+  async (req, res) => await carrinhoPresenter.limparCarrinho(req, res)
 );
 
 routes.get("/health", async (req, res) => res.status(200).send());

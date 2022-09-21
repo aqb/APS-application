@@ -18,6 +18,14 @@ class ControladorEstoque {
   public async pegarItemPeloId(id: string): Promise<Item> {
     return await this.registroEstoque.pegarItemPeloId(id);
   }
+
+  public async removerItensEstoque(itens: Item[]): Promise<void> {
+    await this.registroEstoque.removerItens(itens);
+  }
+
+  public async devolverItensAoEstoque(itens: Item[]): Promise<void> {
+    await this.registroEstoque.devolverItensAoEstoque(itens);
+  }
 }
 
 export default ControladorEstoque;

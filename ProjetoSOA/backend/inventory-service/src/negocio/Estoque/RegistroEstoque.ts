@@ -25,8 +25,8 @@ class RegistroEstoque {
     return this.repositorioEstoque.pegarItemPeloId(id);
   }
 
-  public async reservarItens(itens: Item[]) {
-    return await this.repositorioEstoque.reservarItens(itens);
+  public async removerItens(itens: Item[]) {
+    await this.repositorioEstoque.removerItens(itens);
   }
 
   public async devolverItensAoEstoque(itens: Item[]) {

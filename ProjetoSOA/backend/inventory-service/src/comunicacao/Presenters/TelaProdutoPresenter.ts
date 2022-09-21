@@ -11,19 +11,6 @@ class TelaProdutoPresenter {
     this.fachada = fachada;
   }
 
-  public async adicionarCarrinho(req: Request, res: Response) {
-    const authHeader = req.headers.authorization;
-    const produtoId = req.body.produtoId;
-    const quantidadeDesejada = req.body.quantidade;
-
-    await this.fachada.adicionarAoCarrinho(
-      authHeader || "",
-      produtoId,
-      quantidadeDesejada
-    );
-    res.status(201).send();
-  }
-
   public async pegarProduto(req: Request, res: Response) {
     const produtoId = req.params.id;
     const item = await this.fachada.pegarItemEstoque(produtoId);
