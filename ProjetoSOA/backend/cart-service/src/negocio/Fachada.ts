@@ -1,10 +1,12 @@
 import { container, inject, injectable, singleton } from "tsyringe";
 
 import IRepositorioCarrinhos from "../dados/Carrinho/IRepositorioCarrinhos";
+import { comunicar } from "../services/comunicar";
 import Carrinho from "./Carrinho/Carrinho";
 import ControladorCarrinho from "./Carrinho/ControladorCarrinho";
 import IFabricaRepositorios from "./IFabricaRepositorios";
 import Item from "./Item/Item";
+import Produto from "./Produto/Produto";
 import Usuario from "./Usuario/Usuario";
 
 @injectable()
@@ -31,12 +33,30 @@ class Fachada {
   }
 
   public async adicionarAoCarrinho(
-    clienteId: string,
-    item: Item,
+    authenticatedUserId: string,
+    produtoId: string,
     quantidadeDesejada: number
   ) {
+    // Comunicação com o serviço de estoque.
+    const response = await comunicar("inventory-service", {
+      url: "/produto/" + produtoId,
+      method: "get",
+      data: {
+        produtoId,
+        quantidadeDesejada
+      }
+    });
+    const data = response.data;
+    const produto = new Produto(
+      data.produto.id,
+      data.produto.nome,
+      data.produto.descricao,
+      data.produto.valor
+    );
+    const item = new Item(produto, data.quantidade);
+
     await this.controladorCarrinho.atualizarCarrinho(
-      clienteId,
+      authenticatedUserId,
       item,
       quantidadeDesejada
     );

@@ -15,8 +15,12 @@ class ControladorPerfil {
     return this.registroUsuarios.editar(usuario);
   }
 
-  public async me(id: string) {
+  public async me(id: string): Promise<Usuario> {
     return this.registroUsuarios.pegarUsuario(id);
+  }
+
+  public async listarUsuarios(): Promise<Usuario[]> {
+    return this.registroUsuarios.listarUsuarios();
   }
 }
 

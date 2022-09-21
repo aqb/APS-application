@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   Flex,
@@ -19,12 +19,15 @@ import {
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Navigate, useNavigate } from "react-router-dom";
 
+import Perfil from "../../modelos/Usuario/Perfil/Perfil";
+import Usuario from "../../modelos/Usuario/Usuario";
 import { cadastro } from "../../services/cadastro";
 
 const TelaCadastro: React.FC = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [cpf, setCPF] = useState("");
+  const [perfil, setPerfil] = useState<Perfil>(Perfil.CLIENTE);
 
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -36,9 +39,30 @@ const TelaCadastro: React.FC = () => {
     return <Navigate to={"/home"} />;
   }
 
-  const efetuarCadastro = () => {
+  // Usuario sendo construido.
+  const usuario = (): Usuario | undefined => {
     if (email !== "" && senha !== "" && cpf !== "") {
-      cadastro(cpf, email, senha)
+      return {
+        id: undefined,
+        email: {
+          endereco: email
+        },
+        senha: {
+          senha
+        },
+        cpf: {
+          numero: cpf
+        },
+        perfil
+      };
+    }
+    return undefined;
+  };
+
+  const efetuarCadastro = () => {
+    const camposUsuario = usuario();
+    if (camposUsuario) {
+      cadastro(camposUsuario)
         .then(() => {
           toast({
             title: "Cadastro realizado com sucesso!",

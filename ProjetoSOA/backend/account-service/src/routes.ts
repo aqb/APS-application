@@ -33,6 +33,9 @@ routes.get(
   async (req, res) => await perfilPresenter.me(req, res)
 );
 
+// DEBUG
+// routes.get("/users", async (req, res) => await perfilPresenter.users(req, res));
+
 routes.get("/health", async (req, res) => await res.status(200).send());
 
 export default routes;

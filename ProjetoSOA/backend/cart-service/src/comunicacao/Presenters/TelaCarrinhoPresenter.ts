@@ -4,8 +4,6 @@ import { injectable } from "tsyringe";
 import CPF from "../../negocio/CPF/CPF";
 import Email from "../../negocio/Email/Email";
 import Fachada from "../../negocio/Fachada";
-import Item from "../../negocio/Item/Item";
-import Produto from "../../negocio/Produto/Produto";
 import Senha from "../../negocio/Senha/Senha";
 import Usuario from "../../negocio/Usuario/Usuario";
 
@@ -42,7 +40,7 @@ class TelaCarrinhoPresenter {
   }
 
   public async pegarCarrinho(req: Request, res: Response) {
-    const clienteId = req.body.clienteId;
+    const clienteId = req.params.authenticatedUserId;
     const carrinho = await this.fachada.pegarCarrinho(clienteId);
     if (carrinho) {
       res.json(carrinho);
@@ -55,20 +53,12 @@ class TelaCarrinhoPresenter {
 
   public async adicionarAoCarrinho(req: Request, res: Response) {
     const authenticatedUserId = req.params.authenticatedUserId;
-    const { item, quantidadeDesejada } = req.body;
+    const { produtoId, quantidade } = req.body;
 
     await this.fachada.adicionarAoCarrinho(
       authenticatedUserId,
-      new Item(
-        new Produto(
-          item.produto.id,
-          item.produto.nome,
-          item.produto.descricao,
-          item.produto.preco
-        ),
-        item.quantidade
-      ),
-      quantidadeDesejada
+      produtoId,
+      quantidade
     );
 
     res.status(201).send();

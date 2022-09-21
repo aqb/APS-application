@@ -28,28 +28,6 @@ class Fachada {
   public async pegarItemEstoque(id: string): Promise<Item> {
     return await this.controladorEstoque.pegarItemPeloId(id);
   }
-
-  public async adicionarAoCarrinho(
-    authHeader: string,
-    produtoId: string,
-    quantidadeDesejada: number
-  ) {
-    // Busca o item do estoque pelo id recebido.
-    const item = await this.pegarItemEstoque(produtoId);
-
-    // Comunicação com o serviço de carrinho.
-    await comunicar("cart-service", {
-      url: "/adicionar",
-      method: "post",
-      headers: {
-        authorization: authHeader
-      },
-      data: {
-        item,
-        quantidadeDesejada
-      }
-    });
-  }
 }
 
 export default Fachada;

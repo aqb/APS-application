@@ -1,21 +1,21 @@
 class Email {
-  private email: string;
+  private endereco: string;
 
-  constructor(email: string) {
-    this.email = email;
+  constructor(endereco: string) {
+    this.endereco = endereco;
   }
 
-  public getEmail(): string {
-    return this.email;
+  public getEndereco(): string {
+    return this.endereco;
   }
 
-  public setEmail(email: string): void {
-    this.email = email;
+  public setEndereco(endereco: string): void {
+    this.endereco = endereco;
   }
 
   public validar(): boolean {
     const regex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    return regex.test(this.email);
+    return regex.test(this.endereco);
   }
 }
 

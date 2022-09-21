@@ -24,7 +24,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import CardProduto from "../../components/Estoque/CardProduto";
-import { Item } from "../../modelos/Item";
+import Item from "../../modelos/Item/Item";
 import { getEstoque } from "../../services/estoque";
 
 const TelaHome: React.FC = () => {

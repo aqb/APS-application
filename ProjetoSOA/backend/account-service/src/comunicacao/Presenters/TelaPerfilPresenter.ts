@@ -16,6 +16,12 @@ class TelaPerfilPresenter {
 
     res.status(200).json({ usuario });
   }
+
+  public async users(req: Request, res: Response) {
+    const usuarios = await this.fachada.listarUsuarios();
+
+    res.status(200).json({ usuarios });
+  }
 }
 
 export default TelaPerfilPresenter;

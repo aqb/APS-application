@@ -1,6 +1,6 @@
 import { Divider, Flex, Text, VStack } from "@chakra-ui/react";
 
-import { Pedido } from "../../modelos/Pedido";
+import Pedido from "../../modelos/Pedido/Pedido";
 import CardItemPedido from "./CardItemPedido";
 
 interface CardPedidoProps {

@@ -30,7 +30,7 @@ import {
 } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Produto } from "../../modelos/Produto";
+import Produto from "../../modelos/Produto/Produto";
 import { adicionarAoCarrinho } from "../../services/carrinho";
 import { getProduto } from "../../services/produto";
 

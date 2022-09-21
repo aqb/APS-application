@@ -1,4 +1,4 @@
-import { Produto } from "../modelos/Produto";
+import Produto from "../modelos/Produto/Produto";
 import { getRequest } from "./base";
 
 type GetProdutoResponse = {
@@ -6,6 +6,6 @@ type GetProdutoResponse = {
 };
 
 export const getProduto = async (id: string): Promise<GetProdutoResponse> => {
-  const response = await getRequest(`/produto/${id}`);
+  const response = await getRequest(`inventory/produto/${id}`);
   return response;
 };

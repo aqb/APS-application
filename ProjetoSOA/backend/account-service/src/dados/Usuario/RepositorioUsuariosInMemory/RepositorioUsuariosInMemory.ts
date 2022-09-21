@@ -1,3 +1,5 @@
+import { Console } from "console";
+
 import { singleton } from "tsyringe";
 import { v4 as uuidv4 } from "uuid";
 
@@ -20,7 +22,8 @@ class RepositorioUsuariosInMemory implements IRepositorioUsuarios {
     if (
       this.usuarios.find(
         user =>
-          user.getEmail().getEmail() === camposUsuario.getEmail().getEmail()
+          user.getEmail().getEndereco() ===
+          camposUsuario.getEmail().getEndereco()
       )
     ) {
       throw new Error("Email já cadastrado.");
@@ -44,7 +47,7 @@ class RepositorioUsuariosInMemory implements IRepositorioUsuarios {
   async efetuarLogin(email: Email, senha: Senha): Promise<Usuario> {
     const usuarioExistente = this.usuarios.find(
       usuario =>
-        usuario.getEmail().getEmail() === email.getEmail() &&
+        usuario.getEmail().getEndereco() === email.getEndereco() &&
         usuario.getSenha().getSenha() === senha.getSenha()
     );
 
@@ -80,6 +83,10 @@ class RepositorioUsuariosInMemory implements IRepositorioUsuarios {
       return usuario;
     }
     throw new Error(`Usuario ${id} não encontrado.`);
+  }
+
+  async listarUsuarios(): Promise<Usuario[]> {
+    return this.usuarios;
   }
 }
 

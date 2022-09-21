@@ -8,7 +8,7 @@ export const login = async (
   email: string,
   senha: string
 ): Promise<PostLoginResponse> => {
-  const response = await postRequest(`/login`, {
+  const response = await postRequest(`account/login`, {
     email,
     senha
   });

@@ -43,6 +43,10 @@ class Fachada {
   public async me(id: string): Promise<Usuario> {
     return await this.controladorPerfil.me(id);
   }
+
+  public async listarUsuarios(): Promise<Usuario[]> {
+    return await this.controladorPerfil.listarUsuarios();
+  }
 }
 
 export default Fachada;

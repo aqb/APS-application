@@ -21,12 +21,6 @@ routes.get(
   async (req, res) => await produtoPresenter.pegarProduto(req, res)
 );
 
-routes.post(
-  "/adicionar",
-  authMiddleware.verify,
-  async (req, res) => await produtoPresenter.adicionarCarrinho(req, res)
-);
-
 routes.get("/health", async (req, res) => await res.status(200).send());
 
 export default routes;

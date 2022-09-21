@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Flex, Image, Spacer, Text } from "@chakra-ui/react";
 
-import { Produto } from "../../modelos/Produto";
+import Produto from "../../modelos/Produto/Produto";
 import { getProduto } from "../../services/produto";
 
 interface CardItemPedidoProps {

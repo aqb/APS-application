@@ -19,9 +19,9 @@ class TelaCadastroPresenter {
     const usuario = req.body.usuario;
     const novoUsuario = new Usuario(
       undefined,
-      new Email(usuario.email),
-      new Senha(usuario.senha),
-      new CPF(usuario.cpf),
+      new Email(usuario.email.endereco),
+      new Senha(usuario.senha.senha),
+      new CPF(usuario.cpf.numero),
       usuario.perfil
     );
     await this.fachada.efetuarCadastro(novoUsuario);

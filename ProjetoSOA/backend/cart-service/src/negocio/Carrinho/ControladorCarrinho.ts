@@ -37,7 +37,6 @@ class ControladorCarrinho {
         item &&
         item.getQuantidade() >= quantidadeCarrinho + quantidadeDesejada
       ) {
-        console.log("pode adicionar no carrinho!");
         carrinho.adicionarItem(new Item(item.getProduto(), quantidadeDesejada));
         await this.registroCarrinhos.atualizarCarrinho(carrinho);
       } else {
@@ -49,7 +48,7 @@ class ControladorCarrinho {
       }
     } catch (error) {
       throw new Error(
-        `Não foi poossível atualizar o carrinho do cliente ${clienteId}`
+        `Não foi possível atualizar o carrinho do cliente ${clienteId}`
       );
     }
   }

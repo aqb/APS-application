@@ -17,7 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import CardPedido from "../../components/Pedido/CardPedido";
-import { Pedido } from "../../modelos/Pedido";
+import Pedido from "../../modelos/Pedido/Pedido";
 import { getPedidos } from "../../services/pedido";
 
 const TelaPedidos: React.FC = () => {

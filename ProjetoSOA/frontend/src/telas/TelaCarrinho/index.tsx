@@ -27,8 +27,8 @@ import {
 } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
-import { Carrinho } from "../../modelos/Carrinho";
-import PagamentoCartao from "../../modelos/PagamentoCartao";
+import Carrinho from "../../modelos/Carrinho/Carrinho";
+import PagamentoCartao from "../../modelos/Pagamento/PagamentoCartao/PagamentoCartao";
 import { getCarrinho } from "../../services/carrinho";
 import { realizarPedido } from "../../services/pedido";
 
@@ -84,15 +84,16 @@ const TelaCarrinho: React.FC = () => {
   const validaArgumentosPagamentoCartao = () => {
     const creditCard = bandeira();
 
-    // Empty fields.
-    if (
+    const emptyFields =
       !numeroCartao ||
       !cvvCartao ||
       !vencimento ||
       !nomeTitular ||
       !cpfTitular ||
-      !creditCard
-    ) {
+      !creditCard;
+
+    // Empty fields.
+    if (emptyFields) {
       toast({
         title: "Erro ao finalizar pedido.",
         description: "Preencha todos os campos.",

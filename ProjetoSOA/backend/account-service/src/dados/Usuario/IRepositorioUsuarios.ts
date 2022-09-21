@@ -10,6 +10,8 @@ interface IRepositorioUsuarios {
   editar(usuario: Usuario): Promise<Usuario>;
 
   pegarUsuario(id: string): Promise<Usuario>;
+
+  listarUsuarios(): Promise<Usuario[]>;
 }
 
 export default IRepositorioUsuarios;

@@ -10,7 +10,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 
 import CardPedido from "../../components/Pedido/CardPedido";
-import { Pedido } from "../../modelos/Pedido";
+import Pedido from "../../modelos/Pedido/Pedido";
 import { getPedido } from "../../services/pedido";
 
 const TelaPedido: React.FC = () => {

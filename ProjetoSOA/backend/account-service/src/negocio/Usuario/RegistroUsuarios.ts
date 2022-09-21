@@ -30,6 +30,10 @@ class RegistroUsuarios {
   public async pegarUsuario(id: string): Promise<Usuario> {
     return this.repositorioUsuarios.pegarUsuario(id);
   }
+
+  public async listarUsuarios(): Promise<Usuario[]> {
+    return this.repositorioUsuarios.listarUsuarios();
+  }
 }
 
 export default RegistroUsuarios;
