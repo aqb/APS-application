@@ -1,8 +1,5 @@
-import { Console } from "console";
-
 import { injectable } from "tsyringe";
 
-import { comunicar } from "../../services/comunicar";
 import Item from "../Item/Item";
 import Usuario from "../Usuario/Usuario";
 import Carrinho from "./Carrinho";
