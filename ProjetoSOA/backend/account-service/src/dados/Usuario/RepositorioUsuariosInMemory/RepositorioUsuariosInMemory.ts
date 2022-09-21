@@ -1,5 +1,3 @@
-import { Console } from "console";
-
 import { singleton } from "tsyringe";
 import { v4 as uuidv4 } from "uuid";
 
