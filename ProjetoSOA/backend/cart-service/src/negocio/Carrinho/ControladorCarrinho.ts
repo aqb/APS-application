@@ -1,5 +1,6 @@
 import { injectable } from "tsyringe";
 
+import { comunicar } from "../../services/comunicar";
 import Item from "../Item/Item";
 import Produto from "../Produto/Produto";
 import Usuario from "../Usuario/Usuario";
